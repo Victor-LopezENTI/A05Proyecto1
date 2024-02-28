@@ -5,13 +5,12 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    Vector2 auxVelocity;
-    private void Awake()
+    public void onMove(InputAction.CallbackContext context)
     {
-        
+        context.ReadValue<int>();
     }
-    public float horizontalMovement(InputAction.CallbackContext context)
+    public void onJump(InputAction.CallbackContext context)
     {
-        return context.ReadValue<float>();
+        context.ReadValue<bool>();
     }
 }
