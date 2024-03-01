@@ -6,33 +6,79 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Variables
+
     public static PlayerMovement instance;
 
-    [SerializeField] InputManager inputManager;
-    [SerializeField] Rigidbody2D playerRB;
-    [SerializeField] Collider2D playerCollider;
+    private PlayerController playerController;
 
-    [SerializeField] GameObject groundCheck;
+    [SerializeField] private Rigidbody2D playerRB;
 
-    [SerializeField] LayerMask groundLayer;
+    [SerializeField] private Collider2D playerCollider;
 
-    float distanceFromGround, gravityMultiplier;
 
-    Vector2 auxVelocity, boxCastSize;
+    // MOVEMENT VARIABLES
+    private float moveInput, jumpInput, jumpThreshold;
+    [SerializeField] public float moveSpeed, jumpForce;
+    [SerializeField] private bool onGround, jumping;
+    private Vector2 playerVelocity;
+
+
+    // Groundcheck
+    [SerializeField] private GameObject groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+    float distanceFromGround;
+    Vector2 boxCastSize;
+
+    #endregion
 
     private void Awake()
     {
         if (instance == null) instance = this;
+
+        playerRB = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<Collider2D>();
+
+        playerController = new PlayerController();
+        playerController.Enable();
     }
+
     private void Start()
     {
-        gravityMultiplier = 1f;
         distanceFromGround = 0.025f;
         boxCastSize = new Vector2(0.14f, 0.1f);
+
+        moveSpeed = 500f;
+        jumpForce = 300f;
+        onGround = true;
     }
+
+    private void Update()
+    {
+        // Track the inputs
+        moveInput = playerController.Player.MovimientoHorizontal.ReadValue<float>();
+        jumpInput = playerController.Player.Salto.ReadValue<float>();
+
+    }
+
     private void FixedUpdate()
     {
-        playerRB.velocity = new Vector2();
+        onGround = isGrounded();    // Check if the player is touching the ground
+
+        if (jumpInput == 1) jumping = true;
+        else jumping = false;
+
+        // Jump
+        if (jumping)
+        {
+            playerVelocity = new Vector2(moveInput * moveSpeed * Time.deltaTime, jumpInput * jumpForce * Time.deltaTime);
+        } else
+        {
+            playerVelocity = new Vector2 (moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+        }
+
+        playerRB.velocity = playerVelocity;
+
     }
 
     public bool isGrounded()

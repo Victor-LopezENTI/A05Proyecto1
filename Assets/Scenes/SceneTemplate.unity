@@ -180,8 +180,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 357697605}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.43, y: -1.29, z: 0}
-  m_LocalScale: {x: 5.5, y: 1, z: 1}
+  m_LocalPosition: {x: -0.07, y: -3.55, z: 0}
+  m_LocalScale: {x: 19.4216, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 818111848}
@@ -308,7 +308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 818111847}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4720726, y: -0.5239188, z: 0.04131427}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -365,9 +365,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1f11a4e7b263c4d89b02006c71d26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 850303674}
-  playerRB: {fileID: 0}
+  playerRB: {fileID: 819279642}
   playerCollider: {fileID: 819279641}
+  moveSpeed: 20
+  jumpForce: 20
+  onGround: 0
+  jumping: 0
   groundCheck: {fileID: 279213321}
   groundLayer:
     serializedVersion: 2
@@ -433,7 +436,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &819279643
 SpriteRenderer:
   m_ObjectHideFlags: 0

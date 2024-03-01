@@ -5,12 +5,18 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager Instance;
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
     public void onMove(InputAction.CallbackContext context)
     {
-        context.ReadValue<int>();
+        context.ReadValue<float>();
     }
     public void onJump(InputAction.CallbackContext context)
     {
-        context.ReadValue<bool>();
+        context.ReadValue<float>();
     }
 }
