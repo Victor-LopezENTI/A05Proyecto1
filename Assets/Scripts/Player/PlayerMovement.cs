@@ -78,11 +78,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
         playerRB.velocity = playerVelocity;
-
     }
 
     public bool isGrounded()
     {
         return Physics2D.BoxCast(new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y + 0.05f), boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
+    }
+
+    // Horizontal movement input
+    public void onMove(InputAction.CallbackContext context)
+    {
+        context.ReadValue<float>();
+    }
+
+    // Jump input
+    public void onJump(InputAction.CallbackContext context)
+    {
+        context.ReadValue<float>();
     }
 }
