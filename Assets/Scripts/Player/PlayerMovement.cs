@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool onGround, jumping;
     private Vector2 playerVelocity;
 
+    float interacted;
 
     // Groundcheck
     [SerializeField] private GameObject groundCheck;
@@ -59,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         moveInput = playerController.Player.MovimientoHorizontal.ReadValue<float>();
         jumpInput = playerController.Player.Salto.ReadValue<float>();
 
+        interacted = playerController.Player.Interactuar.ReadValue<float>();
     }
 
     private void FixedUpdate()
@@ -78,6 +81,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         playerRB.velocity = playerVelocity;
+
+
+        // Jump interaction test
+        if (interacted == 1)
+        {
+            transform.DOJump(new Vector2(playerRB.position.x + 10f, playerRB.position.y), 2f, 1, 0.8f).SetEase(Ease.Linear);
+        }
     }
 
     public bool isGrounded()
@@ -93,6 +103,11 @@ public class PlayerMovement : MonoBehaviour
 
     // Jump input
     public void onJump(InputAction.CallbackContext context)
+    {
+        context.ReadValue<float>();
+    }
+
+    public void onInteract(InputAction.CallbackContext context)
     {
         context.ReadValue<float>();
     }
