@@ -9,54 +9,39 @@ public class Hooks : MonoBehaviour
     private float hooks = 0;
 
     [SerializeField] private Text Pickuptext;
+    [SerializeField] private SpawnerHooks spHook;
     [SerializeField] private GameObject obj;
 
     private bool canPickUp;
     void Start()
     {
         canPickUp = false;
-        Pickuptext.gameObject.SetActive(false);
+        //Pickuptext.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Show();
-        }
-
         if (Input.GetKeyDown(KeyCode.E) && canPickUp == true)
         {
-            PickUp();
+            spHook.SetHooks();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Respawn"))
         {
-            Pickuptext.gameObject.SetActive(true);
+            //Pickuptext.gameObject.SetActive(true);
             canPickUp = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Respawn"))
         {
-            Pickuptext.gameObject.SetActive(false);
+            //Pickuptext.gameObject.SetActive(false);
             canPickUp = false;
         }
-    }
-
-    private void PickUp()
-    {
-        hooks++;
-        obj.SetActive(false);
-    }
-
-    private void Show()
-    {
-        obj.SetActive(true);
     }
 }

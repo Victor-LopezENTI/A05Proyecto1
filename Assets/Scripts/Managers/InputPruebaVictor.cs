@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InputPruebaVictor : MonoBehaviour
 {
@@ -36,10 +35,5 @@ public class InputPruebaVictor : MonoBehaviour
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, ground);
-    }
-
-    public float horizontalMovement(InputAction.CallbackContext context)
-    {
-        return context.ReadValue<float>();
     }
 }
