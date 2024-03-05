@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2811256032292616605}
   - component: {fileID: -6806121467896170217}
   m_Layer: 0
-  m_Name: Char
+  m_Name: Kalma
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1947897203651148326
 SpriteRenderer:
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: a535ff3b6786cd341ba95791e2b5e1b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -169,8 +169,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: 0.028702348, y: 0.0008094907}
+  m_Size: {x: 0.85648817, y: 1.2879974}
   m_Direction: 0
 --- !u!114 &-2811256032292616605
 MonoBehaviour:
@@ -221,7 +221,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: -2811256032292616605}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: onMove
         m_Mode: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
     m_ActionName: Player/Movimiento Horizontal[/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: -2811256032292616605}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: onJump
         m_Mode: 0
@@ -252,7 +252,19 @@ MonoBehaviour:
     m_ActionId: 681f3d52-a9f6-4a4c-b8d5-e8df76d50366
     m_ActionName: Player/Salto[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -2811256032292616605}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: onInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ed398bea-2508-4621-b94f-ed7ed4a24da4
     m_ActionName: Player/Interactuar[/Keyboard/d]
   - m_PersistentCalls:

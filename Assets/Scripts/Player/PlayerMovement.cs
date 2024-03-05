@@ -19,15 +19,13 @@ public class PlayerMovement : MonoBehaviour
 
 
     // MOVEMENT VARIABLES
-    private float moveInput, jumpInput, jumpThreshold;
+    private float moveInput, jumpInput, jumpThreshold, interacted;
     [SerializeField] public float moveSpeed, jumpForce;
     [SerializeField] private bool onGround, jumping;
     private Vector2 playerVelocity;
 
-    float interacted;
-
     // Groundcheck
-    [SerializeField] private GameObject groundCheck;
+    // [SerializeField] private GameObject groundCheck;
     [SerializeField] private LayerMask groundLayer;
     float distanceFromGround;
     Vector2 boxCastSize;
@@ -82,7 +80,6 @@ public class PlayerMovement : MonoBehaviour
 
         playerRB.velocity = playerVelocity;
 
-
         // Jump interaction test
         if (interacted == 1)
         {
@@ -92,7 +89,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded()
     {
-        return Physics2D.BoxCast(new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y + 0.05f), boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
+        // return Physics2D.BoxCast(new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y + 0.05f), boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
+        return true;
     }
 
     // Horizontal movement input
