@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,19 +12,19 @@ public class PlayerMovement : MonoBehaviour
 
     public static PlayerMovement instance;
 
-    private PlayerController playerController;
+    // MANAGERS
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private InputManager inputManager;
 
     [SerializeField] private Rigidbody2D playerRB;
-
     [SerializeField] private Collider2D playerCollider;
 
     // MOVEMENT VARIABLES
-    private float moveInput, jumpInput, jumpThreshold, interacted;
     [SerializeField] public float moveSpeed, jumpForce;
     [SerializeField] private bool onGround, jumping;
     private Vector2 playerVelocity;
 
-    // Groundcheck
+    // GROUNDCHECK
     [SerializeField] private GameObject groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] float distanceFromGround;
@@ -33,13 +34,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton
         if (instance == null) instance = this;
 
+        // Get Components
         playerRB = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
-
-        playerController = new PlayerController();
-        playerController.Enable();
     }
 
     private void Start()
@@ -53,11 +53,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Track the inputs
-        moveInput = playerController.Player.MovimientoHorizontal.ReadValue<float>();
-        jumpInput = playerController.Player.Salto.ReadValue<float>();
-
-        interacted = playerController.Player.Interactuar.ReadValue<float>();
 
         Debug.DrawRay(groundCheck.transform.position, new Vector2(0f, -distanceFromGround), Color.green);
     }
@@ -66,22 +61,22 @@ public class PlayerMovement : MonoBehaviour
     {
         onGround = isGrounded();    // Check if the player is touching the ground
 
-        jumping = jumpInput == 1;
+        jumping = inputManager.jumpInput == 1;
 
         // Jump
         if (jumping)
         {
-            playerVelocity = new(moveInput * moveSpeed * Time.deltaTime, jumpInput * jumpForce * Time.deltaTime);
+            playerVelocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, inputManager.jumpInput * jumpForce * Time.deltaTime);
         }
         else
         {
-            playerVelocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+            playerVelocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
         }
 
         playerRB.velocity = playerVelocity;
 
         // Jump interaction test
-        if (interacted == 1)
+        if (inputManager.interacted == 1)
         {
             transform.DOJump(new(playerRB.position.x + 10f, playerRB.position.y), 2f, 1, 0.8f).SetEase(Ease.Linear);
         }
@@ -90,22 +85,5 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded()
     {
         return Physics2D.BoxCast(groundCheck.transform.position, boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
-    }
-
-    // Horizontal movement input
-    public void onMove(InputAction.CallbackContext context)
-    {
-        context.ReadValue<float>();
-    }
-
-    // Jump input
-    public void onJump(InputAction.CallbackContext context)
-    {
-        context.ReadValue<float>();
-    }
-
-    public void onInteract(InputAction.CallbackContext context)
-    {
-        context.ReadValue<float>();
     }
 }
