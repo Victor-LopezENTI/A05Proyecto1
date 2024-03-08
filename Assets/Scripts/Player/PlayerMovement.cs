@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Collider2D playerCollider;
 
-
     // MOVEMENT VARIABLES
     private float moveInput, jumpInput, jumpThreshold, interacted;
     [SerializeField] public float moveSpeed, jumpForce;
@@ -25,9 +24,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 playerVelocity;
 
     // Groundcheck
-    // [SerializeField] private GameObject groundCheck;
+    [SerializeField] private GameObject groundCheck;
     [SerializeField] private LayerMask groundLayer;
-    float distanceFromGround;
+    [SerializeField] float distanceFromGround;
     Vector2 boxCastSize;
 
     #endregion
@@ -45,12 +44,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        distanceFromGround = 0.025f;
+        distanceFromGround = 0.185f;
         boxCastSize = new Vector2(0.14f, 0.1f);
 
         moveSpeed = 500f;
         jumpForce = 300f;
-        onGround = true;
     }
 
     private void Update()
@@ -60,22 +58,24 @@ public class PlayerMovement : MonoBehaviour
         jumpInput = playerController.Player.Salto.ReadValue<float>();
 
         interacted = playerController.Player.Interactuar.ReadValue<float>();
+
+        Debug.DrawRay(groundCheck.transform.position, new Vector2(0f, -distanceFromGround), Color.green);
     }
 
     private void FixedUpdate()
     {
         onGround = isGrounded();    // Check if the player is touching the ground
 
-        if (jumpInput == 1) jumping = true;
-        else jumping = false;
+        jumping = jumpInput == 1;
 
         // Jump
         if (jumping)
         {
             playerVelocity = new Vector2(moveInput * moveSpeed * Time.deltaTime, jumpInput * jumpForce * Time.deltaTime);
-        } else
+        }
+        else
         {
-            playerVelocity = new Vector2 (moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+            playerVelocity = new Vector2(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
         }
 
         playerRB.velocity = playerVelocity;
@@ -89,8 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded()
     {
-        // return Physics2D.BoxCast(new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y + 0.05f), boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
-        return true;
+        return Physics2D.BoxCast(groundCheck.transform.position, boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
     }
 
     // Horizontal movement input
