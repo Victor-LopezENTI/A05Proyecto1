@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         distanceFromGround = 0.185f;
-        boxCastSize = new Vector2(0.14f, 0.1f);
+        boxCastSize = new(0.14f, 0.1f);
 
         moveSpeed = 500f;
         jumpForce = 300f;
@@ -71,11 +71,11 @@ public class PlayerMovement : MonoBehaviour
         // Jump
         if (jumping)
         {
-            playerVelocity = new Vector2(moveInput * moveSpeed * Time.deltaTime, jumpInput * jumpForce * Time.deltaTime);
+            playerVelocity = new(moveInput * moveSpeed * Time.deltaTime, jumpInput * jumpForce * Time.deltaTime);
         }
         else
         {
-            playerVelocity = new Vector2(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+            playerVelocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
         }
 
         playerRB.velocity = playerVelocity;
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         // Jump interaction test
         if (interacted == 1)
         {
-            transform.DOJump(new Vector2(playerRB.position.x + 10f, playerRB.position.y), 2f, 1, 0.8f).SetEase(Ease.Linear);
+            transform.DOJump(new(playerRB.position.x + 10f, playerRB.position.y), 2f, 1, 0.8f).SetEase(Ease.Linear);
         }
     }
 
