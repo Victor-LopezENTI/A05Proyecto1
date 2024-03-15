@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
     private PlayerController playerController;
 
     // Input variables
-    [SerializeField] public float moveInput, jumpInput, interacted;
+    [SerializeField] public float moveInput, jumpInput, interactInput; // Input from the player
 
     private void Awake()
     {
@@ -19,29 +19,21 @@ public class InputManager : MonoBehaviour
         playerController.Enable();
     }
 
-    private void Update()
-    {
-        // Track the inputs
-        moveInput = playerController.Player.MovimientoHorizontal.ReadValue<float>();
-        jumpInput = playerController.Player.Salto.ReadValue<float>();
-        interacted = playerController.Player.Interactuar.ReadValue<float>();
-    }
-
     // Horizontal movement input [A | D]
     public void onMove(InputAction.CallbackContext context)
     {
-        context.ReadValue<float>();
+        moveInput = context.ReadValue<float>();
     }
 
     // Jump input [Spacebar]
     public void onJump(InputAction.CallbackContext context)
     {
-        context.ReadValue<float>();
+        jumpInput = context.ReadValue<float>();
     }
 
     // Interaction input [E]
     public void onInteract(InputAction.CallbackContext context)
     {
-        context.ReadValue<float>();
+        interactInput = context.ReadValue<float>();
     }
 }

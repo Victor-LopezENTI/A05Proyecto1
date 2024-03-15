@@ -12,6 +12,16 @@ public class PlayerMovement : MonoBehaviour
 
     public static PlayerMovement instance;
 
+    [SerializeField]
+    public enum PlayerState
+    {
+        Idle,
+        Charging,
+        Jumping
+    };
+
+    [SerializeField] PlayerState nowState, lastState;
+
     // MANAGERS
     [SerializeField] private GameManager gameManager;
     [SerializeField] private InputManager inputManager;
@@ -20,9 +30,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Collider2D playerCollider;
 
     // MOVEMENT VARIABLES
+
+    // Jump logic
+    [SerializeField] private bool onGround;
+    private bool jumpInput;
+    [SerializeField] private float holdTimer, maxHoldTime;
+
+    // Movement
     [SerializeField] public float moveSpeed, jumpForce;
-    [SerializeField] private bool onGround, jumping;
-    private Vector2 playerVelocity;
+
+    // Interact
+    private bool interactInput;
 
     // GROUNDCHECK
     [SerializeField] private GameObject groundCheck;
@@ -47,13 +65,14 @@ public class PlayerMovement : MonoBehaviour
         distanceFromGround = 0.185f;
         boxCastSize = new(0.14f, 0.1f);
 
-        moveSpeed = 500f;
         jumpForce = 300f;
+        maxHoldTime = 1f;   // Max holding time in seconds
+
+        nowState = PlayerState.Idle;
     }
 
     private void Update()
     {
-
         Debug.DrawRay(groundCheck.transform.position, new Vector2(0f, -distanceFromGround), Color.green);
     }
 
@@ -61,25 +80,41 @@ public class PlayerMovement : MonoBehaviour
     {
         onGround = isGrounded();    // Check if the player is touching the ground
 
-        jumping = inputManager.jumpInput == 1;
+        // Turn the inputs to booleans
+        jumpInput = inputManager.jumpInput == 1;
+        interactInput = inputManager.interactInput == 1;
 
-        // Jump
-        if (jumping)
+        // Hold jump logic
+        if (!jumpInput && lastState == PlayerState.Charging)
         {
-            playerVelocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, inputManager.jumpInput * jumpForce * Time.deltaTime);
-        }
-        else
-        {
-            playerVelocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+            // Jumping state
+            nowState = PlayerState.Jumping;
+            moveSpeed = 400f;
+            playerRB.velocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, jumpForce * holdTimer * Time.deltaTime);
         }
 
-        playerRB.velocity = playerVelocity;
-
-        // Jump interaction test
-        if (inputManager.interacted == 1)
+        if (jumpInput && onGround)
         {
-            transform.DOJump(new(playerRB.position.x + 10f, playerRB.position.y), 2f, 1, 0.8f).SetEase(Ease.Linear);
+            // Charging state
+            nowState = PlayerState.Charging;
+            moveSpeed = 150f;
+
+            holdTimer += Time.deltaTime;
+            if (holdTimer > maxHoldTime)
+                holdTimer = maxHoldTime;
         }
+
+        else if (onGround && lastState != PlayerState.Charging)
+        {
+            // Idle state
+            nowState = PlayerState.Idle;
+            holdTimer = 0f;
+            moveSpeed = 400f;
+        }
+
+        playerRB.velocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+
+        lastState = nowState;
     }
 
     public bool isGrounded()
