@@ -9,8 +9,6 @@ public class InputManager : MonoBehaviour
 
     private PlayerController playerController;
 
-    [SerializeField] private PlayerMovement playerMovement;
-
     // Input variables
     [SerializeField] public float moveInput, jumpInput, interactInput; // Input from the player
 
@@ -18,10 +16,8 @@ public class InputManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         playerController = new PlayerController();
-        playerMovement = new PlayerMovement();
         playerController.Enable();
     }
-
 
     // Horizontal movement input [A | D]
     public void onMove(InputAction.CallbackContext context)
@@ -32,15 +28,7 @@ public class InputManager : MonoBehaviour
     // Jump input [Spacebar]
     public void onJump(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            jumpInput = context.ReadValue<float>();
-        }
-        
-        if (context.duration >= 1)
-        {
-            jumpInput = 0;
-        }
+        jumpInput = context.ReadValue<float>();
     }
 
     // Interaction input [E]
