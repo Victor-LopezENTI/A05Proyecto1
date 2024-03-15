@@ -21,7 +21,10 @@ public class PlayerMovement : MonoBehaviour
 
     // MOVEMENT VARIABLES
     [SerializeField] public float moveSpeed, jumpForce;
-    [SerializeField] private bool onGround, jumping;
+    [SerializeField] private bool onGround;
+    public bool OnGround { get => onGround; }   // Read variable for onGround
+
+    private bool jumpInput, interactInput;
     private Vector2 playerVelocity;
 
     // GROUNDCHECK
@@ -53,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-
         Debug.DrawRay(groundCheck.transform.position, new Vector2(0f, -distanceFromGround), Color.green);
     }
 
@@ -61,10 +63,12 @@ public class PlayerMovement : MonoBehaviour
     {
         onGround = isGrounded();    // Check if the player is touching the ground
 
-        jumping = inputManager.jumpInput == 1;
+        // Turn the inputs to booleans
+        jumpInput = inputManager.jumpInput == 1;
+        interactInput = inputManager.interactInput == 1;
 
         // Jump
-        if (jumping)
+        if (jumpInput && onGround)
         {
             playerVelocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, inputManager.jumpInput * jumpForce * Time.deltaTime);
         }
@@ -76,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         playerRB.velocity = playerVelocity;
 
         // Jump interaction test
-        if (inputManager.interacted == 1)
+        if (inputManager.interactInput == 1)
         {
             transform.DOJump(new(playerRB.position.x + 10f, playerRB.position.y), 2f, 1, 0.8f).SetEase(Ease.Linear);
         }

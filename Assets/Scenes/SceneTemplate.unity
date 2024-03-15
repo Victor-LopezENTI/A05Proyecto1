@@ -269,7 +269,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 716721044}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: onInteract
+        m_MethodName: onMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -283,9 +283,9 @@ MonoBehaviour:
     m_ActionName: Player/Movimiento Horizontal[/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1133174339}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 716721044}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: onJump
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -299,9 +299,9 @@ MonoBehaviour:
     m_ActionName: Player/Salto[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1133174339}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 716721044}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: onInteract
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveInput: 0
   jumpInput: 0
-  interacted: 0
+  interactInput: 0
 --- !u!1001 &1133174338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -430,11 +430,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
---- !u!1 &1133174339 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5753142299670203745, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
-  m_PrefabInstance: {fileID: 1133174338}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1729522716
 GameObject:
   m_ObjectHideFlags: 0
