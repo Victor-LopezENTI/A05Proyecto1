@@ -5,35 +5,49 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Instance;
+    public static InputManager Instance { get; private set; }
 
     private PlayerController playerController;
 
     // Input variables
-    [SerializeField] public float moveInput, jumpInput, interactInput; // Input from the player
+    public float moveInput, jumpInput, interactInput;
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        #region Singleton Pattern
+
+        if (Instance != null)
+        {
+            Debug.Log("There is already an instance of " + Instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        #endregion
+
+        // Create and enable the player controller
         playerController = new PlayerController();
         playerController.Enable();
     }
 
     // Horizontal movement input [A | D]
-    public void onMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<float>();
+        Instance.moveInput = context.ReadValue<float>();
     }
 
     // Jump input [Spacebar]
-    public void onJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        jumpInput = context.ReadValue<float>();
+        Instance.jumpInput = context.ReadValue<float>();
     }
 
     // Interaction input [E]
-    public void onInteract(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
-        interactInput = context.ReadValue<float>();
+        Instance.interactInput = context.ReadValue<float>();
     }
 }

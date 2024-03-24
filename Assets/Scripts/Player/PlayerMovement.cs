@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
 
-    public static PlayerMovement instance;
+    public static PlayerMovement Instance;
 
     [SerializeField]
     public enum PlayerState
@@ -22,25 +22,23 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] PlayerState nowState, lastState;
 
-    // MANAGERS
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private InputManager inputManager;
-
     [SerializeField] private Rigidbody2D playerRB;
-    [SerializeField] private Collider2D playerCollider;
 
-    // MOVEMENT VARIABLES
+    #region Movement Variables
+
+    // Input
+    private bool jumpInput;
+    private bool interactInput;
+    private float moveInput;
 
     // Jump logic
     [SerializeField] private bool onGround;
-    private bool jumpInput;
     [SerializeField] private float holdTimer, maxHoldTime;
 
-    // Movement
-    [SerializeField] public float moveSpeed, jumpForce;
+    // Movement speed
+    public float moveSpeed, jumpForce;
 
-    // Interact
-    private bool interactInput;
+    #endregion
 
     // GROUNDCHECK
     [SerializeField] private GameObject groundCheck;
@@ -52,12 +50,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton
-        if (instance == null) instance = this;
+        #region Singleton Pattern
 
-        // Get Components
+        if (Instance != null)
+        {
+            Debug.Log("There is already an instance of " + Instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        #endregion
+
+        // Get components
         playerRB = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<Collider2D>();
     }
 
     private void Start()
@@ -78,19 +87,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        onGround = isGrounded();    // Check if the player is touching the ground
+        // Check if the player is touching the ground
+        onGround = IsGrounded();
 
-        // Turn the inputs to booleans
-        jumpInput = inputManager.jumpInput == 1;
-        interactInput = inputManager.interactInput == 1;
+        // Get the inputs from InputManager
+        jumpInput = InputManager.Instance.jumpInput == 1;
+        interactInput = InputManager.Instance.interactInput == 1;
+        moveInput = InputManager.Instance.moveInput;
 
-        // Hold jump logic
+        #region State Logic
+
         if (!jumpInput && lastState == PlayerState.Charging)
         {
             // Jumping state
             nowState = PlayerState.Jumping;
             moveSpeed = 400f;
-            playerRB.velocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, jumpForce * holdTimer * Time.deltaTime);
+            playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, jumpForce * holdTimer * Time.deltaTime);
         }
 
         if (jumpInput && onGround)
@@ -112,12 +124,13 @@ public class PlayerMovement : MonoBehaviour
             moveSpeed = 400f;
         }
 
-        playerRB.velocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+        playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
 
         lastState = nowState;
+        #endregion
     }
 
-    public bool isGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.BoxCast(groundCheck.transform.position, boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
     }
