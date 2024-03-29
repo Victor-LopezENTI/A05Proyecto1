@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,8 @@ public class InputManager : MonoBehaviour
 
     private PlayerController playerController;
 
-    // Input variables
-    public float moveInput, jumpInput, interactInput;
+    // The variables the player affect
+    private float moveInput, jumpInput, interactInput;
 
     private void Awake()
     {
@@ -34,20 +35,25 @@ public class InputManager : MonoBehaviour
     }
 
     // Horizontal movement input [A | D]
-    public void OnMove(InputAction.CallbackContext context)
+    private void OnMove(InputAction.CallbackContext context)
     {
-        Instance.moveInput = context.ReadValue<float>();
+        moveInput = context.ReadValue<float>();
     }
 
     // Jump input [Spacebar]
-    public void OnJump(InputAction.CallbackContext context)
+    private void OnJump(InputAction.CallbackContext context)
     {
-        Instance.jumpInput = context.ReadValue<float>();
+        jumpInput = context.ReadValue<float>();
     }
 
     // Interaction input [E]
-    public void OnInteract(InputAction.CallbackContext context)
+    private void OnInteract(InputAction.CallbackContext context)
     {
-        Instance.interactInput = context.ReadValue<float>();
+        interactInput = context.ReadValue<float>();
     }
+
+    // Public getters
+    public float getMoveInput() { return moveInput; }
+    public float getJumpInput() { return jumpInput; }
+    public float getInteractInput() { return interactInput; }
 }

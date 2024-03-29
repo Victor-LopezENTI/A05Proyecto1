@@ -13,14 +13,14 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement Instance;
 
     [SerializeField]
-    public enum PlayerState
+    private enum PlayerState
     {
         Idle,
         Charging,
         Jumping
     };
 
-    [SerializeField] PlayerState nowState, lastState;
+    private PlayerState nowState, lastState;
 
     [SerializeField] private Rigidbody2D playerRB;
 
@@ -72,17 +72,12 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         distanceFromGround = 0.185f;
-        boxCastSize = new(0.14f, 0.1f);
+        boxCastSize = new(0.15f, 0.1f);
 
         jumpForce = 300f;
         maxHoldTime = 1f;   // Max holding time in seconds
 
         nowState = PlayerState.Idle;
-    }
-
-    private void Update()
-    {
-        Debug.DrawRay(groundCheck.transform.position, new Vector2(0f, -distanceFromGround), Color.green);
     }
 
     private void FixedUpdate()
@@ -91,9 +86,9 @@ public class PlayerMovement : MonoBehaviour
         onGround = IsGrounded();
 
         // Get the inputs from InputManager
-        jumpInput = InputManager.Instance.jumpInput == 1;
-        interactInput = InputManager.Instance.interactInput == 1;
-        moveInput = InputManager.Instance.moveInput;
+        jumpInput = InputManager.Instance.getJumpInput() == 1;
+        interactInput = InputManager.Instance.getInteractInput() == 1;
+        moveInput = InputManager.Instance.getMoveInput();
 
         #region State Logic
 
@@ -124,9 +119,11 @@ public class PlayerMovement : MonoBehaviour
             moveSpeed = 400f;
         }
 
+        // Change rigidbody velocity
         playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
 
         lastState = nowState;
+
         #endregion
     }
 

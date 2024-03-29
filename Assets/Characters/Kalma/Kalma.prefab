@@ -17,7 +17,7 @@ GameObject:
   m_Layer: 0
   m_Name: Kalma
   m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -50,11 +50,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRB: {fileID: 5918233817066234992}
-  playerCollider: {fileID: 669537721907971673}
+  onGround: 0
+  holdTimer: 0
+  maxHoldTime: 0
   moveSpeed: 500
   jumpForce: 300
-  onGround: 0
-  jumping: 0
   groundCheck: {fileID: 6488110035367107130}
   groundLayer:
     serializedVersion: 2
