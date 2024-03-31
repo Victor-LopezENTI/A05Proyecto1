@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
         interactInput = InputManager.Instance.getInteractInput() == 1;
         moveInput = InputManager.Instance.getMoveInput();
 
+        // Player states
         switch (playerStateMachine.GetPlayerState())
         {
             case PlayerStateMachine.PlayerState.Idle:

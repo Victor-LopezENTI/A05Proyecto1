@@ -10,8 +10,8 @@ public class RotationManager : MonoBehaviour
     private bool chamberUpsideDown = false;
 
     // Anti-spam buffer between chamber rotations (delta-time based)
-    private float actionBuffer = 3f;
-    public const float maxActionBuffer = 3f;
+    [SerializeField] private float actionBuffer = 3f;
+    public const float maxActionBuffer = 2.5f;
 
     private void Awake()
     {
@@ -29,19 +29,27 @@ public class RotationManager : MonoBehaviour
 
         #endregion
     }
+
+    // Update WILL be called when the game is paused
     private void Update()
     {
         if (InputManager.Instance.getInteractInput() == 1)
         {
             rotateLevel();
         }
+
+        if (cameraRotation.IsOnTransition())
+            Time.timeScale = 0f;
+        else
+            Time.timeScale = 1f;
     }
 
-    // Update WON'T be called when the game is paused
+    // FixedUpdate WON'T be called when the game is paused
     private void FixedUpdate()
     {
         if (actionBuffer < maxActionBuffer)
             actionBuffer += Time.deltaTime;
+
     }
 
     private void changeGravity()

@@ -15,18 +15,21 @@ public class PlayerStateMachine : MonoBehaviour
         Falling
     };
 
+    // Player states
     [SerializeField] private PlayerState currentState = PlayerState.Idle;
     private PlayerState lastState;
 
+    // Player rigidbody
     private Rigidbody2D playerRB;
 
+    // Player input variables
     private float moveInput;
     private bool jumpInput;
 
     // Groundcheck variables
     [SerializeField] private bool onGround;
     [SerializeField] private LayerMask groundLayer;
-    float distanceFromGround = 0.75f;
+    private float distanceFromGround = 0.75f;
 
     private void Awake()
     {
@@ -74,7 +77,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     private bool IsGrounded()
     {
-        Debug.DrawRay(transform.position, Vector2.down * distanceFromGround, Color.yellow);
         return Physics2D.Raycast(transform.position, Vector2.down, distanceFromGround, groundLayer);
     }
 

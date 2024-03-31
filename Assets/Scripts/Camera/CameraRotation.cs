@@ -12,12 +12,25 @@ public class CameraRotation : MonoBehaviour
     private bool onTransition = false;
 
     // Buffer for calculating the chamber rotation time (not delta-time based)
-    private float transitionBuffer = 0f;
+    [SerializeField] private float transitionBuffer = 0f;
     private const float maxTransitionBuffer = 2f;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (onTransition)
+        {
+            transitionBuffer += Time.unscaledDeltaTime;
+            if (transitionBuffer >= maxTransitionBuffer)
+            {
+                onTransition = false;
+                transitionBuffer = 0f;
+            }
+        }
     }
 
     public void transitionCamera()
@@ -30,9 +43,11 @@ public class CameraRotation : MonoBehaviour
         {
             animator.Play("Upside Up");
         }
-        
+
         // Start the transition buffer
         transitionBuffer = 0f;
         onTransition = true;
     }
+
+    public bool IsOnTransition() { return onTransition; }
 }

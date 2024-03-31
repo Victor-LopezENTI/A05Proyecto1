@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
   m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
+  m_IgnoreTimeScale: 1
   m_WorldUpOverride: {fileID: 0}
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
@@ -394,8 +394,8 @@ GameObject:
   m_Component:
   - component: {fileID: 677714945}
   - component: {fileID: 677714944}
-  - component: {fileID: 677714946}
   - component: {fileID: 677714947}
+  - component: {fileID: 677714946}
   m_Layer: 0
   m_Name: Virtual Cameras
   m_TagString: Untagged
@@ -503,6 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5389207e67edf144188e191cbaf582d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionBuffer: 0
 --- !u!1 &686981346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,6 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraRotation: {fileID: 677714947}
+  actionBuffer: 3
 --- !u!114 &1729522722
 MonoBehaviour:
   m_ObjectHideFlags: 0
