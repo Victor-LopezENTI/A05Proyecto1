@@ -281,11 +281,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &322368706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6488110035367107130, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
-  m_PrefabInstance: {fileID: 1133174338}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &353012240
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,10 +723,18 @@ PrefabInstance:
     - target: {fileID: -2811256032292616605, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: groundCheck
       value: 
-      objectReference: {fileID: 322368706}
+      objectReference: {fileID: 0}
     - target: {fileID: -2811256032292616605, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: inputManager
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362663552124734422, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
+      propertyPath: distanceFromGround
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362663552124734422, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 5038510777711977240, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_Color.a
@@ -1065,7 +1068,7 @@ GameObject:
   - component: {fileID: 1925485963}
   - component: {fileID: 1925485965}
   - component: {fileID: 1925485964}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Platforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2927,7 +2930,7 @@ GameObject:
   - component: {fileID: 2111270431}
   - component: {fileID: 2111270434}
   - component: {fileID: 2111270433}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,125 +10,77 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
 
-    public static PlayerMovement Instance;
-
-    [SerializeField]
-    private enum PlayerState
-    {
-        Idle,
-        Charging,
-        Jumping
-    };
-
-    private PlayerState nowState, lastState;
-
-    [SerializeField] private Rigidbody2D playerRB;
-
-    #region Movement Variables
+    private PlayerStateMachine playerStateMachine;
+    private Rigidbody2D playerRB;
 
     // Input
     private bool jumpInput;
     private bool interactInput;
     private float moveInput;
 
-    // Jump logic
-    [SerializeField] private bool onGround;
-    [SerializeField] private float holdTimer, maxHoldTime;
+    // Jump timer
+    [SerializeField] private float holdTimer;
+    private const float maxHoldTime = 1f;
 
     // Movement speed
-    public float moveSpeed, jumpForce;
-
-    #endregion
-
-    // GROUNDCHECK
-    [SerializeField] private GameObject groundCheck;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] float distanceFromGround;
-    Vector2 boxCastSize;
+    private float moveSpeed = 400f;
+    private float jumpForce = 300f;
+    private float minJumpForce = 2.3f;
 
     #endregion
 
     private void Awake()
     {
-        #region Singleton Pattern
-
-        if (Instance != null)
-        {
-            Debug.Log("There is already an instance of " + Instance);
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-
-        #endregion
-
         // Get components
+        playerStateMachine = GetComponent<PlayerStateMachine>();
         playerRB = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
-        distanceFromGround = 0.185f;
-        boxCastSize = new(0.15f, 0.1f);
-
-        jumpForce = 300f;
-        maxHoldTime = 1f;   // Max holding time in seconds
-
-        nowState = PlayerState.Idle;
     }
 
     private void FixedUpdate()
     {
-        // Check if the player is touching the ground
-        onGround = IsGrounded();
-
         // Get the inputs from InputManager
         jumpInput = InputManager.Instance.getJumpInput() == 1;
         interactInput = InputManager.Instance.getInteractInput() == 1;
         moveInput = InputManager.Instance.getMoveInput();
 
-        #region State Logic
-
-        if (!jumpInput && lastState == PlayerState.Charging)
+        switch (playerStateMachine.GetPlayerState())
         {
-            // Jumping state
-            nowState = PlayerState.Jumping;
-            moveSpeed = 400f;
-            playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, jumpForce * holdTimer * Time.deltaTime);
+            case PlayerStateMachine.PlayerState.Idle:
+                holdTimer = 0f;
+                break;
+
+            case PlayerStateMachine.PlayerState.Walking:
+                holdTimer = 0f;
+                moveSpeed = 400f;
+                break;
+
+            case PlayerStateMachine.PlayerState.ChargingJump:
+                moveSpeed = 150f;
+                holdTimer += Time.deltaTime;
+                if (holdTimer > maxHoldTime)
+                    holdTimer = maxHoldTime;
+                break;
+
+            case PlayerStateMachine.PlayerState.StartingJump:
+
+                // Set the min jump force
+                if (holdTimer > 0.25f)
+                    minJumpForce = 0f;
+                else
+                    minJumpForce = 2.3f;
+
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, (jumpForce * holdTimer * Time.deltaTime) + minJumpForce);
+                break;
+
+            case PlayerStateMachine.PlayerState.Jumping:
+                holdTimer = 0f;
+                moveSpeed = 330f;
+                break;
+
+            case PlayerStateMachine.PlayerState.Falling:
+                break;
         }
 
-        if (jumpInput && onGround)
-        {
-            // Charging state
-            nowState = PlayerState.Charging;
-            moveSpeed = 150f;
-
-            holdTimer += Time.deltaTime;
-            if (holdTimer > maxHoldTime)
-                holdTimer = maxHoldTime;
-        }
-
-        else if (onGround && lastState != PlayerState.Charging)
-        {
-            // Idle state
-            nowState = PlayerState.Idle;
-            holdTimer = 0f;
-            moveSpeed = 400f;
-        }
-
-        // Change rigidbody velocity
         playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
-
-        lastState = nowState;
-
-        #endregion
-    }
-
-    public bool IsGrounded()
-    {
-        return Physics2D.BoxCast(groundCheck.transform.position, boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
     }
 }
