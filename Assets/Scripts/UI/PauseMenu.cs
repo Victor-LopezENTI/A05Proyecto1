@@ -6,7 +6,6 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     private bool paused;
-    private bool settingsON;
 
     void Start()
     {
@@ -15,7 +14,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (paused)
                 ResumeGame();
@@ -39,21 +38,13 @@ public class PauseMenu : MonoBehaviour
         paused = false;
     }
 
-    public void EnterSettings()
+    public void Settings()
     {
-        settingsON = true;
-        paused = true;
-    }
 
-    public void ExitSettings()
-    {
-        settingsON = false;
-        paused = false;
     }
 
     public void Quit()
     {
-        Application.Quit();
-        Debug.Log("EXIT");
+        
     }
 }
