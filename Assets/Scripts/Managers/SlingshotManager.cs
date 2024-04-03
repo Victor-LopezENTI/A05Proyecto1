@@ -24,7 +24,7 @@ public class SlingshotManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerRB.DesactivateRb();
+        DeactivateRb(playerRB);
         cam = Camera.main;
     }
 
@@ -49,7 +49,7 @@ public class SlingshotManager : MonoBehaviour
     }
 
     void OnDragStart() {
-        playerRB.DesactivateRb();
+        DeactivateRb(playerRB);
         startPoint = cam.ScreenToWorldPoint(Input.mousePosition);
 
         projection.Show();
@@ -62,15 +62,31 @@ public class SlingshotManager : MonoBehaviour
         direction = (startPoint - endPoint).normalized;
         force = direction * distance * pushForce;
 
-        projection.UpdateDots(playerRB.pos, force);
+        projection.UpdateDots(playerRB.position, force);
     }
 
     void OnDragEnd()
     {
-        playerRB.ActivateRb();
+        ActivateRb(playerRB);
 
-        playerRB.Push(force);
+        Push(playerRB, force);
 
         projection.Hide();
+    }
+    public void Push(Rigidbody2D rb, Vector2 force)
+    {
+        rb.AddForce(force, ForceMode2D.Impulse);
+    }
+
+    public void ActivateRb(Rigidbody2D rb)
+    {
+        rb.isKinematic = false;
+    }
+
+    public void DeactivateRb(Rigidbody2D rb)
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = 0f;
+        rb.isKinematic = true;
     }
 }
