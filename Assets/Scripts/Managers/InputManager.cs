@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,47 +6,54 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Instance;
+    public static InputManager Instance { get; private set; }
 
     private PlayerController playerController;
 
-    [SerializeField] private PlayerMovement playerMovement;
-
-    // Input variables
-    [SerializeField] public float moveInput, jumpInput, interactInput; // Input from the player
+    // The variables the player affect
+    private float moveInput, jumpInput, interactInput;
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        #region Singleton Pattern
+
+        if (Instance != null)
+        {
+            Debug.Log("There is already an instance of " + Instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        #endregion
+
+        // Create and enable the player controller
         playerController = new PlayerController();
-        playerMovement = new PlayerMovement();
         playerController.Enable();
     }
 
-
     // Horizontal movement input [A | D]
-    public void onMove(InputAction.CallbackContext context)
+    private void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<float>();
     }
 
     // Jump input [Spacebar]
-    public void onJump(InputAction.CallbackContext context)
+    private void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            jumpInput = context.ReadValue<float>();
-        }
-        
-        if (context.duration >= 1)
-        {
-            jumpInput = 0;
-        }
+        jumpInput = context.ReadValue<float>();
     }
 
     // Interaction input [E]
-    public void onInteract(InputAction.CallbackContext context)
+    private void OnInteract(InputAction.CallbackContext context)
     {
         interactInput = context.ReadValue<float>();
     }
+
+    // Public getters
+    public float getMoveInput() { return moveInput; }
+    public float getJumpInput() { return jumpInput; }
+    public float getInteractInput() { return interactInput; }
 }

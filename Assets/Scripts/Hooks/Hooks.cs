@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Hooks : MonoBehaviour
 {
-    private float hooks = 0;
+    //private float hooks = 0;
 
     [SerializeField] private Text Pickuptext;
     public SpawnerHooks spHook;

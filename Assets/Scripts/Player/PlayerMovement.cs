@@ -10,84 +10,78 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
 
-    public static PlayerMovement instance;
+    private PlayerStateMachine playerStateMachine;
+    private Rigidbody2D playerRB;
 
-    // MANAGERS
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private InputManager inputManager;
+    // Input
+    private bool jumpInput;
+    private bool interactInput;
+    private float moveInput;
 
-    [SerializeField] private Rigidbody2D playerRB;
-    [SerializeField] private Collider2D playerCollider;
+    // Jump timer
+    [SerializeField] private float holdTimer;
+    private const float maxHoldTime = 1f;
 
-    // MOVEMENT VARIABLES
-    [SerializeField] public float moveSpeed, jumpForce;
-    [SerializeField] private bool onGround;
-    public bool OnGround { get => onGround; }   // Read variable for onGround
-
-    private bool jumpInput, interactInput;
-    private Vector2 playerVelocity;
-
-    // GROUNDCHECK
-    [SerializeField] private GameObject groundCheck;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] float distanceFromGround;
-    Vector2 boxCastSize;
+    // Movement speed
+    private float moveSpeed = 400f;
+    private float jumpForce = 300f;
+    private float minJumpForce = 2.3f;
 
     #endregion
 
     private void Awake()
     {
-        // Singleton
-        if (instance == null) instance = this;
-
-        // Get Components
+        // Get components
+        playerStateMachine = GetComponent<PlayerStateMachine>();
         playerRB = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<Collider2D>();
-    }
-
-    private void Start()
-    {
-        distanceFromGround = 0.185f;
-        boxCastSize = new(0.14f, 0.1f);
-
-        moveSpeed = 500f;
-        jumpForce = 300f;
-    }
-
-    private void Update()
-    {
-        Debug.DrawRay(groundCheck.transform.position, new Vector2(0f, -distanceFromGround), Color.green);
     }
 
     private void FixedUpdate()
     {
-        onGround = isGrounded();    // Check if the player is touching the ground
+        // Get the inputs from InputManager
+        jumpInput = InputManager.Instance.getJumpInput() == 1;
+        interactInput = InputManager.Instance.getInteractInput() == 1;
+        moveInput = InputManager.Instance.getMoveInput();
 
-        // Turn the inputs to booleans
-        jumpInput = inputManager.jumpInput == 1;
-        interactInput = inputManager.interactInput == 1;
-
-        // Jump
-        if (jumpInput && onGround)
+        // Player states
+        switch (playerStateMachine.GetPlayerState())
         {
-            playerVelocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, inputManager.jumpInput * jumpForce * Time.deltaTime);
-        }
-        else
-        {
-            playerVelocity = new(inputManager.moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+            case PlayerStateMachine.PlayerState.Idle:
+                holdTimer = 0f;
+                break;
+
+            case PlayerStateMachine.PlayerState.Walking:
+                holdTimer = 0f;
+                moveSpeed = 400f;
+                break;
+
+            case PlayerStateMachine.PlayerState.ChargingJump:
+                moveSpeed = 150f;
+                holdTimer += Time.deltaTime;
+                if (holdTimer > maxHoldTime)
+                    holdTimer = maxHoldTime;
+                break;
+
+            case PlayerStateMachine.PlayerState.StartingJump:
+
+                // Set the min jump force
+                if (holdTimer > 0.25f)
+                    minJumpForce = 0f;
+                else
+                    minJumpForce = 2.3f;
+
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, (jumpForce * holdTimer * Time.deltaTime) + minJumpForce);
+                break;
+
+            case PlayerStateMachine.PlayerState.Jumping:
+                holdTimer = 0f;
+                moveSpeed = 330f;
+                break;
+
+            case PlayerStateMachine.PlayerState.Falling:
+                break;
         }
 
-        playerRB.velocity = playerVelocity;
-
-        // Jump interaction test
-        if (inputManager.interactInput == 1)
-        {
-            transform.DOJump(new(playerRB.position.x + 10f, playerRB.position.y), 2f, 1, 0.8f).SetEase(Ease.Linear);
-        }
-    }
-
-    public bool isGrounded()
-    {
-        return Physics2D.BoxCast(groundCheck.transform.position, boxCastSize, 0f, Vector2.down, distanceFromGround, groundLayer);
+        playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
     }
 }
