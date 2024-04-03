@@ -6,6 +6,10 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     private bool paused;
+<<<<<<< HEAD:Assets/Resources/Scripts/UI/PauseMenu.cs
+=======
+    private bool settingsON;
+>>>>>>> feature/victor:Assets/Scripts/UI/PauseMenu.cs
 
     void Start()
     {
@@ -14,7 +18,11 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+<<<<<<< HEAD:Assets/Resources/Scripts/UI/PauseMenu.cs
         if (Input.GetKeyDown(KeyCode.Escape))
+=======
+        if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
+>>>>>>> feature/victor:Assets/Scripts/UI/PauseMenu.cs
         {
             if (paused)
                 ResumeGame();
@@ -38,13 +46,31 @@ public class PauseMenu : MonoBehaviour
         paused = false;
     }
 
+<<<<<<< HEAD:Assets/Resources/Scripts/UI/PauseMenu.cs
     public void Settings()
     {
 
+=======
+    public void EnterSettings()
+    {
+        settingsON = true;
+        paused = true;
+    }
+
+    public void ExitSettings()
+    {
+        settingsON = false;
+        paused = false;
+>>>>>>> feature/victor:Assets/Scripts/UI/PauseMenu.cs
     }
 
     public void Quit()
     {
+<<<<<<< HEAD:Assets/Resources/Scripts/UI/PauseMenu.cs
         
+=======
+        Application.Quit();
+        Debug.Log("EXIT");
+>>>>>>> feature/victor:Assets/Scripts/UI/PauseMenu.cs
     }
 }
