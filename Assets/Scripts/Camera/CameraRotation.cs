@@ -48,6 +48,4 @@ public class CameraRotation : MonoBehaviour
         transitionBuffer = 0f;
         onTransition = true;
     }
-
-    public bool IsOnTransition() { return onTransition; }
 }
