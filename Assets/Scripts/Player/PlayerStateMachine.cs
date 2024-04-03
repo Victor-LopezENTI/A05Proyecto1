@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,8 +41,8 @@ public class PlayerStateMachine : MonoBehaviour
     {
         onGround = IsGrounded();
 
-        moveInput = InputManager.Instance.getMoveInput();
-        jumpInput = InputManager.Instance.getJumpInput() == 1;
+        moveInput = InputManager.Instance.moveInput;
+        jumpInput = InputManager.Instance.jumpInput == 1;
         
         if (onGround)
         {

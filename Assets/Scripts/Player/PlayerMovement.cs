@@ -9,14 +9,15 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables
+    public static PlayerMovement Instance { get; private set; }
 
     private PlayerStateMachine playerStateMachine;
-    private Rigidbody2D playerRB;
+    public Rigidbody2D playerRB { get; private set; }
 
-    // Input
+    // Input variables
+    private float moveInput;
     private bool jumpInput;
     private bool interactInput;
-    private float moveInput;
 
     // Jump timer
     [SerializeField] private float holdTimer;
@@ -31,6 +32,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        #region Singleton Pattern
+
+        if (Instance != null)
+        {
+            Debug.Log("There is already an instance of " + Instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        #endregion
+
         // Get components
         playerStateMachine = GetComponent<PlayerStateMachine>();
         playerRB = GetComponent<Rigidbody2D>();
@@ -39,9 +54,9 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // Get the inputs from InputManager
-        jumpInput = InputManager.Instance.getJumpInput() == 1;
-        interactInput = InputManager.Instance.getInteractInput() == 1;
-        moveInput = InputManager.Instance.getMoveInput();
+        moveInput = InputManager.Instance.moveInput;
+        jumpInput = InputManager.Instance.jumpInput == 1;
+        interactInput = InputManager.Instance.interactInput == 1;
 
         // Player states
         switch (playerStateMachine.GetPlayerState())
@@ -83,5 +98,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+    }
+
+    public void rotatePlayer(float angle, float duration)
+    {
+        
+        transform.DORotate(new(0, 0, angle), duration).SetUpdate(true).SetEase(Ease.InOutSine);
+
     }
 }

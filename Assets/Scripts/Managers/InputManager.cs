@@ -11,7 +11,9 @@ public class InputManager : MonoBehaviour
     private PlayerController playerController;
 
     // The variables the player affect
-    private float moveInput, jumpInput, interactInput;
+    public float moveInput { get; private set; }
+    public float jumpInput { get; private set; }
+    public float interactInput { get; private set; }
 
     private void Awake()
     {
@@ -51,9 +53,4 @@ public class InputManager : MonoBehaviour
     {
         interactInput = context.ReadValue<float>();
     }
-
-    // Public getters
-    public float getMoveInput() { return moveInput; }
-    public float getJumpInput() { return jumpInput; }
-    public float getInteractInput() { return interactInput; }
 }

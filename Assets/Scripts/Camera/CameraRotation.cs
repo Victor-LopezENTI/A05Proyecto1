@@ -9,11 +9,11 @@ public class CameraRotation : MonoBehaviour
     // The animated target containing the camera states
     private Animator animator;
 
-    private bool onTransition = false;
+    public bool onTransition { get; private set; } = false;
 
     // Buffer for calculating the chamber rotation time (not delta-time based)
     [SerializeField] private float transitionBuffer = 0f;
-    private const float maxTransitionBuffer = 2f;
+    public float maxTransitionBuffer { get; private set; } = 2f;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class CameraRotation : MonoBehaviour
 
     public void transitionCamera()
     {
-        if (RotationManager.Instance.getChamberUpsideDown())
+        if (RotationManager.Instance.GetChamberUpsideDown())
         {
             animator.Play("Upside Down");
         }

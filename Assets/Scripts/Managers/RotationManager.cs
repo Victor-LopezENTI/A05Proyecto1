@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class RotationManager : MonoBehaviour
@@ -7,9 +8,9 @@ public class RotationManager : MonoBehaviour
     [SerializeField] private CameraRotation cameraRotation;
 
     // Whether the chamber is upside down or not
-    private bool chamberUpsideDown = false;
+    public bool chamberUpsideDown { get; private set; } = false;
 
-    // Anti-spam buffer between chamber rotations (delta-time based)
+    // Anti-spam buffer between chamber rotations
     [SerializeField] private float actionBuffer = 3f;
     public const float maxActionBuffer = 2.5f;
 
@@ -33,13 +34,14 @@ public class RotationManager : MonoBehaviour
     // Update WILL be called when the game is paused
     private void Update()
     {
-        if (InputManager.Instance.getInteractInput() == 1)
+        if (InputManager.Instance.interactInput == 1)
         {
             rotateLevel();
         }
 
-        if (cameraRotation.IsOnTransition())
+        if (cameraRotation.onTransition)
             Time.timeScale = 0f;
+
         else
             Time.timeScale = 1f;
     }
@@ -49,7 +51,6 @@ public class RotationManager : MonoBehaviour
     {
         if (actionBuffer < maxActionBuffer)
             actionBuffer += Time.deltaTime;
-
     }
 
     private void changeGravity()
@@ -78,10 +79,19 @@ public class RotationManager : MonoBehaviour
             // Change the gravity
             changeGravity();
 
+            // Rotate the player
+            float rotationAngle;
+            if (chamberUpsideDown)
+                rotationAngle = 180f;
+            else
+                rotationAngle = 0f;
+
+            PlayerMovement.Instance.rotatePlayer(rotationAngle, cameraRotation.maxTransitionBuffer);
+
             // Reset the action buffer
             actionBuffer = 0f;
         }
     }
 
-    public bool getChamberUpsideDown() { return chamberUpsideDown; }
+    public bool GetChamberUpsideDown() { return chamberUpsideDown; }
 }
