@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,8 +17,9 @@ public class PlayerStateMachine : MonoBehaviour
         Falling
     };
 
-    // Player states
-    [SerializeField] private PlayerState currentState = PlayerState.Idle;
+    // Player states variables
+    [SerializeField] private PlayerState m_currentState;
+    public PlayerState currentState { get => m_currentState; private set => m_currentState = value; }
     private PlayerState lastState;
 
     // Player input variables
@@ -25,17 +27,19 @@ public class PlayerStateMachine : MonoBehaviour
     private bool jumpInput;
 
     // Groundcheck variables
-    [SerializeField] private bool onGround;
     [SerializeField] private LayerMask groundLayer;
     private const float distanceFromGround = 0.75f;
+    private bool onGround;
 
     private void FixedUpdate()
     {
-        onGround = IsGrounded();
+        // Groundcheck
+        onGround = Physics2D.Raycast(transform.position, Vector2.down, distanceFromGround, groundLayer);
 
+        // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
         jumpInput = InputManager.Instance.jumpInput == 1;
-        
+
         if (onGround)
         {
             // Jumping
@@ -67,11 +71,4 @@ public class PlayerStateMachine : MonoBehaviour
 
         lastState = currentState;
     }
-
-    private bool IsGrounded()
-    {
-        return Physics2D.Raycast(transform.position, Vector2.down, distanceFromGround, groundLayer);
-    }
-
-    public PlayerState GetPlayerState() { return currentState; }
 }
