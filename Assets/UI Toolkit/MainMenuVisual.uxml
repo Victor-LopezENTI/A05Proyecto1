@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=712a361c43735da46b1ab811a03c1fa4&amp;type=3#MainMenuStyle" />
+    <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/Sprites/Characters/GIFs/mockup.png?fileID=21300000&amp;guid=396bca07e476d8844b504ba40dad31e2&amp;type=3#mockup&apos;);">
+        <ui:Label tabindex="-1" text="Main Menu" display-tooltip-when-elided="true" name="Header" class="header" style="-unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&amp;guid=c9f6d0e7bc8541498c9a4799ba184ede&amp;type=3#Oswald-Bold&apos;); -unity-font-definition: initial; color: rgb(255, 255, 255);" />
+        <ui:Button text="Start" display-tooltip-when-elided="true" name="StartButton" class="button" />
+        <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="button" />
+    </ui:VisualElement>
+</ui:UXML>
