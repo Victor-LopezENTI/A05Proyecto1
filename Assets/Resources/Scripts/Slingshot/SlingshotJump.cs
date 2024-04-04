@@ -4,57 +4,57 @@ using UnityEngine;
 
 public class SlingshotJump : MonoBehaviour
 {
+
     public float power = 5f;
 
-    [SerializeField]private Rigidbody2D rb;
-    [SerializeField]private LineRenderer lr;
-   
+    [SerializeField]LineRenderer lr;
+    [SerializeField]Rigidbody2D rb;
 
-    Vector2 DragStartPos;
+    Vector2 startDragPos;
 
-    // Start is called before the first frame update
-    private void Start()
+    void Start()
     {
+        lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        lr = GetComponentInChildren<LineRenderer>();
-       
     }
 
-    // Update is called once per frame
-    private void Update()
+    void Update()
     {
-        if (Input.GetMouseButtonDown(0)) {
-            DragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }
+        if (Input.GetMouseButtonDown(0))
+            startDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButton(0))
         {
-            Vector2 DragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 direction = (DragEndPos - DragStartPos).normalized;
-            Vector2 _velocity = direction * power;
-            
+            lr.enabled = true;
+
+            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 _velocity = (endDragPos - startDragPos) * power;
+
             Vector2[] trajectory = Plot(rb, (Vector2)transform.position, _velocity, 500);
-            
+
             lr.positionCount = trajectory.Length;
 
             Vector3[] positions = new Vector3[trajectory.Length];
+
             for (int i = 0; i < trajectory.Length; i++)
             {
                 positions[i] = trajectory[i];
             }
-            lr.SetPositions(positions);
 
+            lr.SetPositions(positions);
+        }
+        else
+        {
+            lr.enabled = false;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            Vector2 DragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 direction = (DragEndPos - DragStartPos).normalized; 
-            Vector2 _velocity = direction * power;
+            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 _velocity = (endDragPos - startDragPos) * power;
 
             rb.velocity = _velocity;
         }
-
     }
 
     public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
@@ -73,8 +73,8 @@ public class SlingshotJump : MonoBehaviour
             moveStep *= drag;
             pos += moveStep;
             results[i] = pos;
-
         }
+
         return results;
     }
 
