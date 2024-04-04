@@ -9,7 +9,8 @@ public class SlingshotJump : MonoBehaviour
 
     [SerializeField]LineRenderer lr;
     [SerializeField]Rigidbody2D rb;
-
+    [SerializeField] public int steps;
+    [SerializeField] public float maxDistance;
     Vector2 startDragPos;
 
     void Start()
@@ -28,9 +29,9 @@ public class SlingshotJump : MonoBehaviour
             lr.enabled = true;
 
             Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 _velocity = (endDragPos - startDragPos) * power;
+            Vector2 _velocity = (endDragPos - startDragPos).normalized * power;
 
-            Vector2[] trajectory = Plot(rb, (Vector2)transform.position, _velocity, 500);
+            Vector2[] trajectory = Plot(rb, (Vector2)transform.position, _velocity, steps, maxDistance);
 
             lr.positionCount = trajectory.Length;
 
@@ -57,7 +58,7 @@ public class SlingshotJump : MonoBehaviour
         }
     }
 
-    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
+    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps, float maxDistance)
     {
         Vector2[] results = new Vector2[steps];
 
@@ -67,12 +68,19 @@ public class SlingshotJump : MonoBehaviour
         float drag = 1f - timestep * rigidbody.drag;
         Vector2 moveStep = velocity * timestep;
 
+        float distance = 0f;
+
         for (int i = 0; i < steps; i++)
         {
+            if (distance >= maxDistance)
+                break;
+
             moveStep += gravityAccel;
             moveStep *= drag;
             pos += moveStep;
             results[i] = pos;
+
+            distance += moveStep.magnitude;
         }
 
         return results;
