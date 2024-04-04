@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    // Singleton pattern
+    #region Singleton Pattern
+
     private static InputManager _Instance;
     public static InputManager Instance
     {
@@ -15,7 +16,7 @@ public class InputManager : MonoBehaviour
             if (!_Instance)
             {
                 // Load the prefab from the Resources folder
-                var prefab = Resources.Load<GameObject>("Prefabs/InputManager");
+                var prefab = Resources.Load<GameObject>("Prefabs/Managers/InputManager");
 
                 // Instantiate the prefab
                 var inScene = Instantiate<GameObject>(prefab);
@@ -32,6 +33,8 @@ public class InputManager : MonoBehaviour
             return _Instance;
         }
     }
+
+    #endregion
 
     private PlayerController playerController;
 
