@@ -25,9 +25,22 @@ public class RopeManager : MonoBehaviour
         {
             existingRope.SetPosition(0, playerRB.transform.position);
         }
-        if(hingeConnected && InputManager.Instance.jumpInput == 0)
+        if (existingRope != null && (InputManager.Instance.jumpInput == 0 || playerSM.onGround))
         {
             destroyRope();
+        }
+    }
+    private void FixedUpdate()
+    {
+        if (hingeConnected)
+        {
+            if (InputManager.Instance.moveInput != 0 &&
+            ((InputManager.Instance.moveInput < 0 && transform.position.x < selectedHook.transform.position.x) ||
+            (InputManager.Instance.moveInput > 0 && transform.position.x < selectedHook.transform.position.x)))
+            {
+                playerRB.AddForce(new Vector2(InputManager.Instance.moveInput * 3, 0));
+            }
+            playerRB.velocity = Vector2.ClampMagnitude(playerRB.velocity, 10);
         }
     }
     void launchRope(Transform hook)
@@ -53,7 +66,7 @@ public class RopeManager : MonoBehaviour
                 selectedHook = hook;
                 hook.GetComponent<TopHooksBehaviour>().setHilight(true);
             }
-            else if(existingRope == null && Vector2.Distance(playerRB.transform.position, hook.transform.position) < Vector2.Distance(playerRB.transform.position, selectedHook.transform.position))
+            else if (existingRope == null && Vector2.Distance(playerRB.transform.position, hook.transform.position) < Vector2.Distance(playerRB.transform.position, selectedHook.transform.position))
             {
                 selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
                 selectedHook = null;
@@ -71,7 +84,7 @@ public class RopeManager : MonoBehaviour
     }
     public void checkExittingHook(GameObject hook)
     {
-        if(selectedHook == hook)
+        if (selectedHook == hook)
         {
             deselectHook();
         }
@@ -102,12 +115,20 @@ public class RopeManager : MonoBehaviour
     {
         for (float i = 0; i < 1; i += Time.deltaTime * ropeExpansionSpeed)
         {
-            existingRope.SetPosition(0, playerRB.transform.position);
-            existingRope.SetPosition(1, Vector3.Lerp(playerRB.transform.position, hook.position, i));
-            yield return null;
+            if (existingRope != null)
+            {
+                existingRope.SetPosition(0, playerRB.transform.position);
+                existingRope.SetPosition(1, Vector3.Lerp(playerRB.transform.position, hook.position, i));
+                yield return null;
+            }
+            else
+                yield break;
         }
-        existingRope.SetPosition(1, hook.position);
-        hookIsConnected();
+        if (existingRope != null)
+        {
+            existingRope.SetPosition(1, hook.position);
+            hookIsConnected();
+        }
         yield break;
     }
 }

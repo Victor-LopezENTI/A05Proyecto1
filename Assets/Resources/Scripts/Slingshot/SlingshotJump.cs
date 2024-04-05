@@ -17,7 +17,7 @@ public class SlingshotJump : MonoBehaviour
     [SerializeField] private float slingShotBuffer = 0f;
     [SerializeField] private const float maxSlingShotBuffer = 1f;
 
-    [SerializeField] public bool onSlingShot { get; private set; } = true;
+    [SerializeField] public bool onSlingShot { get; private set; } = false;
     [SerializeField] private bool chargingSlingshot = false;
 
     private Vector2 startPos;
