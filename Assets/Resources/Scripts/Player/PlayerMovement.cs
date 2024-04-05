@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Build.Content;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Input variables
     private float moveInput;
+    //private bool canInput;
 
     // Jump timer variables
     [SerializeField]
@@ -81,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
                 holdTimer = 0f;
                 moveSpeed = moveSpeedWalk;
                 playerAnimator.Play("walk");
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
@@ -89,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
                 if (holdTimer > maxHoldTime)
                     holdTimer = maxHoldTime;
                 playerAnimator.Play("idle");
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
@@ -102,13 +106,17 @@ public class PlayerMovement : MonoBehaviour
                 holdTimer = 0f;
                 moveSpeed = moveSpeedJump;
                 playerAnimator.Play("jump");
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 playerAnimator.Play("fall");
                 break;
-        }
 
-        playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+            case PlayerStateMachine.PlayerState.Roping:
+                
+                break;
+        }
     }
 }

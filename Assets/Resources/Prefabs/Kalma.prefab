@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6532852219761283813}
   - component: {fileID: -2811256032292616605}
   - component: {fileID: 1362663552124734422}
+  - component: {fileID: 1400350846760594606}
   - component: {fileID: 5918233817066234992}
   - component: {fileID: 669537721907971673}
   - component: {fileID: 6768553796988181243}
@@ -66,6 +67,25 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &1400350846760594606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753142299670203745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5b11c1617b1d74cbbbcb9d17a74be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRB: {fileID: 5918233817066234992}
+  playerSM: {fileID: 1362663552124734422}
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  ropePrefab: {fileID: 7869006388537451705, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
+  ropeExpansionSpeed: 10
 --- !u!50 &5918233817066234992
 Rigidbody2D:
   serializedVersion: 4
