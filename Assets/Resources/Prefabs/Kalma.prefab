@@ -12,11 +12,13 @@ GameObject:
   - component: {fileID: -2811256032292616605}
   - component: {fileID: 1362663552124734422}
   - component: {fileID: 4638037395009310092}
+  - component: {fileID: 2990710734459649998}
   - component: {fileID: 1400350846760594606}
   - component: {fileID: 5918233817066234992}
   - component: {fileID: 669537721907971673}
   - component: {fileID: 6768553796988181243}
   - component: {fileID: 1947897203651148326}
+  - component: {fileID: 4951220181675927794}
   m_Layer: 0
   m_Name: Kalma
   m_TagString: Player
@@ -37,7 +39,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-2811256032292616605
 MonoBehaviour:
@@ -51,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1f11a4e7b263c4d89b02006c71d26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdTimer: 0
+  holdNormTimer: 0
 --- !u!114 &1362663552124734422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,11 +83,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lr: {fileID: 0}
-  jumpForce: 5
+  slingshotForce: 15
   steps: 500
-  maxDistance: 300
   slingShotBuffer: 0
   chargingSlingshot: 0
+--- !u!233 &2990710734459649998
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753142299670203745}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -8.61, y: 6.4}
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 190
+    m_UpperAngle: 350
 --- !u!114 &1400350846760594606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +130,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   ropePrefab: {fileID: 7869006388537451705, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
+  hingeConnected: 0
   ropeExpansionSpeed: 10
+  hjoint: {fileID: 2990710734459649998}
 --- !u!50 &5918233817066234992
 Rigidbody2D:
   serializedVersion: 4
@@ -120,7 +148,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 9.8
   m_Material: {fileID: 6200000, guid: f28e3dbb18c3ae94b9183d4118650904, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -130,7 +158,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &669537721907971673
 CapsuleCollider2D:
