@@ -8,14 +8,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    #region Variables
-
     public static PlayerMovement Instance { get; private set; }
 
-    private PlayerStateMachine playerStateMachine;
+    #region Variables
+
+    PlayerStateMachine playerStateMachine;
+
+    // Player components
     public Rigidbody2D playerRB { get; private set; }
     private Animator playerAnimator;
     private SpriteRenderer playerSprite;
+    private SlingshotJump slingshotJump;
 
     // Input variables
     private float moveInput;
@@ -26,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private const float maxHoldTime = 1f;
 
     // Movement variables
+    public bool facingRight { get; private set; }
     private float moveSpeed;
     private const float moveSpeedWalk = 400f;
     private const float moveSpeedChargeJump = 150f;
@@ -54,10 +58,21 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         // Get components
-        playerStateMachine = GetComponent<PlayerStateMachine>();
+        playerStateMachine = PlayerStateMachine.Instance;
         playerRB = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         playerSprite = GetComponent<SpriteRenderer>();
+        slingshotJump = GetComponent<SlingshotJump>();
+    }
+
+    private void Update()
+    {
+        // Flip the player sprite
+        if (moveInput != 0)
+        {
+            facingRight = moveInput < 0;
+            playerSprite.flipX = facingRight;
+        }
     }
 
     private void FixedUpdate()
@@ -65,11 +80,7 @@ public class PlayerMovement : MonoBehaviour
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
 
-        // Flip the player sprite
-        if (moveInput != 0)
-            playerSprite.flipX = moveInput < 0;
-
-        // Player states
+        // Switch all possibla PlayerStates
         switch (playerStateMachine.currentState)
         {
             case PlayerStateMachine.PlayerState.Idle:
@@ -106,6 +117,15 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.Falling:
                 playerAnimator.Play("fall");
+                break;
+
+            case PlayerStateMachine.PlayerState.ChargingSlingshot:
+                moveSpeed = 0f;
+                break;
+
+            case PlayerStateMachine.PlayerState.StartingSlingshot:
+                moveSpeed = 0f;
+                playerRB.velocity = slingshotJump.velocity;
                 break;
         }
 

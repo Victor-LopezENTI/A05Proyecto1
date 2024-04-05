@@ -80,11 +80,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1e32f3cbf434b47a89193efd6a2b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 5
   lr: {fileID: 0}
-  rb: {fileID: 0}
+  jumpForce: 5
   steps: 500
   maxDistance: 300
+  slingShotBuffer: 0
+  chargingSlingshot: 0
 --- !u!50 &5918233817066234992
 Rigidbody2D:
   serializedVersion: 4
@@ -228,7 +229,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5753142299670203745}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
