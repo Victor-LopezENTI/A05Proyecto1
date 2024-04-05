@@ -37,11 +37,11 @@ public class PlayerMovement : MonoBehaviour
     private float moveSpeed;
     private const float moveSpeedWalk = 400f;
     private const float moveSpeedChargeJump = 0f;
-    private const float moveSpeedJump = 330f;
+    private const float moveSpeedJump = 350f;
 
     // Jump variables
-    private const float jumpForce = 1500;
-    private const float minJumpForce = 750f;
+    private const float jumpForce = 1250;
+    private const float minJumpForce = 625f;
 
     #endregion
 
@@ -115,10 +115,11 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
-                    playerRB.AddForce(new(moveInput * moveSpeed * 20, minJumpForce));
+                    playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce/jumpForce), minJumpForce));
                 else
-                    playerRB.AddForce(new(moveInput * moveSpeed * 20, jumpForce * holdNormTimer));
+                    playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer));
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
