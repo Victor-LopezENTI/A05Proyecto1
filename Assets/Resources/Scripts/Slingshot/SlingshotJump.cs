@@ -11,10 +11,12 @@ public class SlingshotJump : MonoBehaviour
     [SerializeField]Rigidbody2D rb;
     [SerializeField] public int steps;
     [SerializeField] public float maxDistance;
+    bool hookAvailable;
     Vector2 startDragPos;
 
     void Start()
     {
+       
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -84,6 +86,12 @@ public class SlingshotJump : MonoBehaviour
         }
 
         return results;
+    }
+
+    public bool CheckHookAvailable()
+    {
+
+        return true;
     }
 
 }
