@@ -71,6 +71,18 @@ public class SlingshotJump : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Slingshot")
+            onSlingShot = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Slingshot")
+            onSlingShot = false;
+    }
+
     void Update()
     {
         /*
