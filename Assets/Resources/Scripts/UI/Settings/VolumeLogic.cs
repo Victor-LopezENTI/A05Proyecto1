@@ -1,21 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 
-public class VolumeLogic : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-=======
 using UnityEngine.UI;
 
 public class VolumeLogic : MonoBehaviour
@@ -46,6 +32,6 @@ public class VolumeLogic : MonoBehaviour
 
         else
             music.enabled = false;
->>>>>>> origin/feature/victor
+
     }
 }

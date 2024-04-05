@@ -5,12 +5,11 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-<<<<<<< HEAD
-    private bool paused;
-=======
+
+  
     private bool paused;
     private bool settingsON;
->>>>>>> origin/feature/victor
+
 
     void Start()
     {
@@ -18,13 +17,11 @@ public class PauseMenu : MonoBehaviour
     }
 
     void Update()
-<<<<<<< HEAD
+
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-=======
-    {
+
         if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
->>>>>>> origin/feature/victor
+
         {
             if (paused)
                 ResumeGame();
@@ -46,18 +43,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1.0f;
         paused = false;
-<<<<<<< HEAD
-    }
 
-    public void Settings()
-    {
 
-    }
-
-    public void Quit()
-    {
-        
-=======
     }
     public void EnterSettings()
     {
@@ -74,6 +61,6 @@ public class PauseMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
->>>>>>> origin/feature/victor
+
     }
 }
