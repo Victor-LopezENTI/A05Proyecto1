@@ -95,8 +95,6 @@ public class Dialogue : MonoBehaviour
             near = false;
             EraseDialogue();
             dialoguePanel.SetActive(false);
-            StopAllCoroutines();
         }
-
     }
 }

@@ -30,6 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorMask: 15
+    - _CullMode: 0
     - _FaceDilate: 0
     - _GradientScale: 10
     - _MaskSoftnessX: 0
@@ -8069,7 +8070,7 @@ Texture2D:
   m_TextureDimension: 2
   m_TextureSettings:
     serializedVersion: 2
-    m_FilterMode: 0
+    m_FilterMode: 1
     m_Aniso: 1
     m_MipBias: 0
     m_WrapU: 0
