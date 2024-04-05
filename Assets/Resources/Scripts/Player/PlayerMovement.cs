@@ -60,14 +60,17 @@ public class PlayerMovement : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
     }
 
+    private void Update()
+    {
+        // Flip the player sprite
+        if (moveInput != 0)
+            playerSprite.flipX = moveInput < 0;
+    }
+
     private void FixedUpdate()
     {
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
-
-        // Flip the player sprite
-        if (moveInput != 0)
-            playerSprite.flipX = moveInput < 0;
 
         // Player states
         switch (playerStateMachine.currentState)
@@ -92,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                // Mininum jump
                 if (holdTimer < 0.25f)
                     playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, minJumpForce * Time.deltaTime);
                 else
