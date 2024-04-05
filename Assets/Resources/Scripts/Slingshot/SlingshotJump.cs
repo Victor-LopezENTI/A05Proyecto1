@@ -4,34 +4,35 @@ using UnityEngine;
 
 public class SlingshotJump : MonoBehaviour
 {
+    [SerializeField] private LineRenderer lr;
+    private Rigidbody2D playerRB;
 
-    public float power = 5f;
+    [SerializeField] private float power = 5f;
+    [SerializeField] private int steps;
+    [SerializeField] private float maxDistance;
+    private Vector2 startDragPos;
+    private Camera cam;
 
-    [SerializeField]LineRenderer lr;
-    [SerializeField]Rigidbody2D rb;
-    [SerializeField] public int steps;
-    [SerializeField] public float maxDistance;
-    Vector2 startDragPos;
-
-    void Start()
+    void Awake()
     {
         lr = GetComponent<LineRenderer>();
-        rb = GetComponent<Rigidbody2D>();
+        playerRB = GetComponent<Rigidbody2D>();
+        cam = Camera.main;
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
-            startDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            startDragPos = cam.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButton(0))
         {
             lr.enabled = true;
 
-            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 endDragPos = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector2 _velocity = (endDragPos - startDragPos).normalized * power;
 
-            Vector2[] trajectory = Plot(rb, (Vector2)transform.position, _velocity, steps, maxDistance);
+            Vector2[] trajectory = Plot(playerRB, (Vector2)transform.position, _velocity, steps, maxDistance);
 
             lr.positionCount = trajectory.Length;
 
@@ -51,10 +52,10 @@ public class SlingshotJump : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 endDragPos = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector2 _velocity = (endDragPos - startDragPos) * power;
 
-            rb.velocity = _velocity;
+            playerRB.velocity = _velocity;
         }
     }
 
