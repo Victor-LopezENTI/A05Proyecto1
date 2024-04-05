@@ -40,7 +40,7 @@ public class RopeManager : MonoBehaviour
             ((InputManager.Instance.moveInput < 0 && transform.position.x < selectedHook.transform.position.x) ||
             (InputManager.Instance.moveInput > 0 && transform.position.x < selectedHook.transform.position.x)))
             {
-                playerRB.AddForce(new Vector2(InputManager.Instance.moveInput * 10, 0));
+                playerRB.AddForce(new Vector2(InputManager.Instance.moveInput * 20, 0));
             }
             playerRB.velocity = Vector2.ClampMagnitude(playerRB.velocity, 100);
         }

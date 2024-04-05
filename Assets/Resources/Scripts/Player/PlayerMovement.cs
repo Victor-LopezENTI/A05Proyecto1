@@ -90,21 +90,18 @@ public class PlayerMovement : MonoBehaviour
         switch (playerStateMachine.currentState)
         {
             case PlayerStateMachine.PlayerState.Idle:
-                playerRB.velocity = new(0f, playerRB.velocity.y);
                 playerAnimator.Play("idle");
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.Walking:
                 moveSpeed = moveSpeedWalk;
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 playerAnimator.Play("walk");
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
-                playerRB.velocity = new(0f, playerRB.velocity.y);
-
+                moveSpeed = moveSpeedChargeJump;
                 holdTimer += Time.deltaTime;
                 if (holdTimer > maxHoldTime)
                 {
