@@ -90,20 +90,21 @@ public class PlayerMovement : MonoBehaviour
         switch (playerStateMachine.currentState)
         {
             case PlayerStateMachine.PlayerState.Idle:
-                holdTimer = 0f;
+                playerRB.velocity = new(0f, playerRB.velocity.y);
                 playerAnimator.Play("idle");
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.Walking:
-                holdTimer = 0f;
                 moveSpeed = moveSpeedWalk;
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 playerAnimator.Play("walk");
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
-                moveSpeed = moveSpeedChargeJump;
+                playerRB.velocity = new(0f, playerRB.velocity.y);
+
                 holdTimer += Time.deltaTime;
                 if (holdTimer > maxHoldTime)
                 {
@@ -120,11 +121,10 @@ public class PlayerMovement : MonoBehaviour
                     playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce/jumpForce), minJumpForce));
                 else
                     playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer));
+                holdTimer = 0f;
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
-                holdTimer = 0f;
-                moveSpeed = moveSpeedJump;
                 playerAnimator.Play("jump");
                 //playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
@@ -139,11 +139,10 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:
-                moveSpeed = 0f;
+                playerRB.velocity = new(0f, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
-                moveSpeed = 0f;
                 playerRB.velocity = slingshotJump.velocity;
                 break;
         }
