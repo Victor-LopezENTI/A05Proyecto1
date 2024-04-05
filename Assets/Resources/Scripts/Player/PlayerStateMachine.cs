@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 
 public class PlayerStateMachine : MonoBehaviour
 {
+    public static PlayerStateMachine Instance { get; private set; }
+
     public enum PlayerState
     {
         Idle,
@@ -15,6 +17,12 @@ public class PlayerStateMachine : MonoBehaviour
         StartingJump,
         Jumping,
         Falling,
+
+        // Slingshot states
+        ChargingSlingshot,
+        StartingSlingshot,
+
+        //Rope States
         Roping
 
     };
@@ -33,6 +41,28 @@ public class PlayerStateMachine : MonoBehaviour
     private const float distanceFromGround = 0.75f;
     public bool onGround { get; private set; }
 
+    // Slingshot variables
+    private SlingshotJump slingshotJump;
+
+    private void Awake()
+    {
+        #region Singleton Pattern
+
+        if (Instance != null)
+        {
+            Debug.Log("There is already an instance of " + Instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        #endregion
+
+        slingshotJump = GetComponent<SlingshotJump>();
+    }
+
     private void FixedUpdate()
     {
         // Groundcheck
@@ -44,21 +74,34 @@ public class PlayerStateMachine : MonoBehaviour
 
         if (onGround)
         {
-            // Jumping
-            if (!jumpInput && lastState == PlayerState.ChargingJump)
-                currentState = PlayerState.StartingJump;
+            if (jumpInput)
+            {
+                // ChargingJump
+                if (!slingshotJump.onSlingShot)
+                    currentState = PlayerState.ChargingJump;
 
-            // ChargingJump
-            else if (jumpInput)
-                currentState = PlayerState.ChargingJump;
+                // ChargingSlingshot
+                else if (slingshotJump.onSlingShot)
+                    currentState = PlayerState.ChargingSlingshot;
+            }
+            else
+            {
+                // StartingJump
+                if (lastState == PlayerState.ChargingJump)
+                    currentState = PlayerState.StartingJump;
 
-            // Idle
-            else if (moveInput == 0)
-                currentState = PlayerState.Idle;
+                // StartingSlingshot
+                else if (lastState == PlayerState.ChargingSlingshot)
+                    currentState = PlayerState.StartingSlingshot;
 
-            // Walking
-            else if (moveInput != 0)
-                currentState = PlayerState.Walking;
+                // Idle
+                else if (moveInput == 0)
+                    currentState = PlayerState.Idle;
+
+                // Walking
+                else if (moveInput != 0)
+                    currentState = PlayerState.Walking;
+            }
         }
         else
         {
@@ -71,7 +114,7 @@ public class PlayerStateMachine : MonoBehaviour
                 currentState = PlayerState.Jumping;
 
             // Falling
-            else
+            else if (PlayerMovement.Instance.playerRB.velocity.y < 0)
                 currentState = PlayerState.Falling;
         }
 
