@@ -12,12 +12,17 @@ public class RopeManager : MonoBehaviour
     [SerializeField] GameObject ropePrefab;
     LineRenderer existingRope;
     GameObject selectedHook;
-    bool hookAvailable;
+    bool hingeConnected = false;
+    [SerializeField] float ropeExpansionSpeed;
     private void Update()
     {
-        if(hookAvailable && ropeHasTrajectory())
+        if (selectedHook != null && Input.GetKeyDown("e") && existingRope == null)
         {
-
+            launchRope(selectedHook.transform);
+        }
+        if (existingRope != null)
+        {
+            existingRope.SetPosition(0, playerRB.transform.position);
         }
     }
     void launchRope(Transform hook)
@@ -32,26 +37,60 @@ public class RopeManager : MonoBehaviour
     }
     bool ropeHasTrajectory(Transform hook)
     {
-        return Physics2D.Linecast(playerRB.transform.position, hook.position, obstacleLayers);
+        return !Physics2D.Linecast(playerRB.transform.position, hook.position, obstacleLayers);
+    }
+    public void compareHook(GameObject hook)
+    {
+        if (ropeHasTrajectory(hook.transform))
+        {
+            if (selectedHook == null)
+            {
+                selectedHook = hook;
+                hook.GetComponent<TopHooksBehaviour>().setHilight(true);
+            }
+            else if(existingRope == null && Vector2.Distance(playerRB.transform.position, hook.transform.position) < Vector2.Distance(playerRB.transform.position, selectedHook.transform.position))
+            {
+                selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
+                selectedHook = null;
+                selectedHook = hook;
+                hook.GetComponent<TopHooksBehaviour>().setHilight(true);
+            }
+        }
+        else
+        {
+            if (selectedHook == hook)
+            {
+                deselectHook();
+            }
+        }
+    }
+    public void checkExittingHook(GameObject hook)
+    {
+        if(selectedHook == hook)
+        {
+            deselectHook();
+        }
+    }
+    void deselectHook()
+    {
+        if (existingRope != null)
+        {
+            Destroy(existingRope.gameObject);
+            hingeConnected = false;
+        }
+        selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
+        selectedHook = null;
     }
     IEnumerator ExpandLine(Transform hook)
     {
-        for(float i = 0; i < 1; i += 0.05f * Time.deltaTime)
+        for (float i = 0; i < 1; i += Time.deltaTime * ropeExpansionSpeed)
         {
-            existingRope.SetPosition(1, new Vector3(Mathf.Lerp(playerRB.transform.position.x, hook.position.x, i), Mathf.Lerp(playerRB.transform.position.y, hook.position.y, i), 0));
+            existingRope.SetPosition(0, playerRB.transform.position);
+            existingRope.SetPosition(1, Vector3.Lerp(playerRB.transform.position, hook.position, i));
+            yield return null;
         }
         existingRope.SetPosition(1, hook.position);
+        hingeConnected = true;
         yield break;
-    }
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("UpHook"))
-        {
-            if(ropeHasTrajectory(col.transform) && (selectedHook == null) || (selectedHook != null && Vector2.Distance(playerRB.transform.position, col.transform.position) < Vector2.Distance(playerRB.transform.position, selectedHook.transform.position))
-            {
-                selectedHook = col.gameObject;
-            }
-            else
-        }
     }
 }
