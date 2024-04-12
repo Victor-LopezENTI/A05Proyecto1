@@ -157,7 +157,7 @@ MonoBehaviour:
   lines:
   - Your objective on these levels is to reach the end of it.
   - For that you have to get to the ring to be able to move one to the next Level.
-  textSpeed: 0.03
+  textSpeed: 0.005
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
 --- !u!61 &53589299
@@ -3031,7 +3031,7 @@ MonoBehaviour:
   - Moving forward  you'll need to be able to move through platforms.
   - The solution to it is by pressing the Space Bar to generate a powered jump.
   - You can even jump higher by mantaining it!! Give it a try.
-  textSpeed: 0.03
+  textSpeed: 0.005
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
 --- !u!61 &706401182
@@ -3128,7 +3128,7 @@ MonoBehaviour:
   lines:
   - You've reached the end of this first part, yay!
   - See you on the next one.
-  textSpeed: 0.03
+  textSpeed: 0.005
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
 --- !u!61 &763174566
@@ -4007,55 +4007,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1227462511 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3420810968454564090, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
-  m_PrefabInstance: {fileID: 1869590778}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1227462512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1227462511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
-  m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
 --- !u!1 &1277107452
 GameObject:
   m_ObjectHideFlags: 0
@@ -4174,7 +4125,7 @@ MonoBehaviour:
   - If you get too tired of me you can press F to fast forward the text.
   - 'First of all, we''ll guide you through the begining of this journey. '
   - 'Therefore by start pressing A & D you''ll be able to start moving '
-  textSpeed: 0.03
+  textSpeed: 0.005
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
 --- !u!61 &1323896799
@@ -4340,6 +4291,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1468043629 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7898108294583593380, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+  m_PrefabInstance: {fileID: 1869590778}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1471208107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4947,6 +4909,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
+--- !u!114 &1631225710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3854632845923100422, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+  m_PrefabInstance: {fileID: 1869590778}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1787068421 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8055755525152338109, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
@@ -5025,17 +4998,26 @@ PrefabInstance:
       propertyPath: m_ChildCameras.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_ChildCameras.Array.data[0]
+      value: 
+      objectReference: {fileID: 1631225710}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_ChildCameras.Array.data[1]
+      value: 
+      objectReference: {fileID: 1468043629}
     - target: {fileID: 3420810968454564090, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 3420810968454564090, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3420810968454564090, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1227462512}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
 --- !u!1 &2044718684 stripped
 GameObject:

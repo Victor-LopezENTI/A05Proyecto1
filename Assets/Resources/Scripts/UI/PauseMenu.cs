@@ -40,8 +40,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void EnterSettings()
     {
-        settingsON = true;
-        paused = true;
+
     }
 
     public void ExitSettings()
