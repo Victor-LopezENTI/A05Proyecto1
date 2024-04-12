@@ -502,7 +502,7 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 58
       m_TileSpriteIndex: 58
-      m_TileMatrixIndex: 1
+      m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -1375,34 +1375,16 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 1135211813, guid: c5dda9d480fc61f42bc1cab159aa7242, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 91
-    m_Data:
-      e00: 0.9999976
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 0.9999976
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 0.9999976
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  - m_RefCount: 1
+  - m_RefCount: 92
     m_Data:
       e00: 1
       e01: 0
       e02: 0
-      e03: -45.34336
+      e03: 0
       e10: 0
       e11: 1
       e12: 0
-      e13: 35.90305
+      e13: 0
       e20: 0
       e21: 0
       e22: 1
@@ -1487,11 +1469,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
-<<<<<<< HEAD
---- !u!114 &7440287322218674723
-=======
 --- !u!114 &5081312859911183138
->>>>>>> origin/feature/victor
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
