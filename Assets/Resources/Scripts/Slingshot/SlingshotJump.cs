@@ -17,7 +17,7 @@ public class SlingshotJump : MonoBehaviour
     [SerializeField] private float slingShotBuffer = 0f;
     [SerializeField] private const float maxSlingShotBuffer = 1f;
 
-    [SerializeField] public bool onSlingShot { get; private set; } = true;
+    [SerializeField] public bool onSlingShot { get; private set; } = false;
     [SerializeField] private bool chargingSlingshot = false;
 
     private Vector2 startPos;
@@ -69,6 +69,18 @@ public class SlingshotJump : MonoBehaviour
             endPos = new(slingShotBuffer * 100, slingShotBuffer * 100);
             velocity = (endPos - startPos).normalized * slingshotForce;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Slingshot")
+            onSlingShot = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Slingshot")
+            onSlingShot = false;
     }
 
     void Update()

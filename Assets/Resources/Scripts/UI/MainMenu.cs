@@ -5,17 +5,33 @@ using UnityEngine.UIElements;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject settingsMenu;
+    public GameObject creditsMenu;
+    public GameObject mainMenu;
+
     private UIDocument doc;
     private List<Button> buttons = new List<Button>();
+    private Button start;
+    private Button settings;
+    private Button credits;
+    private Button quit;
 
-    private void Awake()
+    private void Update()
     {
         doc = GetComponent<UIDocument>();
-        buttons = doc.rootVisualElement.Query<Button>().ToList();
+        start = doc.rootVisualElement.Q("StartButton") as Button;
+        settings = doc.rootVisualElement.Q("SettingsButton") as Button;
+        credits = doc.rootVisualElement.Q("CreditsButton") as Button;
+        quit = doc.rootVisualElement.Q("QuitButton") as Button;
+
+        start.RegisterCallback<ClickEvent>(OnStartButtonsClick);
+        settings.RegisterCallback<ClickEvent>(OnSettingsButtonsClick);
+        credits.RegisterCallback<ClickEvent>(OnCreditsButtonsClick);
+        quit.RegisterCallback<ClickEvent>(OnQuitButtonsClick);
 
         for (int i = 0; i < buttons.Count; i++)
         {
-            buttons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
+            buttons[i].RegisterCallback<ClickEvent>(ActivateMainMenu);
         }
     }
 
@@ -23,12 +39,31 @@ public class MainMenu : MonoBehaviour
     {
         for (int i = 0;i < buttons.Count;i++)
         {
-            buttons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
+            buttons[i].UnregisterCallback<ClickEvent>(ActivateMainMenu);
         }
     }
 
-    private void OnAllButtonsClick(ClickEvent evnt)
+    private void ActivateMainMenu(ClickEvent evnt)
     {
-        gameObject.SetActive(false);
+        mainMenu.SetActive(true);
+    }
+
+    private void OnStartButtonsClick(ClickEvent evnt)
+    {
+        SceneController.instance.NextLevel();
+    }
+    private void OnSettingsButtonsClick(ClickEvent evnt)
+    {
+        mainMenu.SetActive(false);
+        settingsMenu.SetActive(true);
+    }
+    private void OnCreditsButtonsClick(ClickEvent evnt)
+    {
+        mainMenu.SetActive(false);
+        creditsMenu.SetActive(true);
+    }
+    private void OnQuitButtonsClick(ClickEvent evnt)
+    {
+        Application.Quit();
     }
 }

@@ -20,7 +20,11 @@ public class PlayerStateMachine : MonoBehaviour
 
         // Slingshot states
         ChargingSlingshot,
-        StartingSlingshot
+        StartingSlingshot,
+
+        //Rope States
+        Roping
+
     };
 
     // Player states variables
@@ -35,7 +39,7 @@ public class PlayerStateMachine : MonoBehaviour
     // Groundcheck variables
     [SerializeField] private LayerMask groundLayer;
     private const float distanceFromGround = 0.75f;
-    private bool onGround;
+    public bool onGround { get; private set; }
 
     // Slingshot variables
     private SlingshotJump slingshotJump;
@@ -101,8 +105,12 @@ public class PlayerStateMachine : MonoBehaviour
         }
         else
         {
+            if (GetComponent<RopeManager>().hingeConnected)
+            {
+                currentState = PlayerState.Roping;
+            }
             // Ascending
-            if (PlayerMovement.Instance.playerRB.velocity.y >= 0)
+            else if (PlayerMovement.Instance.playerRB.velocity.y >= 0)
                 currentState = PlayerState.Jumping;
 
             // Falling
