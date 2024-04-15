@@ -192,7 +192,15 @@ MonoBehaviour:
   m_ChildCameras:
   - {fileID: 3854632845923100422}
   - {fileID: 7898108294583593380}
-  m_Instructions: []
+  m_Instructions:
+  - m_FullHash: -1298030919
+    m_VirtualCamera: {fileID: 3854632845923100422}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
+  - m_FullHash: 1455586357
+    m_VirtualCamera: {fileID: 7898108294583593380}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 0.5
