@@ -53,7 +53,10 @@ public class InputManager : MonoBehaviour
     // Horizontal movement input [A | D]
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<float>();
+        if (!RotationManager.Instance.chamberUpsideDown)
+            moveInput = context.ReadValue<float>();
+        else
+            moveInput = -context.ReadValue<float>();
     }
 
     // Jump input [Spacebar]

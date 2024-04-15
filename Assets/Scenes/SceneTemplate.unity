@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &496575140 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7898108294583593380, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+  m_PrefabInstance: {fileID: 1319341474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &686981346
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,8 +178,19 @@ Transform:
   - {fileID: 1925485960}
   - {fileID: 2111270431}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &812587204 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3854632845923100422, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+  m_PrefabInstance: {fileID: 1319341474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1133174338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247,7 +269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6532852219761283813, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6532852219761283813, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -308,7 +330,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1992473407299941685, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1992473407299941685, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
       propertyPath: m_LocalPosition.x
@@ -352,11 +374,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
       propertyPath: m_ChildCameras.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_Instructions.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_ChildCameras.Array.data[0]
+      value: 
+      objectReference: {fileID: 812587204}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_ChildCameras.Array.data[1]
+      value: 
+      objectReference: {fileID: 496575140}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_Instructions.Array.data[0].m_FullHash
+      value: -1298030919
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_Instructions.Array.data[1].m_FullHash
+      value: 1455586357
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_Instructions.Array.data[0].m_VirtualCamera
+      value: 
+      objectReference: {fileID: 812587204}
+    - target: {fileID: 2018936143810360994, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_Instructions.Array.data[1].m_VirtualCamera
+      value: 
+      objectReference: {fileID: 496575140}
     - target: {fileID: 3420810968454564090, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
       propertyPath: m_Name
-      value: Main Camera
+      value: State Driven Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6933793157845393752, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6933793157845393752, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
       propertyPath: field of view
@@ -366,7 +420,13 @@ PrefabInstance:
       propertyPath: orthographic size
       value: 16.589697
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7898108294583593380, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 16.5897
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1681338010596337977, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
+    - {fileID: 6933793157845393752, guid: ce6cc7e027ad6c840a3570232e26ccef, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2123,6 +2183,24 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
+  - m_RefCount: 0
+    m_Data:
+      e00: -1.7731263e-21
+      e01: 0
+      e02: 5.5000076
+      e03: 5.5000076
+      e10: 6.36e-43
+      e11: 0
+      e12: 6.33e-43
+      e13: 6.33e-43
+      e20: -1.8659383e+30
+      e21: -1.5714192e-29
+      e22: -4.3878664e-19
+      e23: 1.6547e-41
+      e30: 4.5904e-41
+      e31: 6.36e-43
+      e32: 6.33e-43
+      e33: 6.36e-43
   m_TileColorArray:
   - m_RefCount: 162
     m_Data: {r: 1, g: 1, b: 1, a: 1}
@@ -2628,3 +2706,64 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &2086035345970869776
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 686986542298964631, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_Name
+      value: Camera Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
