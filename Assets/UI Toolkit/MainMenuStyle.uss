@@ -8,17 +8,17 @@
 
 .button {
     font-size: 20px;
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
+    -unity-font-style: italic;
+    -unity-text-align: upper-center;
     -unity-text-outline-width: 1px;
     align-self: center;
-    width: 220px;
-    height: 60px;
+    width: 200px;
+    height: 70px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 0;
-    background-image: url('project://database/Assets/Sprites/FightGame/POSTPRO/overlay.png?fileID=2800000&guid=e272e39261a77af46a915cc6355087db&type=3#overlay');
+    background-image: url('project://database/Assets/Sprites/UI/Button_2nd_option-Sheet.png?fileID=1497615295&guid=867afeb15994cb748876ce0f506c0494&type=3#Button_2nd_option-Sheet_0');
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -26,13 +26,18 @@
     margin-top: 62px;
     margin-left: -492px;
     -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold');
+    -unity-font: url('project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold');
     color: rgb(255, 255, 255);
-    transition-duration: 0.2s;
+    background-color: rgba(0, 0, 0, 0);
+    transform-origin: bottom;
 }
 
 .button:hover {
     background-color: rgba(0, 0, 0, 0);
     scale: 1.1 1.1;
     -unity-background-image-tint-color: rgb(36, 62, 176);
+    transition-property: all;
+    transition-duration: 0s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
 }

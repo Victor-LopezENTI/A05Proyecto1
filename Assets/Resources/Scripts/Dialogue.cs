@@ -12,6 +12,7 @@ public class Dialogue : MonoBehaviour
 
     private int index;
     private bool near;
+    private bool alreadyEntered;
     public GameObject contButton;
     public GameObject dialoguePanel;
 
@@ -80,11 +81,12 @@ public class Dialogue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !alreadyEntered)
         {
             near = true;
             dialoguePanel.SetActive(true);
             StartDialogue();
+            alreadyEntered = true;
         }
     }
 

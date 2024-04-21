@@ -387,6 +387,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3936152729109470757, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
   m_PrefabInstance: {fileID: 1968097586}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1258070585 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7133862679820176132, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+  m_PrefabInstance: {fileID: 1968097586}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1593895589
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +641,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1279941928084621546, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 1258070585}
     - target: {fileID: 1279941928084621546, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: mainMenu
       value: 
