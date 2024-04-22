@@ -70,7 +70,7 @@ public class PlayerStateMachine : MonoBehaviour
 
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
-        jumpInput = InputManager.Instance.jumpInput == 1;
+        jumpInput = InputManager.Instance.jumpInput;
 
         if (onGround)
         {
