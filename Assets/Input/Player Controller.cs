@@ -37,6 +37,15 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Movimiento Vertical"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b7c62491-b3ef-4c53-b8b2-556ab9ca50ad"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Salto"",
                     ""type"": ""Button"",
                     ""id"": ""681f3d52-a9f6-4a4c-b8d5-e8df76d50366"",
@@ -194,6 +203,50 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""Mouse Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75566e2f-6cc3-4de2-811f-8568cd1f00a1"",
+                    ""path"": ""<Gamepad>/leftStick/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movimiento Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard Y Axis"",
+                    ""id"": ""c0ba634a-e5ec-4b15-a5b6-96c6e1101733"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movimiento Vertical"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""b3a0cc21-9837-4d08-8e0e-422fe82c012c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movimiento Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7614e20d-99d6-4e07-9206-23d012512aa0"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movimiento Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -203,6 +256,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_MovimientoHorizontal = m_Player.FindAction("Movimiento Horizontal", throwIfNotFound: true);
+        m_Player_MovimientoVertical = m_Player.FindAction("Movimiento Vertical", throwIfNotFound: true);
         m_Player_Salto = m_Player.FindAction("Salto", throwIfNotFound: true);
         m_Player_Interactuar = m_Player.FindAction("Interactuar", throwIfNotFound: true);
         m_Player_Cancelar = m_Player.FindAction("Cancelar", throwIfNotFound: true);
@@ -269,6 +323,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_MovimientoHorizontal;
+    private readonly InputAction m_Player_MovimientoVertical;
     private readonly InputAction m_Player_Salto;
     private readonly InputAction m_Player_Interactuar;
     private readonly InputAction m_Player_Cancelar;
@@ -278,6 +333,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         private @PlayerController m_Wrapper;
         public PlayerActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @MovimientoHorizontal => m_Wrapper.m_Player_MovimientoHorizontal;
+        public InputAction @MovimientoVertical => m_Wrapper.m_Player_MovimientoVertical;
         public InputAction @Salto => m_Wrapper.m_Player_Salto;
         public InputAction @Interactuar => m_Wrapper.m_Player_Interactuar;
         public InputAction @Cancelar => m_Wrapper.m_Player_Cancelar;
@@ -294,6 +350,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @MovimientoHorizontal.started += instance.OnMovimientoHorizontal;
             @MovimientoHorizontal.performed += instance.OnMovimientoHorizontal;
             @MovimientoHorizontal.canceled += instance.OnMovimientoHorizontal;
+            @MovimientoVertical.started += instance.OnMovimientoVertical;
+            @MovimientoVertical.performed += instance.OnMovimientoVertical;
+            @MovimientoVertical.canceled += instance.OnMovimientoVertical;
             @Salto.started += instance.OnSalto;
             @Salto.performed += instance.OnSalto;
             @Salto.canceled += instance.OnSalto;
@@ -313,6 +372,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @MovimientoHorizontal.started -= instance.OnMovimientoHorizontal;
             @MovimientoHorizontal.performed -= instance.OnMovimientoHorizontal;
             @MovimientoHorizontal.canceled -= instance.OnMovimientoHorizontal;
+            @MovimientoVertical.started -= instance.OnMovimientoVertical;
+            @MovimientoVertical.performed -= instance.OnMovimientoVertical;
+            @MovimientoVertical.canceled -= instance.OnMovimientoVertical;
             @Salto.started -= instance.OnSalto;
             @Salto.performed -= instance.OnSalto;
             @Salto.canceled -= instance.OnSalto;
@@ -345,6 +407,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMovimientoHorizontal(InputAction.CallbackContext context);
+        void OnMovimientoVertical(InputAction.CallbackContext context);
         void OnSalto(InputAction.CallbackContext context);
         void OnInteractuar(InputAction.CallbackContext context);
         void OnCancelar(InputAction.CallbackContext context);

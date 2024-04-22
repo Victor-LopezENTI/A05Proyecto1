@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Movimiento Vertical",
+                    "type": "PassThrough",
+                    "id": "b7c62491-b3ef-4c53-b8b2-556ab9ca50ad",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Salto",
                     "type": "Button",
                     "id": "681f3d52-a9f6-4a4c-b8d5-e8df76d50366",
@@ -172,6 +181,50 @@
                     "action": "Mouse Click",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "75566e2f-6cc3-4de2-811f-8568cd1f00a1",
+                    "path": "<Gamepad>/leftStick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Keyboard Y Axis",
+                    "id": "c0ba634a-e5ec-4b15-a5b6-96c6e1101733",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "b3a0cc21-9837-4d08-8e0e-422fe82c012c",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "7614e20d-99d6-4e07-9206-23d012512aa0",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

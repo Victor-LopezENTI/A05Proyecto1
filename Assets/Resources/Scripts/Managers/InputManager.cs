@@ -40,6 +40,7 @@ public class InputManager : MonoBehaviour
 
     // Input variables
     public float moveInput { get; private set; }
+    public float vInput {  get; private set; }
     public bool jumpInput { get; private set; }
     public bool clickInput { get; private set; }
     public bool interactInput { get; private set; }
@@ -58,6 +59,11 @@ public class InputManager : MonoBehaviour
             moveInput = context.ReadValue<float>();
         else
             moveInput = -context.ReadValue<float>();
+    }
+    //Vertical movement input [W | S]
+    public void OnVertical(InputAction.CallbackContext context)
+    {
+            vInput = context.ReadValue<float>();
     }
 
     // Jump input [Spacebar]

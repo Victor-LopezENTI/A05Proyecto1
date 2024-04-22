@@ -6,6 +6,7 @@ using UnityEditor.Build.Content;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     private Animator playerAnimator;
     private SpriteRenderer playerSprite;
     private SlingshotJump slingshotJump;
+    private RopeManager ropeManager;
+    [SerializeField] Image chargeBar;
+    [SerializeField] Canvas playerUI;
 
     // Input variables
     private float moveInput;
@@ -35,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     // Movement variables
     public bool facingRight { get; private set; }
     private float moveSpeed;
+    private float verticalInput;
     private const float moveSpeedWalk = 400f;
     private const float moveSpeedChargeJump = 0f;
     private const float moveSpeedJump = 350f;
@@ -67,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         playerSprite = GetComponent<SpriteRenderer>();
         slingshotJump = GetComponent<SlingshotJump>();
+        ropeManager = GetComponent<RopeManager>();
     }
 
     private void Update()
@@ -85,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
+        verticalInput = InputManager.Instance.vInput;
 
         // Switch all possibla PlayerStates
         switch (playerStateMachine.currentState)
@@ -101,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
+                playerUI.enabled = true;
                 moveSpeed = moveSpeedChargeJump;
                 holdTimer += Time.deltaTime;
                 if (holdTimer > maxHoldTime)
@@ -108,11 +116,13 @@ public class PlayerMovement : MonoBehaviour
                     holdTimer = maxHoldTime;
                 }
                 holdNormTimer = Mathf.Lerp(0, 1, holdTimer / maxHoldTime);
+                chargeBar.fillAmount = holdNormTimer;
                 playerAnimator.Play("charge_jump");
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                playerUI.enabled = false;
                 moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
                     playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce/jumpForce), minJumpForce));
@@ -132,7 +142,10 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.Roping:
-
+                if(verticalInput != 0)
+                {
+                    //ropeManager.climbRope(verticalInput);
+                }
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:
