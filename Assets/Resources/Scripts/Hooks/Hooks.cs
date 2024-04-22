@@ -9,7 +9,7 @@ public class Hooks : MonoBehaviour
     //private float hooks = 0;
 
     [SerializeField] private Text Pickuptext;
-    public SpawnerHooks spHook;
+    //public SpawnerHooks spHook;
     //[SerializeField] private GameObject obj;
 
     //private bool canPickUp;
