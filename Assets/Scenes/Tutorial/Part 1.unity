@@ -277,7 +277,6 @@ GameObject:
   - component: {fileID: 227906174}
   - component: {fileID: 227906173}
   - component: {fileID: 227906172}
-  - component: {fileID: 227906176}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -316,7 +315,7 @@ Animator:
   m_GameObject: {fileID: 227906170}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 02222b87ee7fde340ba9126e0e17034f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5947d5bb954bdc5498041974c0528ea9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -346,7 +345,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -371,7 +370,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 227906176}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ButtonAnim, Assembly-CSharp
         m_MethodName: ButtonClicked
         m_Mode: 1
@@ -421,19 +420,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227906170}
   m_CullTransparentMesh: 1
---- !u!114 &227906176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227906170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91e9518eacacb6b42a5d46d4a25fc3a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 227906172}
 --- !u!114 &255759695 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7744645705427018016, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
@@ -3672,7 +3658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 163}
   m_SizeDelta: {x: -200, y: -370}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &940069662
@@ -4105,7 +4091,7 @@ Animator:
   m_GameObject: {fileID: 1205511643}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 02222b87ee7fde340ba9126e0e17034f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5947d5bb954bdc5498041974c0528ea9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5545,9 +5531,41 @@ PrefabInstance:
       value: 0.4117647
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_Transition
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1040523527}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ExitSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1281434917891683780, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Name
       value: UIManager
@@ -5606,7 +5624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4960889474937693941, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5874847895623900699, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_AnchorMax.x
