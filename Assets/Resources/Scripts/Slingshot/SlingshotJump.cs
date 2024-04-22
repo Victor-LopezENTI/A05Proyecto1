@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SlingshotJump : MonoBehaviour
 {
     [SerializeField] private LineRenderer lr;
 
     private Rigidbody2D playerRB;
-
-    [SerializeField] private float slingshotForce = 15f;
+    
+    [SerializeField] private float slingshotForce = 5f;
     [SerializeField] private int steps = 500;
+    
 
     PlayerStateMachine playerStateMachine;
 
@@ -30,8 +32,7 @@ public class SlingshotJump : MonoBehaviour
         playerStateMachine = PlayerStateMachine.Instance;
         playerRB = PlayerMovement.Instance.playerRB;
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     private void FixedUpdate()
@@ -53,9 +54,7 @@ public class SlingshotJump : MonoBehaviour
 
     void Update()
     {
-
-        
-        /*
+       
         if (Input.GetMouseButtonDown(0))
             startPos = transform.position;
 
@@ -63,10 +62,10 @@ public class SlingshotJump : MonoBehaviour
         {
             lr.enabled = true;
 
-            Vector2 endDragPos = cam.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 _velocity = (endDragPos - startPos).normalized * power;
+            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 _velocity = (endDragPos - startPos) * slingshotForce;
 
-            Vector2[] trajectory = Plot(playerRB, (Vector2)transform.position, _velocity, steps, maxDistance);
+            Vector2[] trajectory = Plot(playerRB, (Vector2)transform.position, _velocity, steps, 30f);
 
             lr.positionCount = trajectory.Length;
 
@@ -86,15 +85,15 @@ public class SlingshotJump : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            Vector2 endDragPos = cam.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 _velocity = (endDragPos - startPos) * power;
+            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 _velocity = (endDragPos - startPos) * slingshotForce;
 
             playerRB.velocity = _velocity;
         }
-        */
+        
     }
 
-    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
+    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps, float maxDistance)
     {
         Vector2[] results = new Vector2[steps];
 
@@ -105,11 +104,12 @@ public class SlingshotJump : MonoBehaviour
         Vector2 moveStep = velocity * timestep;
 
         float distance = 0f;
+        
 
         for (int i = 0; i < steps; i++)
         {
-            // if (distance >= maxDistance)
-            //   break;
+            if (distance >= maxDistance)
+            break;
 
             moveStep += gravityAccel;
             moveStep *= drag;
