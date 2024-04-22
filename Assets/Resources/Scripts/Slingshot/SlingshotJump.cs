@@ -13,7 +13,6 @@ public class SlingshotJump : MonoBehaviour
 
     PlayerStateMachine playerStateMachine;
 
-    private bool jumpInput;
     [SerializeField] private float slingShotBuffer = 0f;
     [SerializeField] private const float maxSlingShotBuffer = 1f;
 
@@ -30,45 +29,14 @@ public class SlingshotJump : MonoBehaviour
         lr = GetComponent<LineRenderer>();
         playerStateMachine = PlayerStateMachine.Instance;
         playerRB = PlayerMovement.Instance.playerRB;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void FixedUpdate()
     {
-        jumpInput = InputManager.Instance.jumpInput == 1;
-
-        chargingSlingshot = onSlingShot && jumpInput;
-
-        if (chargingSlingshot)
-        {
-            lr.enabled = true;
-
-            if (slingShotBuffer < maxSlingShotBuffer)
-                slingShotBuffer += Time.deltaTime;
-            else
-                slingShotBuffer = maxSlingShotBuffer;
-
-            startPos = transform.position;
-            endPos = new(slingShotBuffer * 100, slingShotBuffer * 100);
-            Vector2 _velocity = (endPos - startPos).normalized * slingshotForce;
-
-            Vector2[] trajectory = Plot(playerRB, transform.position, _velocity, steps);
-
-            lr.positionCount = trajectory.Length;
-
-            Vector3[] positions = new Vector3[trajectory.Length];
-
-            for (int i = 0; i < trajectory.Length; i++)
-                positions[i] = trajectory[i];
-
-            lr.SetPositions(positions);
-        }
-        else if (!jumpInput)
-        {
-            slingShotBuffer = 0f;
-            lr.enabled = false;
-            endPos = new(slingShotBuffer * 100, slingShotBuffer * 100);
-            velocity = (endPos - startPos).normalized * slingshotForce;
-        }
+        chargingSlingshot = onSlingShot;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -85,6 +53,8 @@ public class SlingshotJump : MonoBehaviour
 
     void Update()
     {
+
+        
         /*
         if (Input.GetMouseButtonDown(0))
             startPos = transform.position;
