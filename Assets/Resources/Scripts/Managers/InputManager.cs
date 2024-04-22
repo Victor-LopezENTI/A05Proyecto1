@@ -40,8 +40,9 @@ public class InputManager : MonoBehaviour
 
     // Input variables
     public float moveInput { get; private set; }
-    public float jumpInput { get; private set; }
-    public float interactInput { get; private set; }
+    public bool jumpInput { get; private set; }
+    public bool clickInput { get; private set; }
+    public bool interactInput { get; private set; }
 
     private void Awake()
     {
@@ -62,12 +63,21 @@ public class InputManager : MonoBehaviour
     // Jump input [Spacebar]
     public void OnJump(InputAction.CallbackContext context)
     {
-        jumpInput = context.ReadValue<float>();
+        float fJumpInput = context.ReadValue<float>();
+        jumpInput = fJumpInput > 0;
     }
 
     // Interaction input [E]
     public void OnInteract(InputAction.CallbackContext context)
     {
-        interactInput = context.ReadValue<float>();
+        float fInteractInput = context.ReadValue<float>();
+        interactInput = fInteractInput > 0;
+    }
+
+    // Click input [LMB]
+    public void OnClick(InputAction.CallbackContext context)
+    {
+        float fClickInput = context.ReadValue<float>();
+        clickInput = fClickInput > 0;
     }
 }
