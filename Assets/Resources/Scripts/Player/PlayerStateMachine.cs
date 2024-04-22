@@ -77,22 +77,21 @@ public class PlayerStateMachine : MonoBehaviour
             if (jumpInput)
             {
                 // ChargingJump
-                if (!slingshotJump.onSlingShot)
-                    currentState = PlayerState.ChargingJump;
-
-                // ChargingSlingshot
-                else if (slingshotJump.onSlingShot)
-                    currentState = PlayerState.ChargingSlingshot;
+                currentState = PlayerState.ChargingJump;
             }
             else
             {
-                // StartingJump
-                if (lastState == PlayerState.ChargingJump)
-                    currentState = PlayerState.StartingJump;
+                // StartingSlingshot
+                if (Input.GetMouseButtonUp(0))
+                    currentState = PlayerState.StartingSlingshot;
 
                 // StartingSlingshot
                 else if (lastState == PlayerState.ChargingSlingshot)
                     currentState = PlayerState.StartingSlingshot;
+
+                // StartingJump
+                else if (lastState == PlayerState.ChargingJump)
+                    currentState = PlayerState.StartingJump;
 
                 // Idle
                 else if (moveInput == 0)
@@ -105,10 +104,12 @@ public class PlayerStateMachine : MonoBehaviour
         }
         else
         {
+            // Roping
             if (GetComponent<RopeManager>().hingeConnected)
             {
                 currentState = PlayerState.Roping;
             }
+
             // Ascending
             else if (PlayerMovement.Instance.playerRB.velocity.y >= 0)
                 currentState = PlayerState.Jumping;

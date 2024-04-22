@@ -62,15 +62,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Mouse Click"",
-                    ""type"": ""Button"",
-                    ""id"": ""2f503855-f96f-4a09-a4fb-55c1f2879418"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,17 +174,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""Cancelar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""09ce7892-f4dc-4d4b-abb7-842a3d469916"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Mouse Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,7 +186,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_Player_Salto = m_Player.FindAction("Salto", throwIfNotFound: true);
         m_Player_Interactuar = m_Player.FindAction("Interactuar", throwIfNotFound: true);
         m_Player_Cancelar = m_Player.FindAction("Cancelar", throwIfNotFound: true);
-        m_Player_MouseClick = m_Player.FindAction("Mouse Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -272,7 +251,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Salto;
     private readonly InputAction m_Player_Interactuar;
     private readonly InputAction m_Player_Cancelar;
-    private readonly InputAction m_Player_MouseClick;
     public struct PlayerActions
     {
         private @PlayerController m_Wrapper;
@@ -281,7 +259,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         public InputAction @Salto => m_Wrapper.m_Player_Salto;
         public InputAction @Interactuar => m_Wrapper.m_Player_Interactuar;
         public InputAction @Cancelar => m_Wrapper.m_Player_Cancelar;
-        public InputAction @MouseClick => m_Wrapper.m_Player_MouseClick;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -303,9 +280,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Cancelar.started += instance.OnCancelar;
             @Cancelar.performed += instance.OnCancelar;
             @Cancelar.canceled += instance.OnCancelar;
-            @MouseClick.started += instance.OnMouseClick;
-            @MouseClick.performed += instance.OnMouseClick;
-            @MouseClick.canceled += instance.OnMouseClick;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -322,9 +296,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Cancelar.started -= instance.OnCancelar;
             @Cancelar.performed -= instance.OnCancelar;
             @Cancelar.canceled -= instance.OnCancelar;
-            @MouseClick.started -= instance.OnMouseClick;
-            @MouseClick.performed -= instance.OnMouseClick;
-            @MouseClick.canceled -= instance.OnMouseClick;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -348,6 +319,5 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         void OnSalto(InputAction.CallbackContext context);
         void OnInteractuar(InputAction.CallbackContext context);
         void OnCancelar(InputAction.CallbackContext context);
-        void OnMouseClick(InputAction.CallbackContext context);
     }
 }

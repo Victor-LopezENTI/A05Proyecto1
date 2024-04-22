@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
-                playerRB.velocity = slingshotJump.velocity;
+                playerRB.AddForce(slingshotJump.velocity);
                 break;
         }
     }

@@ -41,7 +41,6 @@ public class InputManager : MonoBehaviour
     // Input variables
     public float moveInput { get; private set; }
     public bool jumpInput { get; private set; }
-    public bool clickInput { get; private set; }
     public bool interactInput { get; private set; }
 
     private void Awake()
@@ -72,12 +71,5 @@ public class InputManager : MonoBehaviour
     {
         float fInteractInput = context.ReadValue<float>();
         interactInput = fInteractInput > 0;
-    }
-
-    // Click input [LMB]
-    public void OnClick(InputAction.CallbackContext context)
-    {
-        float fClickInput = context.ReadValue<float>();
-        clickInput = fClickInput > 0;
     }
 }

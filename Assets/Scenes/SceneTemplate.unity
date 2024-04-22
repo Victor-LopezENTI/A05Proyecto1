@@ -2457,7 +2457,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 11
-      m_TileSpriteIndex: 11
+      m_TileSpriteIndex: 12
       m_TileMatrixIndex: 0
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -2467,7 +2467,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 10
-      m_TileSpriteIndex: 10
+      m_TileSpriteIndex: 11
       m_TileMatrixIndex: 0
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -2477,7 +2477,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 6
-      m_TileSpriteIndex: 6
+      m_TileSpriteIndex: 10
       m_TileMatrixIndex: 0
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -2554,8 +2554,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: 362405565, guid: c5dda9d480fc61f42bc1cab159aa7242, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: -1326159425, guid: c5dda9d480fc61f42bc1cab159aa7242, type: 3}
   - m_RefCount: 1
@@ -2563,11 +2563,11 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: -958220462, guid: c5dda9d480fc61f42bc1cab159aa7242, type: 3}
   - m_RefCount: 1
+    m_Data: {fileID: 362405565, guid: c5dda9d480fc61f42bc1cab159aa7242, type: 3}
+  - m_RefCount: 1
     m_Data: {fileID: 200518879, guid: c5dda9d480fc61f42bc1cab159aa7242, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 1569123341, guid: c5dda9d480fc61f42bc1cab159aa7242, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 6
     m_Data:
@@ -2688,6 +2688,10 @@ PrefabInstance:
     - target: {fileID: 686986542298964631, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
       propertyPath: m_Name
       value: Camera Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 686986542298964631, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 7681737862636442514, guid: 486c7c2dfcbe2514d9ee89aa72ddb30c, type: 3}
       propertyPath: m_RootOrder
