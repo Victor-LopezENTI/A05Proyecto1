@@ -191,6 +191,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &915668805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 915668806}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &915668806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915668805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.1753485, y: -2.7851837, z: 7.0877843}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1133174338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -226,10 +257,6 @@ PrefabInstance:
     - target: {fileID: 1362663552124734422, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: distanceFromGround
       value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1362663552124734422, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
-      propertyPath: groundLayer.m_Bits
-      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 5038510777711977240, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_Color.a
@@ -2628,13 +2655,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crate
       objectReference: {fileID: 0}
+    - target: {fileID: 3465918574423141264, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465918574423141264, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
+      propertyPath: m_UseFullKinematicContacts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3724841385727529323, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 2.78
       objectReference: {fileID: 0}
     - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
       propertyPath: m_LocalPosition.y
