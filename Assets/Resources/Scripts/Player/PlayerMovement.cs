@@ -3,37 +3,43 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Build.Content;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    #region Variables
-
     public static PlayerMovement Instance { get; private set; }
 
-    private PlayerStateMachine playerStateMachine;
+    #region Variables
+
+    PlayerStateMachine playerStateMachine;
+
+    // Player components
     public Rigidbody2D playerRB { get; private set; }
     private Animator playerAnimator;
     private SpriteRenderer playerSprite;
+    private SlingshotJump slingshotJump;
 
     // Input variables
     private float moveInput;
+    //private bool canInput;
 
     // Jump timer variables
-    [SerializeField]
     private float holdTimer;
-    private const float maxHoldTime = 1f;
+    [SerializeField] private float holdNormTimer;
+    private const float maxHoldTime = 0.5f;
 
     // Movement variables
+    public bool facingRight { get; private set; }
     private float moveSpeed;
     private const float moveSpeedWalk = 400f;
-    private const float moveSpeedChargeJump = 150f;
-    private const float moveSpeedJump = 330f;
+    private const float moveSpeedChargeJump = 0f;
+    private const float moveSpeedJump = 350f;
 
     // Jump variables
-    private const float jumpForce = 400;
-    private const float minJumpForce = 200f;
+    private const float jumpForce = 1250f;
+    private const float minJumpForce = 625f;
 
     #endregion
 
@@ -58,6 +64,19 @@ public class PlayerMovement : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         playerSprite = GetComponent<SpriteRenderer>();
+        slingshotJump = GetComponent<SlingshotJump>();
+    }
+
+    private void Update()
+    {
+        // Flip the player sprite
+        if (moveInput != 0 &&
+            playerStateMachine.currentState != PlayerStateMachine.PlayerState.Jumping &&
+            playerStateMachine.currentState != PlayerStateMachine.PlayerState.Falling)
+        {
+            facingRight = moveInput < 0;
+            playerSprite.flipX = facingRight;
+        }
     }
 
     private void FixedUpdate()
@@ -65,22 +84,13 @@ public class PlayerMovement : MonoBehaviour
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
 
-        // Flip the player sprite
-        if (moveInput != 0)
-            playerSprite.flipX = moveInput < 0;
-
-        // Player states
+        // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
-            case PlayerStateMachine.PlayerState.Idle:
-                holdTimer = 0f;
-                playerAnimator.Play("idle");
-                break;
-
             case PlayerStateMachine.PlayerState.Walking:
-                holdTimer = 0f;
                 moveSpeed = moveSpeedWalk;
                 playerAnimator.Play("walk");
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
@@ -88,27 +98,47 @@ public class PlayerMovement : MonoBehaviour
                 holdTimer += Time.deltaTime;
                 if (holdTimer > maxHoldTime)
                     holdTimer = maxHoldTime;
-                playerAnimator.Play("idle");
+
+                holdNormTimer = Mathf.Lerp(0, 1, holdTimer / maxHoldTime);
+                playerAnimator.Play("charge_jump");
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
-                    playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, minJumpForce * Time.deltaTime);
+                    playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce));
                 else
-                    playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, jumpForce * holdTimer * Time.deltaTime);
+                    playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer));
+                holdTimer = 0f;
+                break;
+
+            case PlayerStateMachine.PlayerState.Roping:
+
+                break;
+
+            case PlayerStateMachine.PlayerState.ChargingSlingshot:
+                playerRB.velocity = new(0f, playerRB.velocity.y);
+                break;
+
+            case PlayerStateMachine.PlayerState.StartingSlingshot:
+                playerRB.AddForce(slingshotJump.escapeForce);
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
-                holdTimer = 0f;
-                moveSpeed = moveSpeedJump;
                 playerAnimator.Play("jump");
+                //playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
+                //playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 playerAnimator.Play("fall");
                 break;
-        }
 
-        playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+            case PlayerStateMachine.PlayerState.Idle:
+                playerAnimator.Play("idle");
+                playerRB.velocity = new(0f, playerRB.velocity.y);
+                break;
+        }
     }
 }

@@ -97,6 +97,5 @@ public class Dialogue : MonoBehaviour
             dialoguePanel.SetActive(false);
             StopAllCoroutines();
         }
-
     }
 }

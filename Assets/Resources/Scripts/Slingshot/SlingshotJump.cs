@@ -1,66 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SlingshotJump : MonoBehaviour
 {
+    private LineRenderer playerLR;
+    private Rigidbody2D playerRB;
 
-    public float power = 5f;
+    [SerializeField] private float slingshotBuffer;
+    [SerializeField] private float slingshotForce = 500f;
+    private const int steps = 500;
 
-    [SerializeField]LineRenderer lr;
-    [SerializeField]Rigidbody2D rb;
-    [SerializeField] public int steps;
-    [SerializeField] public float maxDistance;
-    bool hookAvailable;
-    Vector2 startDragPos;
+    [SerializeField] private bool m_onSlingShot;
+    public bool onSlingShot { get => m_onSlingShot; private set => m_onSlingShot = value; }
+    [SerializeField] private bool m_chargingSlingshot;
+    public bool chargingSlingshot { get => m_chargingSlingshot; private set => m_chargingSlingshot = value; }
+    public bool startSlingshot { get; private set; }
+
+    public Vector2 escapeForce { get; private set; }
+    private Vector2 dragStartPos;
 
     void Start()
     {
-       
-        lr = GetComponent<LineRenderer>();
-        rb = GetComponent<Rigidbody2D>();
+        playerLR = GetComponent<LineRenderer>();
+        playerRB = PlayerMovement.Instance.playerRB;
+        chargingSlingshot = false;
+        onSlingShot = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
-            startDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (Input.GetMouseButton(0))
+        if (onSlingShot)
         {
-            lr.enabled = true;
-
-            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 _velocity = (endDragPos - startDragPos).normalized * power;
-
-            Vector2[] trajectory = Plot(rb, (Vector2)transform.position, _velocity, steps, maxDistance);
-
-            lr.positionCount = trajectory.Length;
-
-            Vector3[] positions = new Vector3[trajectory.Length];
-
-            for (int i = 0; i < trajectory.Length; i++)
+            if (InputManager.Instance.clickInput && !chargingSlingshot)
             {
-                positions[i] = trajectory[i];
+                chargingSlingshot = true;
+                playerLR.enabled = true;
+                dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
+            else if (InputManager.Instance.clickInput && chargingSlingshot)
+            {
+                Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
+                escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
 
-            lr.SetPositions(positions);
-        }
-        else
-        {
-            lr.enabled = false;
-        }
+                Vector2[] trajectory = Plot(playerRB, playerRB.position, escapeForce, steps);
+                playerLR.positionCount = trajectory.Length;
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 _velocity = (endDragPos - startDragPos) * power;
+                Vector3[] positions = new Vector3[trajectory.Length];
+                for (int i = 0; i < trajectory.Length; i++)
+                    positions[i] = trajectory[i];
 
-            rb.velocity = _velocity;
+                playerLR.SetPositions(positions);
+            }
+            else if (InputManager.Instance.clickReleased && chargingSlingshot)
+            {
+                startSlingshot = true;
+                chargingSlingshot = false;
+                //playerLR.enabled = false;
+                Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce;
+            }
+            else
+                startSlingshot = false;
         }
     }
 
-    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps, float maxDistance)
+    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
     {
         Vector2[] results = new Vector2[steps];
 
@@ -74,9 +82,6 @@ public class SlingshotJump : MonoBehaviour
 
         for (int i = 0; i < steps; i++)
         {
-            if (distance >= maxDistance)
-                break;
-
             moveStep += gravityAccel;
             moveStep *= drag;
             pos += moveStep;
@@ -87,11 +92,15 @@ public class SlingshotJump : MonoBehaviour
 
         return results;
     }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.tag == "Slingshot")
+                onSlingShot = true;
+        }
 
-    public bool CheckHookAvailable()
-    {
-
-        return true;
-    }
-
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.gameObject.tag == "Slingshot")
+                onSlingShot = false;
+        }
 }
