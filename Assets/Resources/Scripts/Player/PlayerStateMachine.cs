@@ -40,7 +40,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     // Groundcheck variables
     [SerializeField] private LayerMask groundLayer;
-    private const float distanceFromGround = 0.75f;
+    private const float distanceFromGround = 1f;
     [SerializeField] private bool m_onGround;
     public bool onGround { get => m_onGround; private set => m_onGround = value; }
 
@@ -110,9 +110,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             // Roping
             if (GetComponent<RopeManager>().hingeConnected)
-            {
                 currentState = PlayerState.Roping;
-            }
 
             // Jumping
             else if (PlayerMovement.Instance.playerRB.velocity.y >= 0)
