@@ -16,30 +16,39 @@
                 },
                 {
                     "name": "Salto",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "681f3d52-a9f6-4a4c-b8d5-e8df76d50366",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Interactuar",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "ed398bea-2508-4621-b94f-ed7ed4a24da4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Cancelar",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "a8599679-4216-4604-a539-0080ad8ec294",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Acción",
+                    "type": "Value",
+                    "id": "6ca0ded4-8569-48f8-8557-8dc647cc48c1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -150,6 +159,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cancelar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "37ed3e0b-fd7f-496e-be37-c862044ba1f8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Acción",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
