@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/PauseMenuStyle.uss?fileID=7433441132597879392&amp;guid=ce138bd75ce062a4398f6a452f6e2f8c&amp;type=3#PauseMenuStyle" />
     <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 0);">
-        <ui:VisualElement style="flex-grow: 1; background-color: rgb(0, 0, 0); height: 49px; width: 354px; color: rgb(0, 0, 0); background-image: none;" />
-        <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" class="text" style="top: -25px; right: 5px; color: rgb(31, 31, 31);" />
-        <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" class="text" />
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.67); color: rgba(0, 0, 0, 0.75); flex-shrink: 0; height: 760px; width: 1513px;" />
+        <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" name="Label" class="text" style="top: -650px; right: 5px; color: rgb(31, 31, 31); font-size: 80px;" />
+        <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" class="text" style="font-size: 80px; margin-bottom: -183px; margin-top: 0; top: -623px; right: -4px;" />
         <ui:Button text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="button" />
         <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="button" style="margin-top: 40px;" />
         <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="button" style="margin-top: 39px;" />
