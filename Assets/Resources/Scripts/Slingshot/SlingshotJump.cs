@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SlingshotJump : MonoBehaviour
@@ -9,7 +6,7 @@ public class SlingshotJump : MonoBehaviour
     private Rigidbody2D playerRB;
 
     [SerializeField] private float slingshotBuffer;
-    [SerializeField] private float slingshotForce = 500f;
+    [SerializeField] private const float slingshotForce = 101f;
     private const int steps = 500;
 
     [SerializeField] private bool m_onSlingShot;
@@ -20,11 +17,16 @@ public class SlingshotJump : MonoBehaviour
 
     public Vector2 escapeForce { get; private set; }
     private Vector2 dragStartPos;
+    private Vector2[] trajectory;
+
+    private void Awake()
+    {
+        playerLR = GetComponent<LineRenderer>();
+        playerRB = GetComponent<Rigidbody2D>();
+    }
 
     void Start()
     {
-        playerLR = GetComponent<LineRenderer>();
-        playerRB = PlayerMovement.Instance.playerRB;
         chargingSlingshot = false;
         onSlingShot = true;
     }
@@ -42,17 +44,25 @@ public class SlingshotJump : MonoBehaviour
             else if (InputManager.Instance.clickInput && chargingSlingshot)
             {
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
                 slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
                 escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
 
-                Vector2[] trajectory = Plot(playerRB, playerRB.position, escapeForce, steps);
-                playerLR.positionCount = trajectory.Length;
+                float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x);
+                Debug.Log(angle);
+                if (angle >= 0)
+                {
+                    trajectory = new Vector2[steps];
+                    trajectory = Plot(playerRB, playerRB.position, escapeForce, steps);
 
-                Vector3[] positions = new Vector3[trajectory.Length];
-                for (int i = 0; i < trajectory.Length; i++)
-                    positions[i] = trajectory[i];
+                    playerLR.positionCount = trajectory.Length;
 
-                playerLR.SetPositions(positions);
+                    Vector3[] positions = new Vector3[trajectory.Length];
+                    for (int i = 0; i < trajectory.Length; i++)
+                        positions[i] = trajectory[i];
+
+                    playerLR.SetPositions(positions);
+                }
             }
             else if (InputManager.Instance.clickReleased && chargingSlingshot)
             {
@@ -92,15 +102,15 @@ public class SlingshotJump : MonoBehaviour
 
         return results;
     }
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.tag == "Slingshot")
-                onSlingShot = true;
-        }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Slingshot")
+            onSlingShot = true;
+    }
 
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.gameObject.tag == "Slingshot")
-                onSlingShot = false;
-        }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Slingshot")
+            onSlingShot = false;
+    }
 }
