@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
             case PlayerStateMachine.PlayerState.Walking:
                 moveSpeed = moveSpeedWalk;
                 playerAnimator.Play("walk");
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, 0);
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 
                 holdNormTimer = Mathf.Lerp(0, 1, holdTimer / maxHoldTime);
                 playerAnimator.Play("charge_jump");
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:

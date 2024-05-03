@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Android;
 
 public class TopHooksBehaviour : MonoBehaviour
 {
     [SerializeField] GameObject highlight;
     private void Start()
     {
-        if(highlight == null)
+        if (highlight == null)
             highlight = transform.GetChild(0).gameObject;
     }
 

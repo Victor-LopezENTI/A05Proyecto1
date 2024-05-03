@@ -108,11 +108,11 @@ public class PlayerStateMachine : MonoBehaviour
                 currentState = PlayerState.Roping;
 
             // Jumping
-            else if (PlayerMovement.Instance.playerRB.velocity.y >= 0)
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y >= 0)
                 currentState = PlayerState.Jumping;
 
             // Falling
-            else if (PlayerMovement.Instance.playerRB.velocity.y < 0)
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y < 0)
                 currentState = PlayerState.Falling;
         }
         lastState = currentState;

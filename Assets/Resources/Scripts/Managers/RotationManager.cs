@@ -1,7 +1,5 @@
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RotationManager : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class RotationManager : MonoBehaviour
 
     #region Variables
 
-    public Vector2 globalDirection {  get; private set; } = Vector2.one;
+    public Vector2 globalDirection { get; private set; } = Vector2.one;
 
     // Whether the chamber is upside down or not
     public bool chamberUpsideDown { get; private set; } = false;
@@ -54,7 +52,7 @@ public class RotationManager : MonoBehaviour
     {
         if (InputManager.Instance.interactInput)
             rotateLevel();
-            
+
         if (onTransition)
         {
             Time.timeScale = 0f;
