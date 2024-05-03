@@ -540,7 +540,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0.107142866, y: 0.53571427, z: 0}
+  m_ChunkCullingBounds: {x: 0, y: 0.35294116, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -2363,32 +2363,32 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1925485963}
     m_ColliderPaths:
-    - - X: 271071424
-        Y: 155357136
-      - X: -271071424
-        Y: 155357136
-      - X: -271071424
-        Y: -145357136
-      - X: 271071424
-        Y: -145357136
-    - - X: -258928560
-        Y: -124642856
-      - X: -258928560
-        Y: 134642864
-      - X: 258928560
-        Y: 134642864
-      - X: 258928560
-        Y: -124642856
+    - - X: 270000000
+        Y: 153529408
+      - X: -270000000
+        Y: 153529408
+      - X: -270000000
+        Y: -143529408
+      - X: 270000000
+        Y: -143529408
+    - - X: -260000000
+        Y: -126470584
+      - X: -260000000
+        Y: 136470592
+      - X: 260000000
+        Y: 136470592
+      - X: 260000000
+        Y: -126470584
   m_CompositePaths:
     m_Paths:
-    - - {x: 27.107115, y: -14.535714}
-      - {x: 27.107115, y: 15.535714}
-      - {x: -27.107143, y: 15.535685}
-      - {x: -27.107115, y: -14.535714}
-    - - {x: 25.892857, y: -12.464256}
-      - {x: -25.892857, y: -12.464256}
-      - {x: -25.892828, y: 13.464287}
-      - {x: 25.892857, y: 13.464258}
+    - - {x: 26.999971, y: -14.352941}
+      - {x: 26.999971, y: 15.352941}
+      - {x: -27, y: 15.352912}
+      - {x: -26.999971, y: -14.352941}
+    - - {x: 26, y: -12.647029}
+      - {x: -26, y: -12.647029}
+      - {x: -25.999971, y: 13.647059}
+      - {x: 26, y: 13.647031}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -2468,7 +2468,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 2.7142856, y: 4.285714, z: 0}
+  m_ChunkCullingBounds: {x: 2.1470587, y: 3.4411764, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
