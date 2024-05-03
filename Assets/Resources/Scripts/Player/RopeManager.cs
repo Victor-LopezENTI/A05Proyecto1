@@ -19,7 +19,11 @@ public class RopeManager : MonoBehaviour
 
     private void Update()
     {
+<<<<<<< HEAD
         if (selectedHook != null && !playerSM.onGround && InputManager.Instance.clickInput && existingRope == null)
+=======
+        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.jumpInput != 0 && existingRope == null)
+>>>>>>> feature/victor
         {
             launchRope(selectedHook.transform);
         }
@@ -27,7 +31,11 @@ public class RopeManager : MonoBehaviour
         {
             existingRope.SetPosition(0, playerRB.transform.position);
         }
+<<<<<<< HEAD
         if (existingRope != null && (!InputManager.Instance.clickInput || playerSM.onGround))
+=======
+        if (existingRope != null && (InputManager.Instance.jumpInput == 0 || playerSM.onGround))
+>>>>>>> feature/victor
         {
             destroyRope();
         }
