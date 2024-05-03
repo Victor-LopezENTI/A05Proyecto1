@@ -70,10 +70,37 @@ public class RotationManager : MonoBehaviour
     // FixedUpdate will NOT be called when the game is paused
     private void FixedUpdate()
     {
+        Debug.Log(globalDirection);
+
         if (actionBuffer < maxActionBuffer)
             actionBuffer += Time.deltaTime;
         else
             actionBuffer = maxActionBuffer;
+    }
+
+    public void rotateLevel()
+    {
+        if (isAbleToRotate())
+        {
+            globalDirection = -globalDirection;
+            chamberUpsideDown = !chamberUpsideDown;
+            transitionCamera();
+
+            // Change the gravity
+            changeGravity();
+
+            // Rotate the player
+            float rotationAngle;
+            if (chamberUpsideDown)
+                rotationAngle = 180f;
+            else
+                rotationAngle = 0f;
+
+            PlayerMovement.Instance.transform.DORotate(new(0, 0, rotationAngle), maxTransitionBuffer).SetUpdate(true).SetEase(Ease.InOutSine);
+
+            // Reset the action buffer
+            actionBuffer = 0f;
+        }
     }
 
     private void changeGravity()
