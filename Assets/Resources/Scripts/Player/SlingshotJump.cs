@@ -6,8 +6,8 @@ public class SlingshotJump : MonoBehaviour
     private Rigidbody2D playerRB;
 
     [SerializeField] private float slingshotBuffer;
-    [SerializeField] private const float slingshotForce = 101f;
-    private const int steps = 500;
+    [SerializeField] private const float slingshotForce = 100f;
+    [SerializeField] private const int steps = 200;
 
     [SerializeField] private bool m_onSlingShot;
     public bool onSlingShot { get => m_onSlingShot; private set => m_onSlingShot = value; }
@@ -97,6 +97,7 @@ public class SlingshotJump : MonoBehaviour
             results[i] = pos;
 
             distance += moveStep.magnitude;
+
         }
 
         return results;
