@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,10 +40,8 @@ public class InputManager : MonoBehaviour
 
     // Input variables
     public float moveInput { get; private set; }
-    public bool jumpInput { get; private set; }
-    public bool interactInput { get; private set; }
-    public bool clickInput { get; private set; }
-    public bool clickReleased { get; private set; }
+    public float jumpInput { get; private set; }
+    public float interactInput { get; private set; }
 
     private void Awake()
     {
@@ -49,40 +50,21 @@ public class InputManager : MonoBehaviour
         playerController.Enable();
     }
 
-    private void FixedUpdate()
-    {
-        clickReleased = false;
-    }
-
     // Horizontal movement input [A | D]
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (RotationManager.Instance.chamberUpsideDown)
-            moveInput = -context.ReadValue<float>();
-        else
-            moveInput = context.ReadValue<float>();
+        moveInput = context.ReadValue<float>();
     }
 
     // Jump input [Spacebar]
     public void OnJump(InputAction.CallbackContext context)
     {
-        float fJumpInput = context.ReadValue<float>();
-        jumpInput = fJumpInput != 0;
+        jumpInput = context.ReadValue<float>();
     }
 
     // Interaction input [E]
     public void OnInteract(InputAction.CallbackContext context)
     {
-        float fInteractInput = context.ReadValue<float>();
-        interactInput = fInteractInput != 0;
-    }
-
-    // Action input [LMB]
-    public void OnClick(InputAction.CallbackContext context)
-    {
-        float fClickInput = context.ReadValue<float>();
-        clickInput = fClickInput != 0;
-
-        clickReleased = context.canceled;
+        interactInput = context.ReadValue<float>();
     }
 }

@@ -13,7 +13,7 @@ public class RotationManager : MonoBehaviour
     private Animator cameraAnimator;
 
     // Whether the chamber is upside down or not
-    public bool chamberUpsideDown { get; private set; } = false;
+    private bool chamberUpsideDown = false;
 
     // Anti-spam buffer between chamber rotations
     [SerializeField] private float actionBuffer = 0f;
@@ -50,6 +50,9 @@ public class RotationManager : MonoBehaviour
     // Update WILL be called when the game is paused
     private void Update()
     {
+        if (InputManager.Instance.interactInput == 1)
+            rotateLevel();
+
         if (onTransition)
         {
             Time.timeScale = 0f;

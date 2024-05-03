@@ -18,7 +18,7 @@ public class RopeManager : MonoBehaviour
     private Vector3 savedPos;
     private void Update()
     {
-        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.jumpInput && existingRope == null)
+        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.jumpInput != 0 && existingRope == null)
         {
             launchRope(selectedHook.transform);
         }
@@ -26,7 +26,7 @@ public class RopeManager : MonoBehaviour
         {
             existingRope.SetPosition(0, playerRB.transform.position);
         }
-        if (existingRope != null && (!InputManager.Instance.jumpInput|| playerSM.onGround))
+        if (existingRope != null && (InputManager.Instance.jumpInput == 0 || playerSM.onGround))
         {
             destroyRope();
         }
