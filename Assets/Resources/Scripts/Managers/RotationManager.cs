@@ -15,9 +15,6 @@ public class RotationManager : MonoBehaviour
     // The animated target containing the camera states
     private Animator cameraAnimator;
 
-    // Whether the chamber is upside down or not
-    private bool chamberUpsideDown = false;
-
     // Anti-spam buffer between chamber rotations
     [SerializeField] private float actionBuffer = 0f;
     private const float maxActionBuffer = 2.5f;
@@ -53,7 +50,7 @@ public class RotationManager : MonoBehaviour
     // Update WILL be called when the game is paused
     private void Update()
     {
-        if (InputManager.Instance.interactInput == 1)
+        if (InputManager.Instance.interactInput)
             rotateLevel();
 
         if (onTransition)
@@ -77,6 +74,32 @@ public class RotationManager : MonoBehaviour
             actionBuffer += Time.deltaTime;
         else
             actionBuffer = maxActionBuffer;
+    }
+
+    public void rotateLevel()
+    {
+        globalDirection = -globalDirection;
+
+        if (isAbleToRotate())
+        {
+            chamberUpsideDown = !chamberUpsideDown;
+            transitionCamera();
+
+            // Change the gravity
+            changeGravity();
+
+            // Rotate the player
+            float rotationAngle;
+            if (chamberUpsideDown)
+                rotationAngle = 180f;
+            else
+                rotationAngle = 0f;
+
+            PlayerMovement.Instance.transform.DORotate(new(0, 0, rotationAngle), maxTransitionBuffer).SetUpdate(true).SetEase(Ease.InOutSine);
+
+            // Reset the action buffer
+            actionBuffer = 0f;
+        }
     }
 
     private void changeGravity()
@@ -107,27 +130,4 @@ public class RotationManager : MonoBehaviour
         onTransition = true;
     }
 
-    public void rotateLevel()
-    {
-        if (isAbleToRotate())
-        {
-            chamberUpsideDown = !chamberUpsideDown;
-            transitionCamera();
-
-            // Change the gravity
-            changeGravity();
-
-            // Rotate the player
-            float rotationAngle;
-            if (chamberUpsideDown)
-                rotationAngle = 180f;
-            else
-                rotationAngle = 0f;
-
-            PlayerMovement.Instance.transform.DORotate(new(0, 0, rotationAngle), maxTransitionBuffer).SetUpdate(true).SetEase(Ease.InOutSine);
-
-            // Reset the action buffer
-            actionBuffer = 0f;
-        }
-    }
 }

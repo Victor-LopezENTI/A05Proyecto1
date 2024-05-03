@@ -13,9 +13,10 @@ public class RopeManager : MonoBehaviour
     [SerializeField] float ropeExpansionSpeed;
     [SerializeField] HingeJoint2D hjoint;
     private Vector3 savedPos;
+
     private void Update()
     {
-        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.jumpInput != 0 && existingRope == null)
+        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.clickInput && existingRope == null)
         {
             launchRope(selectedHook.transform);
         }
@@ -23,7 +24,7 @@ public class RopeManager : MonoBehaviour
         {
             existingRope.SetPosition(0, playerRB.transform.position);
         }
-        if (existingRope != null && (InputManager.Instance.jumpInput == 0 || playerSM.onGround))
+        if (existingRope != null && (!InputManager.Instance.clickInput || playerSM.onGround))
         {
             destroyRope();
         }
@@ -52,10 +53,12 @@ public class RopeManager : MonoBehaviour
             StartCoroutine(ExpandLine(hook));
         }
     }
+
     bool ropeHasTrajectory(Transform hook)
     {
         return !Physics2D.Linecast(playerRB.transform.position, hook.position, obstacleLayers);
     }
+
     public void compareHook(GameObject hook)
     {
         if (ropeHasTrajectory(hook.transform))
@@ -81,6 +84,7 @@ public class RopeManager : MonoBehaviour
             }
         }
     }
+
     public void checkExittingHook(GameObject hook)
     {
         if (selectedHook == hook)
@@ -88,6 +92,7 @@ public class RopeManager : MonoBehaviour
             deselectHook();
         }
     }
+
     void deselectHook()
     {
         if (existingRope != null)
@@ -97,6 +102,7 @@ public class RopeManager : MonoBehaviour
         selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
         selectedHook = null;
     }
+
     void hookIsConnected()
     {
         hingeConnected = true;
@@ -104,6 +110,7 @@ public class RopeManager : MonoBehaviour
         hjoint.connectedBody = selectedHook.GetComponent<Rigidbody2D>();
         hjoint.enabled = true;
     }
+
     void destroyRope()
     {
         selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0;
@@ -112,6 +119,7 @@ public class RopeManager : MonoBehaviour
         Destroy(existingRope.gameObject);
         hingeConnected = false;
     }
+
     IEnumerator ExpandLine(Transform hook)
     {
         for (float i = 0; i < 1; i += Time.deltaTime * ropeExpansionSpeed)

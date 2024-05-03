@@ -46,7 +46,7 @@ public class PauseMenu : MonoBehaviour
     public void ExitSettings()
     {
         settingsON = false;
-        pauseMenuUI.SetActive(true);
+        paused = false;
     }
 
     public void Quit()
