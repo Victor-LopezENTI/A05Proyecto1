@@ -1,14 +1,13 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class SlingshotJump : MonoBehaviour
 {
     private LineRenderer playerLR;
     private Rigidbody2D playerRB;
-    
-    [SerializeField] private float slingshotForce = 5f;
-    [SerializeField] private int steps = 500;
-    
+
+    [SerializeField] private float slingshotBuffer;
+    [SerializeField] private const float slingshotForce = 101f;
+    private const int steps = 500;
 
     [SerializeField] private bool m_onSlingShot;
     public bool onSlingShot { get => m_onSlingShot; private set => m_onSlingShot = value; }
@@ -22,11 +21,8 @@ public class SlingshotJump : MonoBehaviour
 
     private void Awake()
     {
-        lr = GetComponent<LineRenderer>();
-        playerStateMachine = PlayerStateMachine.Instance;
-        playerRB = PlayerMovement.Instance.playerRB;
-
-
+        playerLR = GetComponent<LineRenderer>();
+        playerRB = GetComponent<Rigidbody2D>();
     }
 
     void Start()
@@ -37,23 +33,7 @@ public class SlingshotJump : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (collision.gameObject.tag == "Slingshot")
-            onSlingShot = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Slingshot")
-            onSlingShot = false;
-    }
-
-    void Update()
-    {
-       
-        if (Input.GetMouseButtonDown(0))
-            startPos = transform.position;
-
-        if (Input.GetMouseButton(0))
+        if (onSlingShot)
         {
             if (InputManager.Instance.clickInput && !chargingSlingshot)
             {
@@ -65,10 +45,14 @@ public class SlingshotJump : MonoBehaviour
             {
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 _velocity = (endDragPos - startPos) * slingshotForce;
+                slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
+                escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
 
-            Vector2[] trajectory = Plot(playerRB, (Vector2)transform.position, _velocity, steps, 30f);
+                float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x);
+                if (angle >= 0)
+                {
+                    trajectory = new Vector2[steps];
+                    trajectory = Plot(playerRB, playerRB.position, escapeForce, steps);
 
                     playerLR.positionCount = trajectory.Length;
 
@@ -83,7 +67,7 @@ public class SlingshotJump : MonoBehaviour
             {
                 startSlingshot = true;
                 chargingSlingshot = false;
-                //playerLR.enabled = false;
+                playerLR.enabled = false;
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce;
@@ -91,22 +75,9 @@ public class SlingshotJump : MonoBehaviour
             else
                 startSlingshot = false;
         }
-        else
-        {
-            lr.enabled = false;
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            Vector2 endDragPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 _velocity = (endDragPos - startPos) * slingshotForce;
-
-            playerRB.velocity = _velocity;
-        }
-        
     }
 
-    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps, float maxDistance)
+    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
     {
         Vector2[] results = new Vector2[steps];
 
@@ -117,13 +88,9 @@ public class SlingshotJump : MonoBehaviour
         Vector2 moveStep = velocity * timestep;
 
         float distance = 0f;
-        
 
         for (int i = 0; i < steps; i++)
         {
-            if (distance >= maxDistance)
-            break;
-
             moveStep += gravityAccel;
             moveStep *= drag;
             pos += moveStep;
