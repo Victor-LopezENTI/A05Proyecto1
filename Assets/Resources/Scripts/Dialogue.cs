@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class Dialogue : MonoBehaviour
     private bool alreadyEntered;
     public GameObject contButton;
     public GameObject dialoguePanel;
+    public List<string> importantTxt;
 
     private void Start()
     {
@@ -54,10 +56,33 @@ public class Dialogue : MonoBehaviour
 
     IEnumerator TypeLine()
     {
-        foreach (char c in lines[index].ToCharArray())
+        string line = lines[index];
+        string partialLine = "";
+
+        for (int i = 0; i < line.Length; i++)
         {
-            txt.text += c;
-            yield return new WaitForSeconds(textSpeed);
+            partialLine += line[i];
+
+            foreach (string palabra in importantTxt)
+            {
+                if (partialLine.EndsWith(palabra))
+                {
+                    partialLine = partialLine.Substring(0, partialLine.Length - palabra.Length) + "<color=red>" + palabra + "</color>";
+                }
+            }
+
+            txt.text = partialLine;
+            yield return new WaitForSeconds(textSpeed); 
+        }
+
+        foreach (string palabra in importantTxt)
+        {
+            if (partialLine.EndsWith(palabra))
+            {
+                partialLine += "</color>";
+                txt.text = partialLine;
+                break;
+            }
         }
     }
 
