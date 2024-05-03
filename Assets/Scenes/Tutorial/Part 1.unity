@@ -155,11 +155,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt: {fileID: 1825470827}
   lines:
-  - Your objective on these levels is to reach the end of it.
+  - Your goal on these levels is to reach the end of it.
   - For that you have to get to the ring to be able to move one to the next Level.
   textSpeed: 0.01
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
+  importantTxt:
+  - reach the end
+  - the ring
 --- !u!61 &53589299
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2893,12 +2896,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt: {fileID: 1825470827}
   lines:
-  - Moving forward  you'll need to be able to move through platforms.
-  - The solution to it is by pressing the Space Bar to generate a powered jump.
-  - You can even jump higher by mantaining it!! Give it a try.
+  - Moving forward you'll need to be able to move through platforms.
+  - You can do that by pressing the Space Bar to generate a powered jump.
   textSpeed: 0.01
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
+  importantTxt:
+  - Space Bar
+  - powered jump
 --- !u!61 &706401182
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2996,6 +3001,7 @@ MonoBehaviour:
   textSpeed: 0.01
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
+  importantTxt: []
 --- !u!61 &763174566
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3174,7 +3180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &930104296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3858,6 +3864,10 @@ MonoBehaviour:
   textSpeed: 0.01
   contButton: {fileID: 1597866767}
   dialoguePanel: {fileID: 930104294}
+  importantTxt:
+  - Nirak's Tower
+  - 'F to fast forward '
+  - A & D
 --- !u!61 &1323896799
 BoxCollider2D:
   m_ObjectHideFlags: 0
