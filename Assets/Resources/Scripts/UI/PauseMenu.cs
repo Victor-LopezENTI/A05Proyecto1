@@ -40,14 +40,13 @@ public class PauseMenu : MonoBehaviour
     }
     public void EnterSettings()
     {
-        settingsON = true;
-        paused = true;
+
     }
 
     public void ExitSettings()
     {
         settingsON = false;
-        paused = false;
+        pauseMenuUI.SetActive(true);
     }
 
     public void Quit()

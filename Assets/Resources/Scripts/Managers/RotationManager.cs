@@ -1,48 +1,68 @@
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class RotationManager : MonoBehaviour
 {
     public static RotationManager Instance { get; private set; }
 
-    [SerializeField] private CameraRotation cameraRotation;
-    
+    #region Variables
+
+    // The animated target containing the camera states
+    private Animator cameraAnimator;
+
     // Whether the chamber is upside down or not
-    public bool chamberUpsideDown { get; private set; } = false;
+    private bool chamberUpsideDown = false;
 
     // Anti-spam buffer between chamber rotations
-    [SerializeField] private float actionBuffer = 3f;
-    public const float maxActionBuffer = 2.5f;
+    [SerializeField] private float actionBuffer = 0f;
+    private const float maxActionBuffer = 2.5f;
+
+    // Transition buffer for the camera rotation
+    [SerializeField] private float transitionBuffer = 0f;
+    private const float maxTransitionBuffer = 2f;
+
+    // Whether the camera is transitioning or not
+    private bool onTransition = false;
+
+    #endregion
 
     private void Awake()
     {
         #region Singleton Pattern
 
-        if (Instance != null)
-        {
-            Debug.Log("There is already an instance of " + Instance);
-            Destroy(gameObject);
-        }
-        else
+        if (Instance == null)
         {
             Instance = this;
         }
+        else
+        {
+            Debug.LogWarning("There is more than one instance of RotationManager. Deleting the newest instance: " + gameObject.name);
+            Destroy(gameObject);
+        }
 
         #endregion
+
+        cameraAnimator = GetComponent<Animator>();
     }
 
     // Update WILL be called when the game is paused
     private void Update()
     {
         if (InputManager.Instance.interactInput == 1)
-        {
             rotateLevel();
-        }
 
-        if (cameraRotation.onTransition)
+        if (onTransition)
+        {
             Time.timeScale = 0f;
-
+            transitionBuffer += Time.unscaledDeltaTime;
+            if (transitionBuffer >= maxTransitionBuffer)
+            {
+                onTransition = false;
+                transitionBuffer = 0f;
+            }
+        }
         else
             Time.timeScale = 1f;
     }
@@ -52,6 +72,8 @@ public class RotationManager : MonoBehaviour
     {
         if (actionBuffer < maxActionBuffer)
             actionBuffer += Time.deltaTime;
+        else
+            actionBuffer = maxActionBuffer;
     }
 
     private void changeGravity()
@@ -64,10 +86,22 @@ public class RotationManager : MonoBehaviour
 
     private bool isAbleToRotate()
     {
-        if (actionBuffer >= maxActionBuffer)
+        if (actionBuffer == maxActionBuffer)
             return true;
         else
             return false;
+    }
+
+    private void transitionCamera()
+    {
+        if (chamberUpsideDown)
+            cameraAnimator.Play("Upside Down");
+        else
+            cameraAnimator.Play("Upside Up");
+
+        // Start the transition buffer
+        transitionBuffer = 0f;
+        onTransition = true;
     }
 
     public void rotateLevel()
@@ -75,7 +109,7 @@ public class RotationManager : MonoBehaviour
         if (isAbleToRotate())
         {
             chamberUpsideDown = !chamberUpsideDown;
-            cameraRotation.transitionCamera();
+            transitionCamera();
 
             // Change the gravity
             changeGravity();
@@ -87,12 +121,10 @@ public class RotationManager : MonoBehaviour
             else
                 rotationAngle = 0f;
 
-            PlayerMovement.Instance.rotatePlayer(rotationAngle, cameraRotation.maxTransitionBuffer);
+            PlayerMovement.Instance.transform.DORotate(new(0, 0, rotationAngle), maxTransitionBuffer).SetUpdate(true).SetEase(Ease.InOutSine);
 
             // Reset the action buffer
             actionBuffer = 0f;
         }
     }
-
-    public bool GetChamberUpsideDown() { return chamberUpsideDown; }
 }
