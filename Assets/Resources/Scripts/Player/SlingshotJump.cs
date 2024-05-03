@@ -6,8 +6,8 @@ public class SlingshotJump : MonoBehaviour
     private Rigidbody2D playerRB;
 
     [SerializeField] private float slingshotBuffer;
-    [SerializeField] private const float slingshotForce = 101f;
-    private const int steps = 500;
+    [SerializeField] private const float slingshotForce = 100f;
+    [SerializeField] private const int steps = 200;
 
     [SerializeField] private bool m_onSlingShot;
     public bool onSlingShot { get => m_onSlingShot; private set => m_onSlingShot = value; }
@@ -49,7 +49,6 @@ public class SlingshotJump : MonoBehaviour
                 escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
 
                 float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x);
-                Debug.Log(angle);
                 if (angle >= 0)
                 {
                     trajectory = new Vector2[steps];
@@ -68,7 +67,7 @@ public class SlingshotJump : MonoBehaviour
             {
                 startSlingshot = true;
                 chargingSlingshot = false;
-                //playerLR.enabled = false;
+                playerLR.enabled = false;
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce;
@@ -98,19 +97,20 @@ public class SlingshotJump : MonoBehaviour
             results[i] = pos;
 
             distance += moveStep.magnitude;
+
         }
 
         return results;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Slingshot")
+        if (collision.gameObject.tag == "Hook")
             onSlingShot = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Slingshot")
+        if (collision.gameObject.tag == "Hook")
             onSlingShot = false;
     }
 }

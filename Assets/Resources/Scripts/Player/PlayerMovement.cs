@@ -31,8 +31,8 @@ public class PlayerMovement : MonoBehaviour
     private const float moveSpeedJump = 350f;
 
     // Jump variables
-    private const float jumpForce = 1250f;
-    private const float minJumpForce = 625f;
+    private const float jumpForce = 1700f;
+    private const float minJumpForce = 1250f;
 
     #endregion
 
@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             playerStateMachine.currentState != PlayerStateMachine.PlayerState.Jumping &&
             playerStateMachine.currentState != PlayerStateMachine.PlayerState.Falling)
         {
-            facingRight = moveInput < 0;
+            facingRight = moveInput * RotationManager.Instance.globalDirection.x < 0;
             playerSprite.flipX = facingRight;
         }
     }
@@ -100,9 +100,9 @@ public class PlayerMovement : MonoBehaviour
             case PlayerStateMachine.PlayerState.StartingJump:
                 moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
-                    playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce));
+                    playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce * RotationManager.Instance.globalDirection.y));
                 else
-                    playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer));
+                    playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer * RotationManager.Instance.globalDirection.y));
                 holdTimer = 0f;
                 break;
 
@@ -111,26 +111,24 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:
-                playerRB.velocity = new(0f, playerRB.velocity.y);
+                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 break;
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
-                playerRB.AddForce(slingshotJump.escapeForce);
+                playerRB.AddForce(slingshotJump.escapeForce * RotationManager.Instance.globalDirection);
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
                 playerAnimator.Play("jump");
-                //playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
-                //playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 playerAnimator.Play("fall");
                 break;
 
             case PlayerStateMachine.PlayerState.Idle:
                 playerAnimator.Play("idle");
-                playerRB.velocity = new(0f, playerRB.velocity.y);
+                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 break;
         }
     }
