@@ -1,30 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
 {
-    public TextMeshProUGUI textComp;
+    public Text txt;
     public string[] lines;
     public float textSpeed;
 
     private int index;
     private bool near;
+    private bool alreadyEntered;
     public GameObject contButton;
     public GameObject dialoguePanel;
 
     private void Start()
     {
-        textComp.text = string.Empty;
+        txt.text = string.Empty;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F) && near == true)
         {
-            if (textComp.text == lines[index])
+            if (txt.text == lines[index])
             {
                 NextLine();
             }
@@ -32,11 +31,11 @@ public class Dialogue : MonoBehaviour
             else
             {
                 StopAllCoroutines();
-                textComp.text = lines[index];
+                txt.text = lines[index];
             }
         }
 
-        if (textComp.text == lines[index])
+        if (txt.text == lines[index])
         {
             contButton.SetActive(true);
         }
@@ -50,14 +49,14 @@ public class Dialogue : MonoBehaviour
 
     void EraseDialogue()
     {
-        textComp.text = string.Empty;
+        txt.text = string.Empty;
     }
 
     IEnumerator TypeLine()
     {
         foreach (char c in lines[index].ToCharArray())
         {
-            textComp.text += c;
+            txt.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
     }
@@ -69,7 +68,7 @@ public class Dialogue : MonoBehaviour
         if (index < lines.Length - 1)
         {
             index++;
-            textComp.text = string.Empty;
+            txt.text = string.Empty;
             StartCoroutine(TypeLine());
         }
         else
@@ -80,11 +79,12 @@ public class Dialogue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !alreadyEntered)
         {
             near = true;
             dialoguePanel.SetActive(true);
             StartDialogue();
+            alreadyEntered = true;
         }
     }
 

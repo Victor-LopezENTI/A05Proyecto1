@@ -14,27 +14,34 @@
     align-items: auto;
     margin-top: 243px;
     -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold');
+    -unity-font: url('project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Medium.ttf?fileID=12800000&guid=1f5e7503e3d64654c871af74ded6dc76&type=3#Oswald-Medium');
     -unity-text-outline-width: 0;
-    color: rgb(255, 255, 255);
+    color: rgb(91, 14, 13);
     font-size: 20px;
-    background-image: url('project://database/Assets/Sprites/FightGame/POSTPRO/overlay.png?fileID=2800000&guid=e272e39261a77af46a915cc6355087db&type=3#overlay');
+    background-image: none;
     transition-duration: 0.2s;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    -unity-font-style: italic;
+    top: -593px;
 }
 
 .text {
     font-size: 60px;
     -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold');
+    -unity-font: url('project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold');
     align-self: center;
     margin-top: 28px;
     margin-bottom: -149px;
-    color: rgb(255, 255, 255);
+    color: rgb(105, 14, 13);
 }
 
 .button:hover {
-    transition-duration: 0s;
+    transition-duration: 0.2s;
     -unity-background-image-tint-color: rgb(36, 62, 176);
-    scale: 1.1 1.1;
+    scale: 1.2 1.2;
     background-color: rgba(0, 0, 0, 0);
+    color: rgb(105, 14, 13);
+    transition-timing-function: linear;
+    rotate: 3deg;
 }
