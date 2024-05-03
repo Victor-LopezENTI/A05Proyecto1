@@ -1,31 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
 {
-    public Text txt;
+    public TextMeshProUGUI textComp;
     public string[] lines;
     public float textSpeed;
 
     private int index;
     private bool near;
-    private bool alreadyEntered;
     public GameObject contButton;
     public GameObject dialoguePanel;
-    public List<string> importantTxt;
 
     private void Start()
     {
-        txt.text = string.Empty;
+        textComp.text = string.Empty;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F) && near == true)
         {
-            if (txt.text == lines[index])
+            if (textComp.text == lines[index])
             {
                 NextLine();
             }
@@ -33,11 +32,11 @@ public class Dialogue : MonoBehaviour
             else
             {
                 StopAllCoroutines();
-                txt.text = lines[index];
+                textComp.text = lines[index];
             }
         }
 
-        if (txt.text == lines[index])
+        if (textComp.text == lines[index])
         {
             contButton.SetActive(true);
         }
@@ -51,38 +50,15 @@ public class Dialogue : MonoBehaviour
 
     void EraseDialogue()
     {
-        txt.text = string.Empty;
+        textComp.text = string.Empty;
     }
 
     IEnumerator TypeLine()
     {
-        string line = lines[index];
-        string partialLine = "";
-
-        for (int i = 0; i < line.Length; i++)
+        foreach (char c in lines[index].ToCharArray())
         {
-            partialLine += line[i];
-
-            foreach (string palabra in importantTxt)
-            {
-                if (partialLine.EndsWith(palabra))
-                {
-                    partialLine = partialLine.Substring(0, partialLine.Length - palabra.Length) + "<color=red>" + palabra + "</color>";
-                }
-            }
-
-            txt.text = partialLine;
-            yield return new WaitForSeconds(textSpeed); 
-        }
-
-        foreach (string palabra in importantTxt)
-        {
-            if (partialLine.EndsWith(palabra))
-            {
-                partialLine += "</color>";
-                txt.text = partialLine;
-                break;
-            }
+            textComp.text += c;
+            yield return new WaitForSeconds(textSpeed);
         }
     }
 
@@ -93,7 +69,7 @@ public class Dialogue : MonoBehaviour
         if (index < lines.Length - 1)
         {
             index++;
-            txt.text = string.Empty;
+            textComp.text = string.Empty;
             StartCoroutine(TypeLine());
         }
         else
@@ -104,12 +80,11 @@ public class Dialogue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !alreadyEntered)
+        if (collision.CompareTag("Player"))
         {
             near = true;
             dialoguePanel.SetActive(true);
             StartDialogue();
-            alreadyEntered = true;
         }
     }
 

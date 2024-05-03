@@ -12,7 +12,7 @@ public class RotationManager : MonoBehaviour
     public Vector2 globalDirection {  get; private set; } = Vector2.one;
 
     // Whether the chamber is upside down or not
-    private bool chamberUpsideDown = false;
+    public bool chamberUpsideDown { get; private set; } = false;
 
     // The animated target containing the camera states
     private Animator cameraAnimator;
@@ -52,15 +52,9 @@ public class RotationManager : MonoBehaviour
     // Update WILL be called when the game is paused
     private void Update()
     {
-<<<<<<< HEAD
         if (InputManager.Instance.interactInput)
             rotateLevel();
             
-=======
-        if (InputManager.Instance.interactInput == 1)
-            rotateLevel();
-
->>>>>>> feature/victor
         if (onTransition)
         {
             Time.timeScale = 0f;
