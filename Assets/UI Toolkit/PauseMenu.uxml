@@ -4,8 +4,8 @@
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.67); color: rgba(0, 0, 0, 0.75); flex-shrink: 0; height: 760px; width: 1513px;" />
         <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" name="Label" class="text" style="top: -675px; right: 5px; color: rgb(31, 31, 31); font-size: 80px;" />
         <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" class="text" style="font-size: 80px; margin-bottom: -183px; margin-top: 0; top: -646px; right: -4px;" />
-        <ui:Button text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="button" />
-        <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="button" style="margin-top: 40px;" />
-        <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="button" style="margin-top: 39px;" />
+        <ui:Button text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="button" style="-unity-font: resource(&apos;Fonts &amp; Materials/Oswald-Bold&apos;);" />
+        <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="button" style="margin-top: 40px; -unity-font: resource(&apos;Fonts &amp; Materials/Oswald-Bold&apos;);" />
+        <ui:Button text="Quit" display-tooltip-when-elided="true" name="QuitButton" class="button" style="margin-top: 39px; -unity-font: resource(&apos;Fonts &amp; Materials/Oswald-Bold&apos;);" />
     </ui:VisualElement>
 </ui:UXML>
