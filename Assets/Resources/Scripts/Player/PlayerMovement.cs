@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private const float moveSpeedJump = 350f;
 
     // Jump variables
-    private const float jumpForce = 1700f;
+    private const float jumpForce = 1800f;
     private const float minJumpForce = 1250f;
 
     #endregion
