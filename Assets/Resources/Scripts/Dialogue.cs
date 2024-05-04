@@ -25,16 +25,8 @@ public class Dialogue : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && near == true)
         {
-            if (txt.text == lines[index])
-            {
-                NextLine();
-            }
-
-            else
-            {
-                StopAllCoroutines();
-                txt.text = lines[index];
-            }
+            NextLine();
+            
         }
 
         if (txt.text == lines[index])
