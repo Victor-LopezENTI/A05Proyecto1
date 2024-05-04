@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Hook : MonoBehaviour
 {
-    [SerializeField] private bool topHook = false;
+    [SerializeField] private bool reversed = false;
     TopHooksBehaviour TopHooksBehaviour;
 
     private void Awake()
@@ -12,6 +12,6 @@ public class Hook : MonoBehaviour
 
     private void FixedUpdate()
     {
-        TopHooksBehaviour.enabled = topHook;
+        TopHooksBehaviour.enabled = reversed;
     }
 }

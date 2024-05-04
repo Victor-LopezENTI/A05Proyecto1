@@ -1,7 +1,5 @@
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RotationManager : MonoBehaviour
 {
@@ -9,11 +7,13 @@ public class RotationManager : MonoBehaviour
 
     #region Variables
 
-    // The animated target containing the camera states
-    private Animator cameraAnimator;
+    public Vector2 globalDirection { get; private set; } = Vector2.one;
 
     // Whether the chamber is upside down or not
-    private bool chamberUpsideDown = false;
+    public bool chamberUpsideDown { get; private set; } = false;
+
+    // The animated target containing the camera states
+    private Animator cameraAnimator;
 
     // Anti-spam buffer between chamber rotations
     [SerializeField] private float actionBuffer = 0f;
@@ -50,7 +50,7 @@ public class RotationManager : MonoBehaviour
     // Update WILL be called when the game is paused
     private void Update()
     {
-        if (InputManager.Instance.interactInput == 1)
+        if (InputManager.Instance.interactInput)
             rotateLevel();
 
         if (onTransition)
@@ -70,8 +70,6 @@ public class RotationManager : MonoBehaviour
     // FixedUpdate will NOT be called when the game is paused
     private void FixedUpdate()
     {
-        Debug.Log(globalDirection);
-
         if (actionBuffer < maxActionBuffer)
             actionBuffer += Time.deltaTime;
         else
@@ -80,9 +78,10 @@ public class RotationManager : MonoBehaviour
 
     public void rotateLevel()
     {
+        globalDirection = -globalDirection;
+
         if (isAbleToRotate())
         {
-            globalDirection = -globalDirection;
             chamberUpsideDown = !chamberUpsideDown;
             transitionCamera();
 
@@ -131,27 +130,4 @@ public class RotationManager : MonoBehaviour
         onTransition = true;
     }
 
-    public void rotateLevel()
-    {
-        if (isAbleToRotate())
-        {
-            chamberUpsideDown = !chamberUpsideDown;
-            transitionCamera();
-
-            // Change the gravity
-            changeGravity();
-
-            // Rotate the player
-            float rotationAngle;
-            if (chamberUpsideDown)
-                rotationAngle = 180f;
-            else
-                rotationAngle = 0f;
-
-            PlayerMovement.Instance.transform.DORotate(new(0, 0, rotationAngle), maxTransitionBuffer).SetUpdate(true).SetEase(Ease.InOutSine);
-
-            // Reset the action buffer
-            actionBuffer = 0f;
-        }
-    }
 }
