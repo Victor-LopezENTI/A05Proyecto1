@@ -26,10 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Movement variables
     public bool facingRight { get; private set; }
-    private float moveSpeed;
-    private const float moveSpeedWalk = 400f;
-    private const float moveSpeedChargeJump = 0f;
-    private const float moveSpeedJump = 350f;
+    private float moveSpeed = 400f;
 
     // Jump variables
     private const float jumpForce = 1800f;
@@ -64,9 +61,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // Flip the player sprite
-        if (moveInput != 0 &&
-            playerStateMachine.currentState != PlayerStateMachine.PlayerState.Jumping &&
-            playerStateMachine.currentState != PlayerStateMachine.PlayerState.Falling)
+        if (moveInput != 0)
         {
             facingRight = moveInput * RotationManager.Instance.globalDirection.x < 0;
             playerSprite.flipX = facingRight;
@@ -78,28 +73,26 @@ public class PlayerMovement : MonoBehaviour
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
 
+        //Debug.Log(playerStateMachine.currentState);
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
             case PlayerStateMachine.PlayerState.Walking:
-                moveSpeed = moveSpeedWalk;
-                playerAnimator.Play("walk");
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, 0);
+                playerAnimator.Play("walk");
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
-                moveSpeed = moveSpeedChargeJump;
                 holdTimer += Time.deltaTime;
                 if (holdTimer > maxHoldTime)
                     holdTimer = maxHoldTime;
 
                 holdNormTimer = Mathf.Lerp(0, 1, holdTimer / maxHoldTime);
+                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("charge_jump");
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
-                moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
                     playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce * RotationManager.Instance.globalDirection.y));
                 else
@@ -113,25 +106,36 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:
                 playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                playerAnimator.Play("charge_jump");
                 break;
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
-                playerRB.AddForce(slingshotJump.escapeForce * RotationManager.Instance.globalDirection);
+                playerRB.AddForce(slingshotJump.escapeForce);
+                break;
+
+            case PlayerStateMachine.PlayerState.JumpingSlingshot:
+                playerAnimator.Play("jump");
+                break;
+
+            case PlayerStateMachine.PlayerState.FallingSlingshot:
+                playerAnimator.Play("fall");
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
+                                        playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("jump");
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
+                                        playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("fall");
                 break;
 
             case PlayerStateMachine.PlayerState.Idle:
-                playerAnimator.Play("idle");
                 playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                playerAnimator.Play("idle");
                 break;
         }
     }

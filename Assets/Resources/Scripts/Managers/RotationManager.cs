@@ -78,11 +78,18 @@ public class RotationManager : MonoBehaviour
 
     public void rotateLevel()
     {
-        globalDirection = -globalDirection;
 
         if (isAbleToRotate())
         {
+            // Rotate the hooks
+            for (int i = 0; i < GameManager.Instance.hooks.Count; i++)
+            {
+                GameManager.Instance.hooks[i].changeState();
+            }
+
+            globalDirection = -globalDirection;
             chamberUpsideDown = !chamberUpsideDown;
+
             transitionCamera();
 
             // Change the gravity
