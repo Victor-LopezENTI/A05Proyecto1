@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -31,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private const float moveSpeedJump = 350f;
 
     // Jump variables
-    private const float jumpForce = 1700f;
+    private const float jumpForce = 1800f;
     private const float minJumpForce = 1250f;
 
     #endregion
@@ -119,10 +120,12 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 playerAnimator.Play("jump");
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, playerRB.velocity.y);
                 playerAnimator.Play("fall");
                 break;
 
