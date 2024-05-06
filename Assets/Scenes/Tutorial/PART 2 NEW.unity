@@ -21527,7 +21527,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -0.327, y: -3.571, z: 265.235}
 --- !u!1001 &599203441
 PrefabInstance:
@@ -21580,6 +21580,10 @@ PrefabInstance:
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624063736876710876, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: isSlingShot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4748083999513236387, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_Name
@@ -21819,7 +21823,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &786830123
 PrefabInstance:
@@ -21875,7 +21879,7 @@ PrefabInstance:
       objectReference: {fileID: 379173139}
     - target: {fileID: 8520403766675088115, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8520403766675088115, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21953,7 +21957,7 @@ Transform:
   - {fileID: 379173143}
   - {fileID: 302008840}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &852746637
 PrefabInstance:
@@ -21965,11 +21969,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.38
+      value: -7.03
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22006,6 +22010,10 @@ PrefabInstance:
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624063736876710876, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: isSlingShot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4748083999513236387, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_Name
@@ -32561,7 +32569,7 @@ Transform:
   - {fileID: 1359367295}
   - {fileID: 295334419}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1622798692
 PrefabInstance:
@@ -32758,7 +32766,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1869590778
 PrefabInstance:
@@ -32891,7 +32899,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2046519162
 PrefabInstance:
@@ -32907,7 +32915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.98
+      value: -7.55
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.y
@@ -32944,6 +32952,10 @@ PrefabInstance:
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624063736876710876, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: isSlingShot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4748083999513236387, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_Name
