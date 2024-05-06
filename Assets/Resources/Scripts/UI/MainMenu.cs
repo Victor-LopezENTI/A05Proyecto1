@@ -19,6 +19,12 @@ public class MainMenu : MonoBehaviour
     private Button yesQuit;
     private Button noQuit;
 
+    AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void Update()
     {
         doc = GetComponent<UIDocument>();

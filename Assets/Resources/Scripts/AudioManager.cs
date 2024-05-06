@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] AudioSource mainMusic;
+    [SerializeField] AudioSource MainMenuMusic;
+    [SerializeField] AudioSource SFXMenuMusic;
 
     private void Awake()
     {
@@ -13,7 +14,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        mainMusic.Play();
+        MainMenuMusic.Play();
     }
 
 }
