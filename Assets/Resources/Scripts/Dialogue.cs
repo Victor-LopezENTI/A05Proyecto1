@@ -12,7 +12,6 @@ public class Dialogue : MonoBehaviour
     private int index;
     private bool near;
     private bool alreadyEntered;
-    public GameObject contButton;
     public GameObject dialoguePanel;
     public List<string> importantTxt;
 
@@ -26,12 +25,6 @@ public class Dialogue : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && near == true)
         {
             NextLine();
-            
-        }
-
-        if (txt.text == lines[index])
-        {
-            contButton.SetActive(true);
         }
     }
 
@@ -80,8 +73,6 @@ public class Dialogue : MonoBehaviour
 
     public void NextLine()
     {
-        contButton.SetActive(false);
-
         if (index < lines.Length - 1)
         {
             index++;
