@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Movement variables
     public bool facingRight { get; private set; }
-    private const float moveSpeed = 400f;
+    private float moveSpeed = 400f;
 
     // Jump variables
     private const float jumpForce = 1800f;
@@ -111,13 +111,13 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
-                playerRB.velocity = new(playerRB.velocity.x + moveInput * moveSpeed * Time.deltaTime * RotationManager.Instance.globalDirection.x,
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime * RotationManager.Instance.globalDirection.x,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("jump");
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
-                playerRB.velocity = new(playerRB.velocity.x + moveInput * moveSpeed * Time.deltaTime * RotationManager.Instance.globalDirection.x,
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime * RotationManager.Instance.globalDirection.x,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("fall");
                 break;

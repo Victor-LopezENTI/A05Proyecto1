@@ -6,29 +6,24 @@ public class SlingshotJump : MonoBehaviour
     private Rigidbody2D playerRB;
 
     [SerializeField] private float slingshotBuffer;
-    [SerializeField] private const float slingshotForce = 100f;
-    [SerializeField] private const int steps = 200;
+    private const float slingshotForce = 100f;
+    private const int steps = 200;
 
-    [SerializeField] private bool m_onSlingShot;
+    [SerializeField] private bool m_onSlingShot = false;
     public bool onSlingShot { get => m_onSlingShot; private set => m_onSlingShot = value; }
-    [SerializeField] private bool m_chargingSlingshot;
+    [SerializeField] private bool m_chargingSlingshot = false;
     public bool chargingSlingshot { get => m_chargingSlingshot; private set => m_chargingSlingshot = value; }
-    public bool startSlingshot { get; private set; }
+    public bool startSlingshot { get; private set; } = false;
+    public bool jumpingSlingshot { get; private set; } = false;
 
-    public Vector2 escapeForce { get; private set; }
     private Vector2 dragStartPos;
     private Vector2[] trajectory;
+    public Vector2 escapeForce { get; private set; }
 
     private void Awake()
     {
         playerLR = GetComponent<LineRenderer>();
         playerRB = GetComponent<Rigidbody2D>();
-    }
-
-    void Start()
-    {
-        onSlingShot = false;
-        chargingSlingshot = false;
     }
 
     void FixedUpdate()
@@ -66,6 +61,7 @@ public class SlingshotJump : MonoBehaviour
             else if (InputManager.Instance.clickReleased && chargingSlingshot)
             {
                 startSlingshot = true;
+                jumpingSlingshot = true;
                 chargingSlingshot = false;
                 playerLR.enabled = false;
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -74,6 +70,10 @@ public class SlingshotJump : MonoBehaviour
             }
             else
                 startSlingshot = false;
+        }
+        else if (jumpingSlingshot)
+        {
+            jumpingSlingshot = !PlayerStateMachine.Instance.onGround;
         }
     }
 

@@ -16,10 +16,11 @@ public class PlayerStateMachine : MonoBehaviour
         // Slingshot states
         ChargingSlingshot,
         StartingSlingshot,
+        JumpingSlingshot,
+        FallingSlingshot,
 
-        //Rope States
+        // Rope States
         Roping
-
     };
 
     #region Variables
@@ -32,6 +33,7 @@ public class PlayerStateMachine : MonoBehaviour
     // Player input variables
     private float moveInput;
     private bool jumpInput;
+    private bool clickInput;
 
     // Groundcheck variables
     [SerializeField] private LayerMask groundLayer;
@@ -71,28 +73,29 @@ public class PlayerStateMachine : MonoBehaviour
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
         jumpInput = InputManager.Instance.jumpInput;
+        clickInput = InputManager.Instance.clickInput;
 
         if (onGround)
         {
-            // ChargingJump
-             if (jumpInput)
-                currentState = PlayerState.ChargingJump;
+            // JumpingSlingshot
+            if (lastState == PlayerState.StartingSlingshot)
+                currentState = PlayerState.JumpingSlingshot;
 
-            // StartingJump
-            else if (lastState == PlayerState.ChargingJump)
-                currentState = PlayerState.StartingJump;
+            // ChargingJump
+            else if (jumpInput && !clickInput)
+                currentState = PlayerState.ChargingJump;
 
             // ChargingSlingshot
             else if (slingshotJump.chargingSlingshot)
                 currentState = PlayerState.ChargingSlingshot;
 
+            // StartingJump
+            else if (lastState == PlayerState.ChargingJump)
+                currentState = PlayerState.StartingJump;
+
             // StartingSlingshot
             else if (slingshotJump.startSlingshot)
                 currentState = PlayerState.StartingSlingshot;
-
-            // Jumping
-            else if (lastState == PlayerState.StartingSlingshot)
-                currentState = PlayerState.Jumping;
 
             // Walking
             else if (moveInput != 0)
@@ -101,19 +104,27 @@ public class PlayerStateMachine : MonoBehaviour
             // Idle
             else if (moveInput == 0 && lastState != PlayerState.Jumping)
                 currentState = PlayerState.Idle;
-        }
+        }  
         else
         {
             // Roping
             if (GetComponent<RopeManager>().hingeConnected)
                 currentState = PlayerState.Roping;
 
+            // JumpingSlingshot
+            if (slingshotJump.jumpingSlingshot && PlayerMovement.Instance.playerRB.velocity.y >= 0)
+                currentState = PlayerState.JumpingSlingshot;
+
+            // FallingSlingshot
+            else if (slingshotJump.jumpingSlingshot && PlayerMovement.Instance.playerRB.velocity.y < 0)
+                currentState = PlayerState.FallingSlingshot;
+
             // Jumping
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y >= 0)
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y >= 0 && lastState != PlayerState.JumpingSlingshot)
                 currentState = PlayerState.Jumping;
 
             // Falling
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y < 0)
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y < 0 && lastState != PlayerState.JumpingSlingshot)
                 currentState = PlayerState.Falling;
         }
         lastState = currentState;
