@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI%20Toolkit/PauseMenuStyle.uss?fileID=7433441132597879392&amp;guid=ce138bd75ce062a4398f6a452f6e2f8c&amp;type=3#PauseMenuStyle" />
     <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 0);">
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.88); color: rgba(0, 0, 0, 0.75); flex-shrink: 0; height: 760px; width: 1513px;" />
-        <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" class="text" style="font-size: 80px; margin-bottom: -183px; margin-top: -70px; top: -646px; right: -4px; -unity-text-outline-color: rgb(0, 0, 0); -unity-font: resource(&apos;UI/Fonts/SubVario/SubVario OT W03 Cond Fat&apos;); text-shadow: -4px -1px 0 rgb(0, 0, 0);" />
+        <ui:Label tabindex="-1" text="Paused" display-tooltip-when-elided="true" class="text" style="margin-bottom: -183px; margin-top: -70px; top: -600px; right: -4px; -unity-text-outline-color: rgb(0, 0, 0); -unity-font: resource(&apos;UI/Fonts/SubVario/SubVario OT W03 Cond Fat&apos;); text-shadow: -4px -1px 0 rgb(0, 0, 0);" />
         <ui:Button text="Resume" display-tooltip-when-elided="true" name="ResumeButton" class="button" />
         <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="button" style="margin-top: 40px;" />
         <ui:Button text="Quit Game" display-tooltip-when-elided="true" name="QuitButton" class="button" style="margin-top: 39px;" />

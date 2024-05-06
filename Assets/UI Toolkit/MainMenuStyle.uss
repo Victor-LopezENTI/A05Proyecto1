@@ -27,8 +27,8 @@
     border-bottom-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    margin-top: 50px;
-    margin-left: -500px;
+    margin-top: 70px;
+    margin-left: -478px;
     -unity-font-definition: initial;
     -unity-font: resource('UI/Fonts/SubVario/SubVario OT W03 Cond Medium');
     color: rgb(91, 14, 13);
@@ -39,18 +39,14 @@
     -unity-paragraph-spacing: 0;
     text-shadow: 0 0 0 rgb(0, 0, 0);
     -unity-text-outline-color: rgba(0, 0, 0, 0);
+    transition-duration: 0.3s;
+    -unity-background-image-tint-color: rgb(0, 0, 0);
 }
 
 .button:hover {
     background-color: rgba(0, 0, 0, 0);
-    scale: 1 1;
     -unity-background-image-tint-color: rgb(0, 0, 0);
     background-image: resource('Sprites/UI/bordes');
-    border-left-width: 0;
-    rotate: 0;
-    color: rgb(115, 14, 13);
-    transition-duration: 0s;
-    -unity-background-scale-mode: stretch-to-fill;
-    transition-property: background-image;
-    transition-timing-function: ease-out-bounce;
+    color: rgb(125, 14, 13);
+    width: 210px;
 }

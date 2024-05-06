@@ -5014,7 +5014,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: a6a70d0d56f828c4ead83e038b540c4b, type: 3}
     m_FontSize: 40
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 225
@@ -7784,10 +7784,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.3529412, g: 0.047058824, b: 0.047058824, a: 1}
-    m_HighlightedColor: {r: 0.43137255, g: 0.04705883, b: 0.04705883, a: 1}
-    m_PressedColor: {r: 0.47058824, g: 0.047058824, b: 0.047058824, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_HighlightedColor: {r: 0.49019608, g: 0.04705883, b: 0.04705883, a: 1}
+    m_PressedColor: {r: 0.50980395, g: 0.047058824, b: 0.047058824, a: 1}
+    m_SelectedColor: {r: 0.3529412, g: 0.047058824, b: 0.047058824, a: 1}
+    m_DisabledColor: {r: 0.49019608, g: 0.047058824, b: 0.047058824, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -8282,7 +8282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5137075983321166577, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5874847895623900699, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_AnchorMax.x
