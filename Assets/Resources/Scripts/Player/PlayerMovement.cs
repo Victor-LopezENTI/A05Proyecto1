@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
 
+        Debug.Log(playerStateMachine.currentState);
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
@@ -111,13 +112,13 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime * RotationManager.Instance.globalDirection.x,
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("jump");
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
-                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime * RotationManager.Instance.globalDirection.x,
+                playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("fall");
                 break;

@@ -111,21 +111,26 @@ public class PlayerStateMachine : MonoBehaviour
             if (GetComponent<RopeManager>().hingeConnected)
                 currentState = PlayerState.Roping;
 
-            // JumpingSlingshot
-            if (slingshotJump.jumpingSlingshot && PlayerMovement.Instance.playerRB.velocity.y >= 0)
-                currentState = PlayerState.JumpingSlingshot;
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y >= 0)
+            {
+                // JumpingSlingshot
+                if (slingshotJump.jumpingSlingshot)
+                    currentState = PlayerState.JumpingSlingshot;
 
-            // FallingSlingshot
-            else if (slingshotJump.jumpingSlingshot && PlayerMovement.Instance.playerRB.velocity.y < 0)
-                currentState = PlayerState.FallingSlingshot;
+                // Jumping
+                else
+                    currentState = PlayerState.Jumping;
+            }
+            else
+            {
+                // FallingSlingshot
+                if (slingshotJump.jumpingSlingshot)
+                    currentState = PlayerState.FallingSlingshot;
 
-            // Jumping
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y >= 0 && lastState != PlayerState.JumpingSlingshot)
-                currentState = PlayerState.Jumping;
-
-            // Falling
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y < 0 && lastState != PlayerState.JumpingSlingshot)
-                currentState = PlayerState.Falling;
+                // Falling
+                else
+                    currentState = PlayerState.Falling;
+            }
         }
         lastState = currentState;
     }
