@@ -39,7 +39,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Movimiento Vertical"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""b7c62491-b3ef-4c53-b8b2-556ab9ca50ad"",
+                    ""id"": ""310a4090-de43-4d8f-ae9f-1b89d55eb02c"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -47,39 +47,39 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Salto"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""681f3d52-a9f6-4a4c-b8d5-e8df76d50366"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Interactuar"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""ed398bea-2508-4621-b94f-ed7ed4a24da4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Cancelar"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""a8599679-4216-4604-a539-0080ad8ec294"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Mouse Click"",
-                    ""type"": ""Button"",
-                    ""id"": ""2f503855-f96f-4a09-a4fb-55c1f2879418"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Acción"",
+                    ""type"": ""Value"",
+                    ""id"": ""6ca0ded4-8569-48f8-8557-8dc647cc48c1"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -195,18 +195,18 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""09ce7892-f4dc-4d4b-abb7-842a3d469916"",
+                    ""id"": ""37ed3e0b-fd7f-496e-be37-c862044ba1f8"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Mouse Click"",
+                    ""action"": ""Acción"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""75566e2f-6cc3-4de2-811f-8568cd1f00a1"",
+                    ""id"": ""68a12558-6e0c-4b28-8fca-b7897d7b7258"",
                     ""path"": ""<Gamepad>/leftStick/y"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -217,7 +217,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Keyboard Y Axis"",
-                    ""id"": ""c0ba634a-e5ec-4b15-a5b6-96c6e1101733"",
+                    ""id"": ""d64c17c2-a309-44b5-84cd-d03b521f5c98"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -228,7 +228,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""b3a0cc21-9837-4d08-8e0e-422fe82c012c"",
+                    ""id"": ""071b574f-233d-419b-9e80-eb4d2682fa21"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -239,7 +239,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""7614e20d-99d6-4e07-9206-23d012512aa0"",
+                    ""id"": ""ef5aa138-43eb-44c7-98a5-e8de5c1f609a"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -260,7 +260,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_Player_Salto = m_Player.FindAction("Salto", throwIfNotFound: true);
         m_Player_Interactuar = m_Player.FindAction("Interactuar", throwIfNotFound: true);
         m_Player_Cancelar = m_Player.FindAction("Cancelar", throwIfNotFound: true);
-        m_Player_MouseClick = m_Player.FindAction("Mouse Click", throwIfNotFound: true);
+        m_Player_Acción = m_Player.FindAction("Acción", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -327,7 +327,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Salto;
     private readonly InputAction m_Player_Interactuar;
     private readonly InputAction m_Player_Cancelar;
-    private readonly InputAction m_Player_MouseClick;
+    private readonly InputAction m_Player_Acción;
     public struct PlayerActions
     {
         private @PlayerController m_Wrapper;
@@ -337,7 +337,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         public InputAction @Salto => m_Wrapper.m_Player_Salto;
         public InputAction @Interactuar => m_Wrapper.m_Player_Interactuar;
         public InputAction @Cancelar => m_Wrapper.m_Player_Cancelar;
-        public InputAction @MouseClick => m_Wrapper.m_Player_MouseClick;
+        public InputAction @Acción => m_Wrapper.m_Player_Acción;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,9 +362,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Cancelar.started += instance.OnCancelar;
             @Cancelar.performed += instance.OnCancelar;
             @Cancelar.canceled += instance.OnCancelar;
-            @MouseClick.started += instance.OnMouseClick;
-            @MouseClick.performed += instance.OnMouseClick;
-            @MouseClick.canceled += instance.OnMouseClick;
+            @Acción.started += instance.OnAcción;
+            @Acción.performed += instance.OnAcción;
+            @Acción.canceled += instance.OnAcción;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -384,9 +384,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Cancelar.started -= instance.OnCancelar;
             @Cancelar.performed -= instance.OnCancelar;
             @Cancelar.canceled -= instance.OnCancelar;
-            @MouseClick.started -= instance.OnMouseClick;
-            @MouseClick.performed -= instance.OnMouseClick;
-            @MouseClick.canceled -= instance.OnMouseClick;
+            @Acción.started -= instance.OnAcción;
+            @Acción.performed -= instance.OnAcción;
+            @Acción.canceled -= instance.OnAcción;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -411,6 +411,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         void OnSalto(InputAction.CallbackContext context);
         void OnInteractuar(InputAction.CallbackContext context);
         void OnCancelar(InputAction.CallbackContext context);
-        void OnMouseClick(InputAction.CallbackContext context);
+        void OnAcción(InputAction.CallbackContext context);
     }
 }

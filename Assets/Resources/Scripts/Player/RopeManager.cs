@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RopeManager : MonoBehaviour
 {
@@ -16,19 +13,20 @@ public class RopeManager : MonoBehaviour
     [SerializeField] float ropeExpansionSpeed;
     [SerializeField] HingeJoint2D hjoint;
     private Vector3 savedPos;
+    private float climbSpeed = 10;
     private void Update()
     {
-        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.jumpInput && existingRope == null)
+        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.clickInput && existingRope == null)
         {
-            launchRope(selectedHook.transform);
+            LaunchRope(selectedHook.transform);
         }
         if (existingRope != null)
         {
             existingRope.SetPosition(0, playerRB.transform.position);
         }
-        if (existingRope != null && (!InputManager.Instance.jumpInput|| playerSM.onGround))
+        if (existingRope != null && (!InputManager.Instance.clickInput || playerSM.onGround))
         {
-            destroyRope();
+            DestroyRope();
         }
     }
     private void FixedUpdate()
@@ -45,7 +43,7 @@ public class RopeManager : MonoBehaviour
             playerRB.velocity = Vector2.ClampMagnitude(playerRB.velocity, 100);
         }
     }
-    void launchRope(Transform hook)
+    void LaunchRope(Transform hook)
     {
         if (ropeHasTrajectory(hook))
         {
@@ -55,11 +53,12 @@ public class RopeManager : MonoBehaviour
             StartCoroutine(ExpandLine(hook));
         }
     }
+
     bool ropeHasTrajectory(Transform hook)
     {
         return !Physics2D.Linecast(playerRB.transform.position, hook.position, obstacleLayers);
     }
-    public void compareHook(GameObject hook)
+    public void CompareHook(GameObject hook)
     {
         if (ropeHasTrajectory(hook.transform))
         {
@@ -80,34 +79,47 @@ public class RopeManager : MonoBehaviour
         {
             if (selectedHook == hook)
             {
-                deselectHook();
+                DeselectHook();
             }
         }
     }
-    public void checkExittingHook(GameObject hook)
+
+    public void CheckExittingHook(GameObject hook)
     {
         if (selectedHook == hook)
         {
-            deselectHook();
+            DeselectHook();
         }
     }
-    void deselectHook()
+
+    void DeselectHook()
     {
         if (existingRope != null)
         {
-            destroyRope();
+            DestroyRope();
         }
         selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
         selectedHook = null;
     }
-    void hookIsConnected()
+
+    void HookIsConnected()
     {
         hingeConnected = true;
         savedPos = selectedHook.transform.position;
         hjoint.connectedBody = selectedHook.GetComponent<Rigidbody2D>();
         hjoint.enabled = true;
     }
-    void destroyRope()
+    public void ClimbRope(float v)
+    {
+        //if (Vector2.Distance(playerRB.position, selectedHook.transform.position) > 10)
+        //{
+            Vector2 tempVelocity = playerRB.velocity;
+            hjoint.connectedBody = null;
+            playerRB.position += new Vector2(selectedHook.transform.position.x - playerRB.position.x, selectedHook.transform.position.y - playerRB.position.y).normalized * v * climbSpeed;
+            hjoint.connectedBody = selectedHook.GetComponent<Rigidbody2D>();
+        //}
+    }
+    void DestroyRope()
     {
         selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0;
         hjoint.enabled = false;
@@ -115,6 +127,7 @@ public class RopeManager : MonoBehaviour
         Destroy(existingRope.gameObject);
         hingeConnected = false;
     }
+
     IEnumerator ExpandLine(Transform hook)
     {
         for (float i = 0; i < 1; i += Time.deltaTime * ropeExpansionSpeed)
@@ -131,7 +144,7 @@ public class RopeManager : MonoBehaviour
         if (existingRope != null)
         {
             existingRope.SetPosition(1, hook.position);
-            hookIsConnected();
+            HookIsConnected();
         }
         yield break;
     }
