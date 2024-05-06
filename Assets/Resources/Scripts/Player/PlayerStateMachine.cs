@@ -121,7 +121,7 @@ public class PlayerStateMachine : MonoBehaviour
                 else
                     currentState = PlayerState.Jumping;
             }
-            else
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y < 0)
             {
                 // FallingSlingshot
                 if (slingshotJump.jumpingSlingshot)
