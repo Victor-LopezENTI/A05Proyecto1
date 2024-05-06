@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     // Movement variables
     public bool facingRight { get; private set; }
     private float moveSpeed = 400f;
-    private float verticalInput;
     private const float moveSpeedWalk = 400f;
     private const float moveSpeedChargeJump = 0f;
     private const float moveSpeedJump = 350f;
