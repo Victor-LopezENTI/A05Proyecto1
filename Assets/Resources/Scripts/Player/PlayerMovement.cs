@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,9 +14,11 @@ public class PlayerMovement : MonoBehaviour
     private Animator playerAnimator;
     private SpriteRenderer playerSprite;
     private SlingshotJump slingshotJump;
+    private RopeManager ropeManager;
 
     // Input variables
     private float moveInput;
+    [SerializeField] private float verticalInput;
     //private bool canInput;
 
     // Jump timer variables
@@ -55,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         playerSprite = GetComponent<SpriteRenderer>();
         slingshotJump = GetComponent<SlingshotJump>();
+        ropeManager = GetComponent<RopeManager>();
     }
 
     private void Update()
@@ -71,7 +75,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
-
+        verticalInput = InputManager.Instance.verticalInput;
+        
         Debug.Log(playerStateMachine.currentState);
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
@@ -100,7 +105,10 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.Roping:
-
+                if (verticalInput != 0)
+                {
+                    ropeManager.ClimbRope(verticalInput);
+                }
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:

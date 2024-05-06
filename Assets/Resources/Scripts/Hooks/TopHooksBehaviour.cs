@@ -13,7 +13,7 @@ public class TopHooksBehaviour : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<RopeManager>().compareHook(this.gameObject);
+            col.GetComponent<RopeManager>().CompareHook(this.gameObject);
         }
     }
 
@@ -21,7 +21,7 @@ public class TopHooksBehaviour : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<RopeManager>().checkExittingHook(this.gameObject);
+            col.GetComponent<RopeManager>().CheckExittingHook(this.gameObject);
         }
     }
 
