@@ -1,5 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer playerSprite;
     private SlingshotJump slingshotJump;
     private RopeManager ropeManager;
+    [SerializeField] Image chargeBar;
+    [SerializeField] Canvas playerUI;
 
     // Input variables
     private float moveInput;
@@ -29,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     // Movement variables
     public bool facingRight { get; private set; }
     private float moveSpeed = 400f;
+    private float verticalInput;
+    private const float moveSpeedWalk = 400f;
+    private const float moveSpeedChargeJump = 0f;
+    private const float moveSpeedJump = 350f;
 
     // Jump variables
     private const float jumpForce = 1800f;
@@ -87,16 +95,21 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
+                playerUI.enabled = true;
+                moveSpeed = moveSpeedChargeJump;
                 holdTimer += Time.deltaTime;
                 if (holdTimer > maxHoldTime)
                     holdTimer = maxHoldTime;
 
                 holdNormTimer = Mathf.Lerp(0, 1, holdTimer / maxHoldTime);
+                chargeBar.fillAmount = holdNormTimer;
                 playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("charge_jump");
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                playerUI.enabled = false;
+                moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
                     playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce * RotationManager.Instance.globalDirection.y));
                 else

@@ -61,6 +61,11 @@ public class InputManager : MonoBehaviour
     {
         moveInput = context.ReadValue<float>() * RotationManager.Instance.globalDirection.x;
     }
+    //Vertical movement input [W | S]
+    public void OnVertical(InputAction.CallbackContext context)
+    {
+            vInput = context.ReadValue<float>();
+    }
 
     // Vertical movement input [W | S]
     public void OnVertical(InputAction.CallbackContext context)
