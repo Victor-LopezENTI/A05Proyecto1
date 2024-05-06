@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: -5, y: 2}
+  m_EffectDistance: {x: -3, y: 1}
   m_UseGraphicAlpha: 1
 --- !u!1 &169245641
 GameObject:
@@ -1690,7 +1690,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 04e99247cdb7fab4698800ac7d2fef19, type: 3}
-    m_FontSize: 10
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -2607,7 +2607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.r
-      value: 0.43137255
+      value: 0.4509804
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -3363,10 +3363,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c9f6d0e7bc8541498c9a4799ba184ede, type: 3}
-    m_FontSize: 14
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0

@@ -15,6 +15,9 @@ public class MainMenu : MonoBehaviour
     private Button settings;
     private Button credits;
     private Button quit;
+    private VisualElement sureQuit;
+    private Button yesQuit;
+    private Button noQuit;
 
     private void Update()
     {
@@ -23,11 +26,15 @@ public class MainMenu : MonoBehaviour
         settings = doc.rootVisualElement.Q("SettingsButton") as Button;
         credits = doc.rootVisualElement.Q("CreditsButton") as Button;
         quit = doc.rootVisualElement.Q("QuitButton") as Button;
+        yesQuit = doc.rootVisualElement.Q("YesQuit") as Button;
+        noQuit = doc.rootVisualElement.Q("NoQuit") as Button;
 
         start.RegisterCallback<ClickEvent>(OnStartButtonsClick);
         settings.RegisterCallback<ClickEvent>(OnSettingsButtonsClick);
         credits.RegisterCallback<ClickEvent>(OnCreditsButtonsClick);
         quit.RegisterCallback<ClickEvent>(OnQuitButtonsClick);
+
+        sureQuit = doc.rootVisualElement.Q("SureQuit") as VisualElement;
 
         for (int i = 0; i < buttons.Count; i++)
         {
@@ -37,7 +44,7 @@ public class MainMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        for (int i = 0;i < buttons.Count;i++)
+        for (int i = 0; i < buttons.Count; i++)
         {
             buttons[i].UnregisterCallback<ClickEvent>(ActivateMainMenu);
         }
@@ -64,6 +71,18 @@ public class MainMenu : MonoBehaviour
     }
     private void OnQuitButtonsClick(ClickEvent evnt)
     {
+        sureQuit.style.display = DisplayStyle.Flex;
+        yesQuit.RegisterCallback<ClickEvent>(OnYesQuitButtonsClick);
+        noQuit.RegisterCallback<ClickEvent>(OnNoQuitButtonsClick);
+    }
+
+    private void OnYesQuitButtonsClick(ClickEvent evnt)
+    {
         Application.Quit();
+    }
+
+    private void OnNoQuitButtonsClick(ClickEvent evnt)
+    {
+        sureQuit.style.display = DisplayStyle.None;
     }
 }
