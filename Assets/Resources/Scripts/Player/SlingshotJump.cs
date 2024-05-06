@@ -27,8 +27,8 @@ public class SlingshotJump : MonoBehaviour
 
     void Start()
     {
+        onSlingShot = false;
         chargingSlingshot = false;
-        onSlingShot = true;
     }
 
     void FixedUpdate()
@@ -102,15 +102,16 @@ public class SlingshotJump : MonoBehaviour
 
         return results;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Hook")
+        if (collision.gameObject.tag == "Slingshot")
             onSlingShot = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Hook")
+        if (collision.gameObject.tag == "Slingshot")
             onSlingShot = false;
     }
 }

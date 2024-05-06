@@ -75,7 +75,7 @@ public class PlayerStateMachine : MonoBehaviour
         if (onGround)
         {
             // ChargingJump
-            if (jumpInput)
+             if (jumpInput)
                 currentState = PlayerState.ChargingJump;
 
             // StartingJump
@@ -90,6 +90,7 @@ public class PlayerStateMachine : MonoBehaviour
             else if (slingshotJump.startSlingshot)
                 currentState = PlayerState.StartingSlingshot;
 
+            // Jumping
             else if (lastState == PlayerState.StartingSlingshot)
                 currentState = PlayerState.Jumping;
 
