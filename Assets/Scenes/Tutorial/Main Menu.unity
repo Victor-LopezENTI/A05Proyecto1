@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: -5, y: 2}
+  m_EffectDistance: {x: -3, y: 1}
   m_UseGraphicAlpha: 1
 --- !u!1 &169245641
 GameObject:
@@ -1289,7 +1289,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 12800000, guid: a6a70d0d56f828c4ead83e038b540c4b, type: 3}
     m_FontSize: 40
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 225
@@ -1690,7 +1690,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 04e99247cdb7fab4698800ac7d2fef19, type: 3}
-    m_FontSize: 10
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -2587,27 +2587,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Colors.m_PressedColor.b
-      value: 0.047058824
+      value: 0.050980393
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Colors.m_PressedColor.g
-      value: 0.047058824
+      value: 0.05490196
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Colors.m_PressedColor.r
-      value: 0.47058824
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.b
+      value: 0.050980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.g
+      value: 0.05490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_Colors.m_DisabledColor.r
+      value: 0.49019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.047058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.047058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.3529412
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b
-      value: 0.04705883
+      value: 0.050980393
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.g
-      value: 0.04705883
+      value: 0.05490196
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.r
-      value: 0.43137255
+      value: 0.49019608
       objectReference: {fileID: 0}
     - target: {fileID: 989649538522004363, guid: 8da0dd22391db844eb1364d911a23b58, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -3363,10 +3387,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c9f6d0e7bc8541498c9a4799ba184ede, type: 3}
-    m_FontSize: 14
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
