@@ -68,6 +68,11 @@ public class PlayerMovement : MonoBehaviour
         ropeManager = GetComponent<RopeManager>();
     }
 
+    private void Start()
+    {
+        playerRB.velocity = Vector2.zero;
+    }
+
     private void Update()
     {
         // Flip the player sprite

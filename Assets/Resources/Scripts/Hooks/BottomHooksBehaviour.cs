@@ -16,7 +16,7 @@ public class BottomHooksBehaviour : MonoBehaviour
     {
         if (highlight.transform.localPosition != Vector3.zero && !onTransition)
         {
-            highlight.transform.DOMove(transform.position, 0.1f);
+            highlight.transform.DOMove(transform.position, 0.07f);
         }
         else if (highlight.transform.localPosition == Vector3.zero)
             highlight.transform.localScale = Vector3.one * 0.5f;

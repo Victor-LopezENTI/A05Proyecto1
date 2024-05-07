@@ -51,16 +51,12 @@ public class InputManager : MonoBehaviour
         playerController.Enable();
     }
 
-    private void FixedUpdate()
-    {
-        clickReleased = false;
-    }
-
     // Horizontal movement input [A | D]
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<float>() * RotationManager.Instance.globalDirection.x;
     }
+
     // Vertical movement input [W | S]
     public void OnVertical(InputAction.CallbackContext context)
     {
