@@ -1,19 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] AudioSource mainMusic;
+    public static AudioManager Instance;
+
+    public Sound[] musicSound, sfxSound;
+    [SerializeField] AudioSource MainMusic;
+    [SerializeField] AudioSource SFXMusic;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        else
+            Destroy(gameObject);
     }
 
     void Start()
     {
-        mainMusic.Play();
+        PlayMusic("Initial");
     }
 
+    public void PlayMusic(string name)
+    {
+        Sound s = Array.Find(musicSound, x=> x.nameClip == name);
+
+        if(s != null)
+        {
+            MainMusic.clip = s.clip;
+            MainMusic.Play();
+        }
+    }
+
+    public void PlaySFX(string name)
+    {
+        Sound s = Array.Find(sfxSound, x => x.nameClip == name);
+
+        if (s != null)        
+            SFXMusic.PlayOneShot(s.clip);        
+    }
+
+    public void MusicVolume(float volume)
+    {
+        MainMusic.volume = volume;
+    }
+
+    public void SFXVolume(float volume)
+    {
+        SFXMusic.volume = volume;
+    }
 }

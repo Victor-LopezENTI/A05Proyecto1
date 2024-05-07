@@ -58,31 +58,38 @@ public class MainMenu : MonoBehaviour
     private void OnStartButtonsClick(ClickEvent evnt)
     {
         SceneController.instance.NextLevel();
+        AudioManager.Instance.PlaySFX("ButtonClick");
+        AudioManager.Instance.PlayMusic("Game");
     }
     private void OnSettingsButtonsClick(ClickEvent evnt)
     {
         mainMenu.SetActive(false);
         settingsMenu.SetActive(true);
+        AudioManager.Instance.PlaySFX("ButtonClick");
     }
     private void OnCreditsButtonsClick(ClickEvent evnt)
     {
         mainMenu.SetActive(false);
         creditsMenu.SetActive(true);
+        AudioManager.Instance.PlaySFX("ButtonClick");
     }
     private void OnQuitButtonsClick(ClickEvent evnt)
     {
         sureQuit.style.display = DisplayStyle.Flex;
         yesQuit.RegisterCallback<ClickEvent>(OnYesQuitButtonsClick);
         noQuit.RegisterCallback<ClickEvent>(OnNoQuitButtonsClick);
+        AudioManager.Instance.PlaySFX("ButtonClick");
     }
 
     private void OnYesQuitButtonsClick(ClickEvent evnt)
     {
         Application.Quit();
+        AudioManager.Instance.PlaySFX("ButtonClick");
     }
 
     private void OnNoQuitButtonsClick(ClickEvent evnt)
     {
         sureQuit.style.display = DisplayStyle.None;
+        AudioManager.Instance.PlaySFX("ButtonClick");
     }
 }
