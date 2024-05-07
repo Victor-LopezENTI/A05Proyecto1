@@ -26,8 +26,9 @@ public class PauseMenu : MonoBehaviour
     public void PausedMenu()
     {
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0.0f;
         paused = true;
+        AudioManager.Instance.PlaySFX("Pause");
+        Time.timeScale = 0.0f;
     }
 
     public void ResumeGame()
@@ -49,6 +50,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Quit()
     {
-        SceneController.instance.LoadScene("Main Menu");
+        SceneController.instance.LoadScene("MainMenuScene");
+        AudioManager.Instance.PlayMusic("Initial");
     }
 }
