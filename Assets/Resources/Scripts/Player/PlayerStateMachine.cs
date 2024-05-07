@@ -65,6 +65,11 @@ public class PlayerStateMachine : MonoBehaviour
         slingshotJump = GetComponent<SlingshotJump>();
     }
 
+    private void Start()
+    {
+        currentState = PlayerState.Idle;
+    }
+
     private void FixedUpdate()
     {
         // Groundcheck

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,6 +38,7 @@ public class InputManager : MonoBehaviour
 
     // Input variables
     public float moveInput { get; private set; }
+    public float verticalInput { get; private set; }
     public bool jumpInput { get; private set; }
     public bool interactInput { get; private set; }
     public bool clickInput { get; private set; }
@@ -49,15 +51,16 @@ public class InputManager : MonoBehaviour
         playerController.Enable();
     }
 
-    private void FixedUpdate()
-    {
-        clickReleased = false;
-    }
-
     // Horizontal movement input [A | D]
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<float>() * RotationManager.Instance.globalDirection.x;
+    }
+
+    // Vertical movement input [W | S]
+    public void OnVertical(InputAction.CallbackContext context)
+    {
+        verticalInput = context.ReadValue<float>() * RotationManager.Instance.globalDirection.y;
     }
 
     // Jump input [Spacebar]
