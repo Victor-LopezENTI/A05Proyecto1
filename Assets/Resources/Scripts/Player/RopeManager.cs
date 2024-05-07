@@ -12,8 +12,9 @@ public class RopeManager : MonoBehaviour
     public bool hingeConnected = false;
     [SerializeField] float ropeExpansionSpeed;
     [SerializeField] HingeJoint2D hjoint;
+
     private Vector3 savedPos;
-    private float climbSpeed = 10;
+    private float climbSpeed = 0.15f;
     private void Update()
     {
         if (selectedHook != null && !playerSM.onGround && InputManager.Instance.clickInput && existingRope == null)
@@ -109,15 +110,18 @@ public class RopeManager : MonoBehaviour
         hjoint.connectedBody = selectedHook.GetComponent<Rigidbody2D>();
         hjoint.enabled = true;
     }
-    public void ClimbRope(float v)
+    public bool ClimbRope(float v)
     {
-        //if (Vector2.Distance(playerRB.position, selectedHook.transform.position) > 10)
-        //{
-            Vector2 tempVelocity = playerRB.velocity;
+        Vector2 tempPos = Vector2.MoveTowards(playerRB.position, selectedHook.transform.position, v * climbSpeed);
+        float tempDist = Vector2.Distance(tempPos, selectedHook.transform.position);
+        if (!((v > 0 && tempDist < 4) || (v < 0 && tempDist > selectedHook.GetComponent<CircleCollider2D>().radius * selectedHook.transform.lossyScale.x)))
+        {
             hjoint.connectedBody = null;
-            playerRB.position += new Vector2(selectedHook.transform.position.x - playerRB.position.x, selectedHook.transform.position.y - playerRB.position.y).normalized * v * climbSpeed;
+            playerRB.position = tempPos;
             hjoint.connectedBody = selectedHook.GetComponent<Rigidbody2D>();
-        //}
+            return true;
+        }
+        return false;
     }
     void DestroyRope()
     {
