@@ -65,6 +65,11 @@ public class PlayerStateMachine : MonoBehaviour
         slingshotJump = GetComponent<SlingshotJump>();
     }
 
+    private void Start()
+    {
+        currentState = PlayerState.Idle;
+    }
+
     private void FixedUpdate()
     {
         // Groundcheck
@@ -121,7 +126,7 @@ public class PlayerStateMachine : MonoBehaviour
                 else
                     currentState = PlayerState.Jumping;
             }
-            else
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y < 0)
             {
                 // FallingSlingshot
                 if (slingshotJump.jumpingSlingshot)

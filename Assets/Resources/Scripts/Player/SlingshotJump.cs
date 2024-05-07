@@ -4,10 +4,11 @@ public class SlingshotJump : MonoBehaviour
 {
     private LineRenderer playerLR;
     private Rigidbody2D playerRB;
+    private BottomHooksBehaviour slingShot;
 
     [SerializeField] private float slingshotBuffer;
     private const float slingshotForce = 100f;
-    private const int steps = 200;
+    private const int steps = 400;
 
     [SerializeField] private bool m_onSlingShot = false;
     public bool onSlingShot { get => m_onSlingShot; private set => m_onSlingShot = value; }
@@ -33,7 +34,6 @@ public class SlingshotJump : MonoBehaviour
             if (InputManager.Instance.clickInput && !chargingSlingshot)
             {
                 chargingSlingshot = true;
-                playerLR.enabled = true;
                 dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
             else if (InputManager.Instance.clickInput && chargingSlingshot)
@@ -41,10 +41,13 @@ public class SlingshotJump : MonoBehaviour
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
-                escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
+                slingshotBuffer = Mathf.Clamp(slingshotBuffer, 10f, 25f);
+                playerLR.enabled = slingshotBuffer > 10f;
+                slingShot.chargeJumpAnimation(dragStartPos - dragEndPos);
 
-                float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x);
-                if (angle >= 0)
+                escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
+                float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x) * RotationManager.Instance.globalDirection.y;
+                if (angle >= 0.5f && angle <= 2.5f)
                 {
                     trajectory = new Vector2[steps];
                     trajectory = Plot(playerRB, playerRB.position, escapeForce, steps);
@@ -60,6 +63,7 @@ public class SlingshotJump : MonoBehaviour
             }
             else if (InputManager.Instance.clickReleased && chargingSlingshot)
             {
+                slingShot.onTransition = false;
                 startSlingshot = true;
                 jumpingSlingshot = true;
                 chargingSlingshot = false;
@@ -106,12 +110,18 @@ public class SlingshotJump : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Slingshot")
+        {
             onSlingShot = true;
+            slingShot = collision.gameObject.GetComponent<BottomHooksBehaviour>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Slingshot")
+        {
             onSlingShot = false;
+            slingShot = null;
+        }
     }
 }

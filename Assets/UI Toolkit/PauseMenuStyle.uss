@@ -1,33 +1,29 @@
 .button {
-    width: 220px;
+    width: 160px;
     height: 60px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 0;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
     align-self: center;
     justify-content: flex-end;
     align-items: auto;
-    margin-top: 243px;
+    margin-top: 325px;
     -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Medium.ttf?fileID=12800000&guid=1f5e7503e3d64654c871af74ded6dc76&type=3#Oswald-Medium');
+    -unity-font: resource('UI/Fonts/SubVario/SubVario OT W03 Cond Medium');
     -unity-text-outline-width: 0;
     color: rgb(91, 14, 13);
-    font-size: 20px;
+    font-size: 30px;
     background-image: none;
     transition-duration: 0.2s;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-background-image-tint-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0);
-    -unity-font-style: italic;
+    -unity-font-style: normal;
     top: -647px;
 }
 
 .text {
-    font-size: 60px;
+    font-size: 100px;
     -unity-font-definition: initial;
     -unity-font: url('project://database/Assets/Plugins/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold');
     align-self: center;
@@ -37,11 +33,9 @@
 }
 
 .button:hover {
-    transition-duration: 0.2s;
-    -unity-background-image-tint-color: rgb(36, 62, 176);
-    scale: 1.2 1.2;
+    -unity-background-image-tint-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0);
-    color: rgb(105, 14, 13);
-    transition-timing-function: linear;
-    rotate: 3deg;
+    color: rgb(115, 14, 13);
+    background-image: resource('Sprites/UI/bordes');
+    width: 220px;
 }

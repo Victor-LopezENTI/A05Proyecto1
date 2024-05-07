@@ -68,6 +68,11 @@ public class PlayerMovement : MonoBehaviour
         ropeManager = GetComponent<RopeManager>();
     }
 
+    private void Start()
+    {
+        playerRB.velocity = Vector2.zero;
+    }
+
     private void Update()
     {
         // Flip the player sprite
@@ -82,9 +87,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
-        verticalInput = InputManager.Instance.verticalInput;
-        
-        Debug.Log(playerStateMachine.currentState);
+
+        //Debug.Log(playerStateMachine.currentState);
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
@@ -125,10 +129,19 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:
                 playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                playerAnimator.Play("charge_jump");
                 break;
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
                 playerRB.AddForce(slingshotJump.escapeForce);
+                break;
+
+            case PlayerStateMachine.PlayerState.JumpingSlingshot:
+                playerAnimator.Play("jump");
+                break;
+
+            case PlayerStateMachine.PlayerState.FallingSlingshot:
+                playerAnimator.Play("fall");
                 break;
 
             case PlayerStateMachine.PlayerState.Jumping:

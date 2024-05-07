@@ -3,6 +3,7 @@ using UnityEngine;
 public class TopHooksBehaviour : MonoBehaviour
 {
     [SerializeField] GameObject highlight;
+
     private void Start()
     {
         if (highlight == null)
