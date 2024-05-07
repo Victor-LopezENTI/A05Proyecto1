@@ -54,4 +54,9 @@ public class AudioManager : MonoBehaviour
     {
         SFXMusic.volume = volume;
     }
+
+    public void StopSFX(string name)
+    {
+        SFXMusic.Stop();
+    }
 }
