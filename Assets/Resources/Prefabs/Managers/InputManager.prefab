@@ -138,6 +138,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6ca0ded4-8569-48f8-8557-8dc647cc48c1
     m_ActionName: "Player/Acci\xF3n[/Mouse/leftButton]"
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6722898283083688984}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnVertical
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 310a4090-de43-4d8f-ae9f-1b89d55eb02c
+    m_ActionName: Player/Movimiento Vertical[/Keyboard/s,/Keyboard/w]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
