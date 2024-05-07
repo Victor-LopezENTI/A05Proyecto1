@@ -18,15 +18,15 @@ public class PauseMenuUIToolkit : MonoBehaviour
 
         resume.clicked += () => pauseMenu.ResumeGame();
         resume.clicked += () => gameObject.SetActive(false);
-        resume.clicked += () => AudioManager.Instance.PlaySFX("ClickButton");
+        resume.clicked += () => AudioManager.Instance.PlaySFX("ButtonClick");
 
         settings.clicked += () => pauseMenu.EnterSettings();
         settings.clicked += () => settingsUI.SetActive(true);
         settings.clicked += () => gameObject.SetActive(false);
-        settings.clicked += () => AudioManager.Instance.PlaySFX("ClickButton");
+        settings.clicked += () => AudioManager.Instance.PlaySFX("ButtonClick");
 
         quit.clicked += () => pauseMenu.Quit();
-        quit.clicked += () => AudioManager.Instance.PlaySFX("ClickButton");
+        quit.clicked += () => AudioManager.Instance.PlaySFX("ButtonClick");
     }
 
 }

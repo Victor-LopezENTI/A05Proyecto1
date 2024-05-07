@@ -111,13 +111,14 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                AudioManager.Instance.PlaySFX("Jump");
                 playerUI.enabled = false;
                 moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
                     playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce * RotationManager.Instance.globalDirection.y));
                 else
                     playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer * RotationManager.Instance.globalDirection.y));
-                holdTimer = 0f;
+                holdTimer = 0f;                
                 break;
 
             case PlayerStateMachine.PlayerState.Roping:
@@ -134,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
                 playerRB.AddForce(slingshotJump.escapeForce);
+                AudioManager.Instance.PlaySFX("SlingShot");
                 break;
 
             case PlayerStateMachine.PlayerState.JumpingSlingshot:
@@ -147,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
             case PlayerStateMachine.PlayerState.Jumping:
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
-                playerAnimator.Play("jump");
+                playerAnimator.Play("jump");                
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:

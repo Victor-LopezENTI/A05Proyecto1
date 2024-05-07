@@ -32,6 +32,7 @@ public class Dialogue : MonoBehaviour
     {
         index = 0;
         StartCoroutine(TypeLine());
+        AudioManager.Instance.PlaySFX("TextTyping1");
     }
 
     void EraseDialogue()
@@ -69,6 +70,8 @@ public class Dialogue : MonoBehaviour
                 break;
             }
         }
+
+        AudioManager.Instance.StopSFX("TextTyping1");
     }
 
     public void NextLine()
@@ -78,6 +81,7 @@ public class Dialogue : MonoBehaviour
             index++;
             txt.text = string.Empty;
             StartCoroutine(TypeLine());
+            AudioManager.Instance.PlaySFX("TextTyping1");
         }
         else
         {
