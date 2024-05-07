@@ -11035,6 +11035,10 @@ PrefabInstance:
       propertyPath: pauseMenu
       value: 
       objectReference: {fileID: 403938409}
+    - target: {fileID: 3601763742968427458, guid: 965ff8bd5d270f6478eddbc3a00e6e12, type: 3}
+      propertyPath: settingsUI
+      value: 
+      objectReference: {fileID: 800425855}
     - target: {fileID: 4622686153355321929, guid: 965ff8bd5d270f6478eddbc3a00e6e12, type: 3}
       propertyPath: m_Name
       value: UIManager InGame
@@ -11054,7 +11058,7 @@ PrefabInstance:
     - target: {fileID: 7650808473128246109, guid: 965ff8bd5d270f6478eddbc3a00e6e12, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1738524964}
+      objectReference: {fileID: 800425855}
     - target: {fileID: 7650808473128246109, guid: 965ff8bd5d270f6478eddbc3a00e6e12, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetActive
@@ -11188,6 +11192,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &800425855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3193284711655832492, guid: 965ff8bd5d270f6478eddbc3a00e6e12, type: 3}
+  m_PrefabInstance: {fileID: 470869691}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &926426862
 GameObject:
   m_ObjectHideFlags: 0
@@ -25043,8 +25052,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.008650005, y: -0.00045001507, z: 0}
-    m_Extent: {x: 1.7899499, y: 1.79475, z: 0}
+    m_Center: {x: -0.0009499788, y: -0.006399989, z: 0}
+    m_Extent: {x: 1.78975, y: 1.7917, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -25708,11 +25717,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1738524964 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6008157975759825343, guid: 965ff8bd5d270f6478eddbc3a00e6e12, type: 3}
-  m_PrefabInstance: {fileID: 470869691}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1745394972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7110775203556875885, guid: 5a4f146cd8c2e5a4b8fc122fd1c105de, type: 3}

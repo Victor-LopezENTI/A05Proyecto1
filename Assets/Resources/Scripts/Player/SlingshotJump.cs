@@ -40,7 +40,7 @@ public class SlingshotJump : MonoBehaviour
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
-                slingshotBuffer = Mathf.Clamp(slingshotBuffer, 10f, 37f);
+                slingshotBuffer = Mathf.Clamp(slingshotBuffer, 10f, 25f);
                 playerLR.enabled = slingshotBuffer > 10f;
 
                 escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
