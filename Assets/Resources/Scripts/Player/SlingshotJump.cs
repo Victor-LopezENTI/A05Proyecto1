@@ -4,6 +4,7 @@ public class SlingshotJump : MonoBehaviour
 {
     private LineRenderer playerLR;
     private Rigidbody2D playerRB;
+    private BottomHooksBehaviour slingShot;
 
     [SerializeField] private float slingshotBuffer;
     private const float slingshotForce = 100f;
@@ -42,6 +43,7 @@ public class SlingshotJump : MonoBehaviour
                 slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
                 slingshotBuffer = Mathf.Clamp(slingshotBuffer, 10f, 25f);
                 playerLR.enabled = slingshotBuffer > 10f;
+                slingShot.chargeJumpAnimation(dragStartPos - dragEndPos);
 
                 escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
                 float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x) * RotationManager.Instance.globalDirection.y;
@@ -61,6 +63,7 @@ public class SlingshotJump : MonoBehaviour
             }
             else if (InputManager.Instance.clickReleased && chargingSlingshot)
             {
+                slingShot.onTransition = false;
                 startSlingshot = true;
                 jumpingSlingshot = true;
                 chargingSlingshot = false;
@@ -107,12 +110,18 @@ public class SlingshotJump : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Slingshot")
+        {
             onSlingShot = true;
+            slingShot = collision.gameObject.GetComponent<BottomHooksBehaviour>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Slingshot")
+        {
             onSlingShot = false;
+            slingShot = null;
+        }
     }
 }
