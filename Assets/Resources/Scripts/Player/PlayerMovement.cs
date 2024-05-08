@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private RopeManager ropeManager;
     [SerializeField] Image chargeBar;
     [SerializeField] Canvas playerUI;
+    [SerializeField] ParticleSystem sparks;
 
     // Input variables
     private float moveInput;
@@ -87,12 +88,14 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
+        verticalInput = InputManager.Instance.verticalInput;
 
         //Debug.Log(playerStateMachine.currentState);
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
             case PlayerStateMachine.PlayerState.Walking:
+                sparks.gameObject.SetActive(false);
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, 0);
                 playerAnimator.Play("walk");
                 break;
@@ -111,21 +114,34 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                AudioManager.Instance.PlaySFX("Jump");
                 playerUI.enabled = false;
                 moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
                     playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce * RotationManager.Instance.globalDirection.y));
                 else
                     playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer * RotationManager.Instance.globalDirection.y));
-                holdTimer = 0f;
+                holdTimer = 0f;                
                 break;
 
             case PlayerStateMachine.PlayerState.Roping:
                 if (verticalInput != 0)
                 {
-                    ropeManager.ClimbRope(verticalInput);
+                    if (ropeManager.ClimbRope(verticalInput))
+                    {
+                        sparks.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        sparks.gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    sparks.gameObject.SetActive(false);
                 }
                 break;
+
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:
                 playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
@@ -134,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
                 playerRB.AddForce(slingshotJump.escapeForce);
+                AudioManager.Instance.PlaySFX("SlingShot");
                 break;
 
             case PlayerStateMachine.PlayerState.JumpingSlingshot:
@@ -148,12 +165,14 @@ public class PlayerMovement : MonoBehaviour
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("jump");
+                sparks.gameObject.SetActive(false);
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("fall");
+                sparks.gameObject.SetActive(false);
                 break;
 
             case PlayerStateMachine.PlayerState.Idle:

@@ -11,6 +11,12 @@ public class VolumeLogic : MonoBehaviour
     public Image VolumeMusic;
     public Image SFXMusic;
 
+    private void Start()
+    {
+        SFXMusic.enabled = false;
+        VolumeMusic.enabled = false;
+    }
+
     public void ChangeVolume()
     {
         AudioManager.Instance.MusicVolume(MusicSlider.value);
