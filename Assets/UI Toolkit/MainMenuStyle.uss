@@ -11,7 +11,7 @@
 }
 
 .button {
-    font-size: 30px;
+    font-size: 25px;
     -unity-font-style: normal;
     -unity-text-align: upper-center;
     -unity-text-outline-width: 0;
@@ -31,22 +31,23 @@
     margin-left: -478px;
     -unity-font-definition: initial;
     -unity-font: resource('UI/Fonts/SubVario/SubVario OT W03 Cond Medium');
-    color: rgb(91, 14, 13);
-    background-color: rgba(0, 0, 0, 0);
+    color: rgb(100, 14, 13);
+    background-color: rgba(255, 255, 255, 0);
     transform-origin: bottom;
     letter-spacing: 5px;
     word-spacing: 0;
     -unity-paragraph-spacing: 0;
-    text-shadow: -1.5px 0 1.2px rgba(202, 202, 202, 0.78);
+    text-shadow: -2px 0 0 rgba(202, 202, 202, 0);
     -unity-text-outline-color: rgba(0, 0, 0, 0);
     transition-duration: 0.3s;
-    -unity-background-image-tint-color: rgb(0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
 .button:hover {
-    background-color: rgba(0, 0, 0, 0);
-    -unity-background-image-tint-color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
     background-image: resource('Sprites/UI/bordes');
-    color: rgb(125, 14, 13);
+    color: rgb(135, 14, 13);
     width: 210px;
+    font-size: 25px;
 }
