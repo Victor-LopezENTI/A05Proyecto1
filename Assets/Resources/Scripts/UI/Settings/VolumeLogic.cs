@@ -15,6 +15,8 @@ public class VolumeLogic : MonoBehaviour
     {
         SFXMusic.enabled = false;
         VolumeMusic.enabled = false;
+        MusicSlider.value = PlayerPrefs.GetFloat("Music Volume");
+        SFXSlider.value = PlayerPrefs.GetFloat("SFX Volume");
     }
 
     public void ChangeVolume()
