@@ -57,6 +57,11 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat("SFX Volume", SFXMusic.volume);
     }
 
+    public void StopMusic()
+    {
+        MainMusic.Stop();
+    }
+
     public void StopSFX(string name)
     {
         SFXMusic.Stop();

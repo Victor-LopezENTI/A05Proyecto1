@@ -46,11 +46,13 @@ public class PauseMenu : MonoBehaviour
     {
         settingsON = false;
         pauseMenuUI.SetActive(true);
+        AudioManager.Instance.PlaySFX("ButtonClick");
     }
 
     public void Quit()
     {
         SceneController.instance.LoadScene("MainMenuScene");
+        AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlayMusic("Initial");
     }
 }
