@@ -192,6 +192,7 @@ public class PlayerMovement : MonoBehaviour
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
                                         playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("jump");
+                sparks.gameObject.SetActive(false);
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
