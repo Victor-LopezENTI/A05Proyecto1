@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2301191360901923278}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 453, y: 260, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2977641397793662639}
+  m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1212739058794495962
 AudioSource:
@@ -152,7 +152,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3464124665094616891}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.32157844, y: -1.4354966, z: 0.08916026}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -161,6 +160,7 @@ Transform:
   - {fileID: 8722591288006402138}
   - {fileID: 3848047943325391301}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2278355650011246403
 MonoBehaviour:
@@ -195,7 +195,7 @@ MonoBehaviour:
   - nameClip: SlingShot
     clip: {fileID: 8300000, guid: 43843a7c224e5934181398ea5462a1fc, type: 3}
   - nameClip: Modify
-    clip: {fileID: 8300000, guid: a723c7570b66c8743b7f92c06c320c42, type: 3}
+    clip: {fileID: 8300000, guid: 92300e37805c23d45b997057cb1b9018, type: 3}
   MainMusic: {fileID: 8291009118077466465}
   SFXMusic: {fileID: 1212739058794495962}
 --- !u!1 &5380243134762252548
@@ -222,13 +222,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5380243134762252548}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 450, y: 258, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2977641397793662639}
+  m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &8291009118077466465
 AudioSource:
