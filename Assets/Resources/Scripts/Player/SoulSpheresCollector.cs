@@ -7,12 +7,11 @@ public class SoulSpheresCollector : MonoBehaviour
     private int soulSphereCounter = 0;
    
 
-    void OnTriggerEnter(Collider soulSphere)
+    void OnTriggerEnter2D(Collider2D soulSphere)
     {
-        if (soulSphere.CompareTag("Soul")) 
+        if (soulSphere.gameObject.CompareTag("Soul")) 
         {
-            soulSphereCounter++;
-            Debug.Log("Soul Sphere Collected. Counter: " + soulSphereCounter);
+            Debug.Log("Soul Sphere Collected. Counter: " + ++soulSphereCounter);
             Destroy(soulSphere.gameObject); 
         }
     }
