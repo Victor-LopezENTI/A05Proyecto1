@@ -108,6 +108,7 @@ public class Dialogue : MonoBehaviour
             EraseDialogue();
             dialoguePanel.SetActive(false);
             StopAllCoroutines();
+            AudioManager.Instance.StopSFX("TextTyping1");
         }
     }
 }

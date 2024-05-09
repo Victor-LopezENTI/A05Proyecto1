@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3400718963574709526}
   - component: {fileID: 4382569151614492220}
   - component: {fileID: 29674058383315177}
-  - component: {fileID: 6822200045173321665}
   - component: {fileID: 4990150760793800771}
   m_Layer: 0
   m_Name: GameManager
@@ -28,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5209392962484094831}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3400718963574709526
 MonoBehaviour:
@@ -77,20 +76,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullScreen: {fileID: 0}
---- !u!114 &6822200045173321665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5209392962484094831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb80293dcd24c3e4587f29c7be19c7e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropdown: {fileID: 0}
-  quality: 0
 --- !u!114 &4990150760793800771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9af24a805fb59541bbe87ea51efc263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
+  MusicSlider: {fileID: 0}
+  SFXSlider: {fileID: 0}
   sliderValue: 0
-  music: {fileID: 0}
+  VolumeMusic: {fileID: 0}
+  SFXMusic: {fileID: 0}

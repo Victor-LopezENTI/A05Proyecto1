@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,30 +9,37 @@ public class RopeManager : MonoBehaviour
     [SerializeField] LayerMask obstacleLayers;
     [SerializeField] GameObject ropePrefab;
     LineRenderer existingRope;
-    GameObject selectedHook;
+    public GameObject selectedHook { get; private set; }
+    public float selectedHookAngle { get; private set; }
+    public float selectedHookDistance { get; private set; }
     public bool hingeConnected = false;
+    public bool enteringRope { get; private set; } = false;
+    public bool leavingRope { get; private set; } = false;
     [SerializeField] float ropeExpansionSpeed;
     [SerializeField] HingeJoint2D hjoint;
 
     private Vector3 savedPos;
-    private float climbSpeed = 0.15f;
+    private const float climbSpeed = 0.15f;
+
     private void Update()
     {
-        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.clickInput && existingRope == null)
-        {
-            LaunchRope(selectedHook.transform);
-        }
         if (existingRope != null)
         {
             existingRope.SetPosition(0, playerRB.transform.position);
-        }
-        if (existingRope != null && (!InputManager.Instance.clickInput || playerSM.onGround))
-        {
-            DestroyRope();
+            selectedHookAngle = Vector2.SignedAngle(Vector2.right, selectedHook.transform.position - playerRB.transform.position);
+            selectedHookDistance = Vector2.Distance(playerRB.transform.position, selectedHook.transform.position);
         }
     }
     private void FixedUpdate()
     {
+        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.clickInput && existingRope == null)
+        {
+            LaunchRope(selectedHook.transform);
+            enteringRope = true;
+        }
+        else
+            enteringRope = false;
+
         if (hingeConnected)
         {
             selectedHook.GetComponent<Rigidbody2D>().position = savedPos;
@@ -43,10 +51,21 @@ public class RopeManager : MonoBehaviour
             }
             playerRB.velocity = Vector2.ClampMagnitude(playerRB.velocity, 100);
         }
+
+        if (existingRope != null && (!InputManager.Instance.clickInput || playerSM.onGround))
+        {
+            DestroyRope();
+            leavingRope = true;
+            selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+            selectedHook.GetComponent<Rigidbody2D>().rotation = 0f;
+        }
+        else
+            leavingRope = false;
     }
-    void LaunchRope(Transform hook)
+
+    private void LaunchRope(Transform hook)
     {
-        if (ropeHasTrajectory(hook))
+        if (RopeHasTrajectory(hook))
         {
             existingRope = Instantiate(ropePrefab, playerRB.transform).GetComponent<LineRenderer>();
             existingRope.SetPosition(0, playerRB.transform.position);
@@ -55,13 +74,13 @@ public class RopeManager : MonoBehaviour
         }
     }
 
-    bool ropeHasTrajectory(Transform hook)
+    private bool RopeHasTrajectory(Transform hook)
     {
         return !Physics2D.Linecast(playerRB.transform.position, hook.position, obstacleLayers);
     }
     public void CompareHook(GameObject hook)
     {
-        if (ropeHasTrajectory(hook.transform))
+        if (RopeHasTrajectory(hook.transform))
         {
             if (selectedHook == null)
             {
