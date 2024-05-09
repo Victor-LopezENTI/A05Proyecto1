@@ -4996,9 +4996,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1e32f3cbf434b47a89193efd6a2b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slingshotBuffer: 0
-  m_onSlingShot: 0
-  m_chargingSlingshot: 0
+  escapeForce: {x: 0, y: 0}
+  maxEscapeForce: {x: 1300, y: 2400}
+  slingshotForce: 160
 --- !u!114 &1400350846760594606
 MonoBehaviour:
   m_ObjectHideFlags: 0

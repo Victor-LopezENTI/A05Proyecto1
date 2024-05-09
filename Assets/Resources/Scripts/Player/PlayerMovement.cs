@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using System.Xml;
 using UnityEngine;
@@ -216,6 +217,8 @@ public class PlayerMovement : MonoBehaviour
                 playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
                 playerAnimator.Play("idle");
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }
