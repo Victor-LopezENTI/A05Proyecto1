@@ -4797,7 +4797,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4923,6 +4923,7 @@ GameObject:
   - component: {fileID: 669537721907971673}
   - component: {fileID: 6768553796988181243}
   - component: {fileID: 1947897203651148326}
+  - component: {fileID: -3425367928547544951}
   m_Layer: 0
   m_Name: Kalma
   m_TagString: Player
@@ -4964,8 +4965,9 @@ MonoBehaviour:
   sparks: {fileID: 6570142967822960047}
   verticalInput: 0
   holdNormTimer: 0
-  leaveRopeForce: 90
-  maxLeaveRopeForce: 1100
+  leaveRopeForce: 89.7
+  maxLeaveRopeForce: 800
+  minLeaveRopeImpulse: {x: 300, y: 390}
 --- !u!114 &1362663552124734422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5060,7 +5062,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -5490,6 +5492,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-3425367928547544951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753142299670203745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3aa382e750ced44eaa17d108dbc58d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6800623148614496456
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class PauseMenu : MonoBehaviour
 
             else
                 PausedMenu();
+        }
+        if (InputManager.Instance.resetInput && !paused)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 

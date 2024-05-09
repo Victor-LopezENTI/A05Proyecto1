@@ -138,23 +138,24 @@ public class PlayerMovement : MonoBehaviour
                 Vector2 impulse = Vector2.zero;
                 float angleDifference = Mathf.Min(Mathf.Abs(ropeManager.selectedHookAngle), Mathf.Abs(ropeManager.selectedHookAngle - 180));
                 float distanceFactor;
-                if (ropeManager.selectedHookDistance < 0.4f || angleDifference is > 80f and < 100f)
-                {
-                    distanceFactor = 0f;
-                }
-                else
+                if (!(ropeManager.selectedHookDistance < 0.4f || angleDifference is > 80f and < 100f))
                 {
                     float maxRopeLength = ropeManager.selectedHook.GetComponent<CircleCollider2D>().radius *
                                           ropeManager.selectedHook.transform.lossyScale.x;
                     distanceFactor = ropeManager.selectedHookDistance / maxRopeLength;
-                    impulse.y = Mathf.Abs(playerRB.velocity.x * leaveRopeForce * distanceFactor);
-                    if (playerRB.velocity.x < 10f)
+                    impulse.x = Mathf.Abs(playerRB.velocity.x * leaveRopeForce * distanceFactor);
+                    impulse.y = Mathf.Abs(playerRB.velocity.y * leaveRopeForce * distanceFactor);
+                    if (playerRB.velocity.magnitude < 10f)
                     {
                         if (!facingRight)
                         {
-                            minLeaveRopeImpulse *= -1;
+                            impulse.x -= minLeaveRopeImpulse.x;
                         }
-                        impulse += minLeaveRopeImpulse;
+                        else
+                        {
+                            impulse.x += minLeaveRopeImpulse.x;
+                        }
+                        impulse.y += minLeaveRopeImpulse.y;
                     }
                     impulse = Vector2.ClampMagnitude(impulse, maxLeaveRopeForce);
                 }
