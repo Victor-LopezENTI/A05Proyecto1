@@ -4797,7 +4797,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4965,8 +4965,9 @@ MonoBehaviour:
   sparks: {fileID: 6570142967822960047}
   verticalInput: 0
   holdNormTimer: 0
-  leaveRopeForce: 90
-  maxLeaveRopeForce: 170
+  leaveRopeForce: 89.7
+  maxLeaveRopeForce: 800
+  minLeaveRopeImpulse: {x: 300, y: 390}
 --- !u!114 &1362663552124734422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5061,7 +5062,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 20
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
