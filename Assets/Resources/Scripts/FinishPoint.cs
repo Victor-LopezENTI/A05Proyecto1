@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishPoint : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class FinishPoint : MonoBehaviour
     private bool goNextLevel;
     [SerializeField]
     private string LevelName;
+    [SerializeField]
+    private bool zone1;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,6 +22,12 @@ public class FinishPoint : MonoBehaviour
                 SceneController.instance.LoadScene(LevelName);
 
             AudioManager.Instance.PlaySFX("Finish");
+
+            if (zone1)
+            {
+                AudioManager.Instance.StopMusic();
+                AudioManager.Instance.PlayMusic("Zone1");
+            }
         }
     }
 }
