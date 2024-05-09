@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -18,7 +19,8 @@ public class RopeManager : MonoBehaviour
     [SerializeField] HingeJoint2D hjoint;
 
     private Vector3 savedPos;
-    private float climbSpeed = 0.15f;
+    private const float climbSpeed = 0.15f;
+
     private void Update()
     {
         if (existingRope != null)
@@ -60,9 +62,10 @@ public class RopeManager : MonoBehaviour
         else
             leavingRope = false;
     }
-    void LaunchRope(Transform hook)
+
+    private void LaunchRope(Transform hook)
     {
-        if (ropeHasTrajectory(hook))
+        if (RopeHasTrajectory(hook))
         {
             existingRope = Instantiate(ropePrefab, playerRB.transform).GetComponent<LineRenderer>();
             existingRope.SetPosition(0, playerRB.transform.position);
@@ -71,13 +74,13 @@ public class RopeManager : MonoBehaviour
         }
     }
 
-    bool ropeHasTrajectory(Transform hook)
+    private bool RopeHasTrajectory(Transform hook)
     {
         return !Physics2D.Linecast(playerRB.transform.position, hook.position, obstacleLayers);
     }
     public void CompareHook(GameObject hook)
     {
-        if (ropeHasTrajectory(hook.transform))
+        if (RopeHasTrajectory(hook.transform))
         {
             if (selectedHook == null)
             {
