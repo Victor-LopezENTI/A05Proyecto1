@@ -28,13 +28,13 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         paused = true;
         AudioManager.Instance.PlaySFX("Pause");
-        Time.timeScale = 0.0f;
+        Time.fixedDeltaTime = 0.0f;
     }
 
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 1.0f;
         paused = false;
     }
     public void EnterSettings()
