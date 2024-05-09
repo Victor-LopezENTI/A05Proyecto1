@@ -50,8 +50,8 @@ public class RotationManager : MonoBehaviour
     // Update WILL be called when the game is paused
     private void Update()
     {
-        if (InputManager.Instance.interactInput)
-            rotateLevel();
+        //if (InputManager.Instance.interactInput)
+           // rotateLevel();
 
         if (onTransition)
         {
