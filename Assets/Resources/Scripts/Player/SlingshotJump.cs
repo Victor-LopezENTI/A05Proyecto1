@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SlingshotJump : MonoBehaviour
@@ -7,7 +8,7 @@ public class SlingshotJump : MonoBehaviour
     private BottomHooksBehaviour slingShot;
 
     [SerializeField] private float slingshotBuffer;
-    private const float slingshotForce = 100f;
+    [SerializeField] private float slingshotForce = 100f;
     private const int steps = 400;
 
     [SerializeField] private bool m_onSlingShot = false;
@@ -17,7 +18,6 @@ public class SlingshotJump : MonoBehaviour
     public bool startSlingshot { get; private set; } = false;
     public bool jumpingSlingshot { get; private set; } = false;
 
-    private Vector2 dragStartPos;
     private Vector2[] trajectory;
     public Vector2 escapeForce { get; private set; }
 
@@ -34,20 +34,20 @@ public class SlingshotJump : MonoBehaviour
             if (InputManager.Instance.clickInput && !chargingSlingshot)
             {
                 chargingSlingshot = true;
-                dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Cursor.lockState = CursorLockMode.Locked;
             }
             else if (InputManager.Instance.clickInput && chargingSlingshot)
             {
-                Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Cursor.lockState = CursorLockMode.None;
+                Vector2 dragEndPos = -Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                playerLR.enabled = dragEndPos.magnitude > 10f;
 
-                slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
-                slingshotBuffer = Mathf.Clamp(slingshotBuffer, 10f, 25f);
-                playerLR.enabled = slingshotBuffer > 10f;
-                slingShot.chargeJumpAnimation(dragStartPos - dragEndPos);
+                slingShot.chargeJumpAnimation(dragEndPos);
 
-                escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
-                float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x) * RotationManager.Instance.globalDirection.y;
-                if (angle >= 0.5f && angle <= 2.5f)
+                escapeForce = dragEndPos.normalized * slingshotForce;
+                Debug.Log(escapeForce);
+                float angle = Mathf.Atan2(dragEndPos.y, dragEndPos.x) * RotationManager.Instance.globalDirection.y;
+                if (angle is >= 0.5f and <= 2.5f)
                 {
                     trajectory = new Vector2[steps];
                     trajectory = Plot(playerRB, playerRB.position, escapeForce, steps);
@@ -67,10 +67,12 @@ public class SlingshotJump : MonoBehaviour
                 startSlingshot = true;
                 jumpingSlingshot = true;
                 chargingSlingshot = false;
-                playerLR.enabled = false;
-                Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                // playerLR.enabled = false;
+                Cursor.visible = true;
+                
+                Vector2 dragEndPos = -Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce;
+                escapeForce = dragEndPos * (slingshotBuffer * slingshotForce);
             }
             else
                 startSlingshot = false;
@@ -80,17 +82,16 @@ public class SlingshotJump : MonoBehaviour
             jumpingSlingshot = !PlayerStateMachine.Instance.onGround;
         }
     }
-
-    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
+    
+    private static Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
     {
         Vector2[] results = new Vector2[steps];
 
         float timestep = Time.fixedDeltaTime / Physics2D.velocityIterations;
-        Vector2 gravityAccel = Physics2D.gravity * rigidbody.gravityScale * timestep * timestep;
+        Vector2 gravityAccel = Physics2D.gravity * (rigidbody.gravityScale * timestep * timestep);
 
         float drag = 1f - timestep * rigidbody.drag;
         Vector2 moveStep = velocity * timestep;
-
         float distance = 0f;
 
         for (int i = 0; i < steps; i++)
@@ -103,25 +104,20 @@ public class SlingshotJump : MonoBehaviour
             distance += moveStep.magnitude;
 
         }
-
         return results;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Slingshot")
-        {
-            onSlingShot = true;
-            slingShot = collision.gameObject.GetComponent<BottomHooksBehaviour>();
-        }
+        if (!collision.gameObject.CompareTag("Slingshot")) return;
+        onSlingShot = true;
+        slingShot = collision.gameObject.GetComponent<BottomHooksBehaviour>();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Slingshot")
-        {
-            onSlingShot = false;
-            slingShot = null;
-        }
+        if (!collision.gameObject.CompareTag("Slingshot")) return;
+        onSlingShot = false;
+        slingShot = null;
     }
 }
