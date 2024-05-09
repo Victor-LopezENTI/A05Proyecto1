@@ -1,30 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] AudioSource MainMenuMusic;
-    [SerializeField] AudioSource SFXMenuMusic;
+    public static AudioManager Instance;
 
-    private bool menu;
+    public Sound[] musicSound, sfxSound;
+    [SerializeField] AudioSource MainMusic;
+    [SerializeField] AudioSource SFXMusic;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        else
+            Destroy(gameObject);
+    }
 
     void Start()
     {
-        MainMenuMusic.Play();
+        PlayMusic("Initial");
     }
 
-    private void Update()
+    public void PlayMusic(string name)
     {
-        Scene scene = SceneManager.GetActiveScene();
+        Sound s = Array.Find(musicSound, x=> x.nameClip == name);
 
-        if (scene.name == "MainMenuScene")
-            Destroy(gameObject);
-
-        else
-            DontDestroyOnLoad(gameObject);
-
+        if(s != null)
+        {
+            MainMusic.clip = s.clip;
+            MainMusic.Play();
+        }
     }
 
+    public void PlaySFX(string name)
+    {
+        Sound s = Array.Find(sfxSound, x => x.nameClip == name);
+
+        if (s != null)        
+            SFXMusic.PlayOneShot(s.clip);        
+    }
+
+    public void MusicVolume(float volume)
+    {
+        MainMusic.volume = volume;
+        PlayerPrefs.SetFloat("Music Volume", MainMusic.volume);
+    }
+
+    public void SFXVolume(float volume)
+    {
+        SFXMusic.volume = volume;
+        PlayerPrefs.SetFloat("SFX Volume", SFXMusic.volume);
+    }
+
+    public void StopMusic()
+    {
+        MainMusic.Stop();
+    }
+
+    public void StopSFX(string name)
+    {
+        SFXMusic.Stop();
+    }
 }

@@ -5,31 +5,44 @@ using UnityEngine.UI;
 
 public class VolumeLogic : MonoBehaviour
 {
-    public Slider slider;
+    public Slider MusicSlider;
+    public Slider SFXSlider;
     public float sliderValue;
-    public Image music;
+    public Image VolumeMusic;
+    public Image SFXMusic;
 
-    void Start()
+    private void Start()
     {
-        slider.value = PlayerPrefs.GetFloat("Volume", 0.5f);
-        AudioListener.volume = slider.value;
+        SFXMusic.enabled = false;
+        VolumeMusic.enabled = false;
+        MusicSlider.value = PlayerPrefs.GetFloat("Music Volume");
+        SFXSlider.value = PlayerPrefs.GetFloat("SFX Volume");
+    }
+
+    public void ChangeVolume()
+    {
+        AudioManager.Instance.MusicVolume(MusicSlider.value);
         CheckMute();
     }
 
-    public void ChangeSlider(float value)
+    public void ChangeSFX()
     {
-        sliderValue = value;
-        PlayerPrefs.SetFloat("Volume", sliderValue);
-        AudioListener.volume = slider.value;
+        AudioManager.Instance.SFXVolume(SFXSlider.value);
         CheckMute();
     }
 
     public void CheckMute()
     {
-        if (sliderValue == 0)
-            music.enabled = true;
+        if (MusicSlider.value == 0)
+            VolumeMusic.enabled = true;
 
-        else
-            music.enabled = false;
+        else if(MusicSlider.value != 0)
+            VolumeMusic.enabled = false;
+
+        if (SFXSlider.value == 0)
+            SFXMusic.enabled = true;
+
+        else if (SFXSlider.value != 0)
+            SFXMusic.enabled = false;
     }
 }

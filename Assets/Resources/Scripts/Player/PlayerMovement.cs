@@ -1,7 +1,8 @@
-using Unity.VisualScripting;
+using System.Numerics;
+using System.Xml;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Vector2 = UnityEngine.Vector2;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     // Input variables
     private float moveInput;
     [SerializeField] private float verticalInput;
-    //private bool canInput;
 
     // Jump timer variables
     private float holdTimer;
@@ -41,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
     // Jump variables
     private const float jumpForce = 1800f;
     private const float minJumpForce = 1250f;
+
+    // Rope jump variables
+    [SerializeField] private float leaveRopeForce = 90f;
+    [SerializeField] private float maxLeaveRopeForce = 1100f;
+    [SerializeField] private Vector2 minLeaveRopeImpulse = new(300f, 390f);
 
     #endregion
 
@@ -91,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         verticalInput = InputManager.Instance.verticalInput;
 
         //Debug.Log(playerStateMachine.currentState);
+
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
@@ -114,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.StartingJump:
+                AudioManager.Instance.PlaySFX("Jump");
                 playerUI.enabled = false;
                 moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
@@ -121,6 +128,37 @@ public class PlayerMovement : MonoBehaviour
                 else
                     playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer * RotationManager.Instance.globalDirection.y));
                 holdTimer = 0f;
+                break;
+
+            case PlayerStateMachine.PlayerState.EnteringRope:
+
+                break;
+
+            case PlayerStateMachine.PlayerState.LeavingRope:
+                Vector2 impulse = Vector2.zero;
+                float angleDifference = Mathf.Min(Mathf.Abs(ropeManager.selectedHookAngle), Mathf.Abs(ropeManager.selectedHookAngle - 180));
+                float distanceFactor;
+                if (ropeManager.selectedHookDistance < 0.4f || angleDifference is > 80f and < 100f)
+                {
+                    distanceFactor = 0f;
+                }
+                else
+                {
+                    float maxRopeLength = ropeManager.selectedHook.GetComponent<CircleCollider2D>().radius *
+                                          ropeManager.selectedHook.transform.lossyScale.x;
+                    distanceFactor = ropeManager.selectedHookDistance / maxRopeLength;
+                    impulse.y = Mathf.Abs(playerRB.velocity.x * leaveRopeForce * distanceFactor);
+                    if (playerRB.velocity.x < 10f)
+                    {
+                        if (!facingRight)
+                        {
+                            minLeaveRopeImpulse *= -1;
+                        }
+                        impulse += minLeaveRopeImpulse;
+                    }
+                    impulse = Vector2.ClampMagnitude(impulse, maxLeaveRopeForce);
+                }
+                playerRB.AddForce(impulse);
                 break;
 
             case PlayerStateMachine.PlayerState.Roping:
@@ -149,6 +187,7 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.StartingSlingshot:
                 playerRB.AddForce(slingshotJump.escapeForce);
+                AudioManager.Instance.PlaySFX("SlingShot");
                 break;
 
             case PlayerStateMachine.PlayerState.JumpingSlingshot:
