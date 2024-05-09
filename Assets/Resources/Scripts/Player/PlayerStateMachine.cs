@@ -78,7 +78,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Groundcheck
+        // Ground check
         onGround = Physics2D.Raycast(transform.position, Vector2.down * RotationManager.Instance.globalDirection, distanceFromGround, groundLayer);
 
         // Get the inputs from InputManager
