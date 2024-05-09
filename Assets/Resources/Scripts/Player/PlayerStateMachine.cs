@@ -20,7 +20,9 @@ public class PlayerStateMachine : MonoBehaviour
         FallingSlingshot,
 
         // Rope States
-        Roping
+        Roping,
+        EnteringRope,
+        LeavingRope
     };
 
     #region Variables
@@ -44,6 +46,9 @@ public class PlayerStateMachine : MonoBehaviour
     // Slingshot variables
     private SlingshotJump slingshotJump;
 
+    // Rope variables
+    private RopeManager ropeManager;
+
     #endregion
 
     private void Awake()
@@ -63,6 +68,7 @@ public class PlayerStateMachine : MonoBehaviour
         #endregion
 
         slingshotJump = GetComponent<SlingshotJump>();
+        ropeManager = GetComponent<RopeManager>();
     }
 
     private void Start()
@@ -109,11 +115,17 @@ public class PlayerStateMachine : MonoBehaviour
             // Idle
             else if (moveInput == 0 && lastState != PlayerState.Jumping)
                 currentState = PlayerState.Idle;
-        }  
+        }
         else
         {
+            if (ropeManager.enteringRope)
+                currentState = PlayerState.EnteringRope;
+
+            else if (ropeManager.leavingRope)
+                currentState = PlayerState.LeavingRope;
+
             // Roping
-            if (GetComponent<RopeManager>().hingeConnected)
+            else if (currentState != PlayerState.EnteringRope && currentState != PlayerState.LeavingRope && ropeManager.hingeConnected)
                 currentState = PlayerState.Roping;
 
             else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y >= 0)
