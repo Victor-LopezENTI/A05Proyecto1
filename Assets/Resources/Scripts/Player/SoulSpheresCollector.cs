@@ -6,35 +6,16 @@ using TMPro;
 
 public class SoulSpheresCollector : MonoBehaviour
 {
-    private int soulSphereCounter = 0;
+    public int soulSphereCounter;
     public Text counterText;
 
-    private void Awake()
+    private void Start()
     {
-        DontDestroyOnLoad(this);
-    }
-
-    void Start()
-    {
-        PlayerPrefs.SetInt("SoulSphereCounter", soulSphereCounter);
-        soulSphereCounter = PlayerPrefs.GetInt("SoulSphereCounter");
-        counterText.text =  soulSphereCounter.ToString();
-    }
-
-    void OnTriggerEnter2D(Collider2D soulSphere)
-    {
-        if (soulSphere.gameObject.CompareTag("Soul")) 
-        {
-            soulSphereCounter++;
-            PlayerPrefs.SetInt("SoulSphereCounter", soulSphereCounter);
-            Debug.Log("Soul Sphere Collected. Counter: " + soulSphereCounter);
-            Destroy(soulSphere.gameObject);
-        }
+        soulSphereCounter = PlayerPrefs.GetInt("SoulSphere", 0);
     }
 
     private void Update()
     {
         counterText.text = "" + soulSphereCounter.ToString();
     }
-
 }

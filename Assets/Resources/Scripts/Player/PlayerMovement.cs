@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance { get; private set; }
 
+    public SoulSpheresCollector souls;
+
     #region Variables
 
     PlayerStateMachine playerStateMachine;
@@ -71,6 +73,8 @@ public class PlayerMovement : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         slingshotJump = GetComponent<SlingshotJump>();
         ropeManager = GetComponent<RopeManager>();
+        souls = GetComponent<SoulSpheresCollector>();
+
     }
 
     private void Start()
@@ -218,6 +222,15 @@ public class PlayerMovement : MonoBehaviour
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D soulSphere)
+    {
+        if (soulSphere.gameObject.CompareTag("Soul"))
+        {
+            PlayerPrefs.SetInt("SoulSphere", ++souls.soulSphereCounter);
+            Destroy(soulSphere.gameObject);
         }
     }
 }
