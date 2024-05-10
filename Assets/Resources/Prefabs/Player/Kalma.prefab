@@ -4961,6 +4961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1f11a4e7b263c4d89b02006c71d26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  souls: {fileID: 0}
   chargeBar: {fileID: 1443061658998541084}
   playerUI: {fileID: 3764074794962439830}
   sparks: {fileID: 6570142967822960047}
@@ -5063,7 +5064,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 100
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -5294,32 +5295,32 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.04705883, g: 0.043137256, b: 0.04705883, a: 0.80784315}
+      key1: {r: 1, g: 1, b: 1, a: 0}
+      key2: {r: 1, g: 1, b: 1, a: 0}
+      key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
+      ctime0: 193
       ctime1: 65535
-      ctime2: 0
-      ctime3: 0
+      ctime2: 65535
+      ctime3: 65535
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
-      atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime0: 37586
+      atime1: 47417
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 20
@@ -5506,7 +5507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soulSphereCounter: 0
-  counterText: {fileID: 2559082153185126186}
+  counterText: {fileID: 0}
 --- !u!1 &6800623148614496456
 GameObject:
   m_ObjectHideFlags: 0
@@ -5751,14 +5752,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7444032270047807720, guid: 707ceb5921befbe4e9cb29c0cede44fb, type: 3}
   m_PrefabInstance: {fileID: 8509408392271551917}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2559082153185126186 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6166785176672598663, guid: 707ceb5921befbe4e9cb29c0cede44fb, type: 3}
-  m_PrefabInstance: {fileID: 8509408392271551917}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
