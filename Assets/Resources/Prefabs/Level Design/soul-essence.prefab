@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 308500776155750592}
   - component: {fileID: 4715782568748239433}
   - component: {fileID: 8160092359343441339}
-  - component: {fileID: 1552309364981717301}
   - component: {fileID: 1153823047034928987}
   m_Layer: 0
   m_Name: soul-essence
@@ -108,18 +107,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1552309364981717301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816057627036405363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3aa382e750ced44eaa17d108dbc58d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &1153823047034928987
 CircleCollider2D:
   m_ObjectHideFlags: 0
