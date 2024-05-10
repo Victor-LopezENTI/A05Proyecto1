@@ -98,8 +98,9 @@ public class PlayerMovement : MonoBehaviour
         moveInput = InputManager.Instance.moveInput;
         verticalInput = InputManager.Instance.verticalInput;
 
-        //Debug.Log(playerStateMachine.currentState);
+        // Debug.Log(playerStateMachine.currentState);
 
+        playerRB.gravityScale = 9.8f;
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
@@ -110,6 +111,8 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
+                playerRB.gravityScale = 0f;
+                playerRB.velocity = Vector2.zero;
                 playerUI.enabled = true;
                 moveSpeed = moveSpeedChargeJump;
                 holdTimer += Time.deltaTime;
@@ -217,7 +220,8 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.Idle:
-                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.instance.globalDirection.y);
+                playerRB.velocity = Vector2.zero;
+                playerRB.gravityScale = 0f;
                 playerAnimator.Play("idle");
                 break;
             default:
