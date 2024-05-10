@@ -7,7 +7,8 @@ public class SlingshotJump : MonoBehaviour
     private BottomHooksBehaviour slingShot;
 
     [SerializeField] private float slingshotBuffer;
-    private const float slingshotForce = 100f;
+    private const float slingshotForce = 150f;
+    private Vector2 slingShotForceMax = new Vector2(1300, 2400);
     private const int steps = 400;
 
     [SerializeField] private bool m_onSlingShot = false;
@@ -46,7 +47,7 @@ public class SlingshotJump : MonoBehaviour
                 playerLR.enabled = slingshotBuffer > 10f;
                 slingShot.ChargeJumpAnimation(dragStartPos - dragEndPos);
 
-                escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
+                escapeForce = (dragStartPos - dragEndPos).normalized * (2f * slingshotBuffer);
                 float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x) * RotationManager.instance.globalDirection.y;
                 if (angle >= 0.5f && angle <= 2.5f)
                 {
@@ -71,7 +72,7 @@ public class SlingshotJump : MonoBehaviour
                 playerLR.enabled = false;
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce;
+                escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce / 1.5f;
             }
             else
                 startSlingshot = false;
