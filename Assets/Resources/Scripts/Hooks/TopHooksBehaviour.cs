@@ -1,39 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem.Android;
 
 public class TopHooksBehaviour : MonoBehaviour
 {
-    [SerializeField] GameObject hilight;
+    [SerializeField] GameObject highlight;
+    public static Action OnHookSelected;
+    
     private void Start()
     {
-        if(hilight == null)
-            hilight = transform.GetChild(0).gameObject;
+        if (highlight == null)
+            highlight = transform.GetChild(0).gameObject;
     }
-    private void OnTriggerEnter2D(Collider2D col)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (col.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            //col.GetComponent<RopeManager>().compareHook(this.gameObject);
+            other.gameObject.GetComponent<RopeManager>().CompareHook(this.gameObject);
+            OnHookSelected?.Invoke();
         }
     }
+
     private void OnTriggerStay2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<RopeManager>().compareHook(this.gameObject);
+            col.GetComponent<RopeManager>().CompareHook(this.gameObject);
         }
     }
+
     private void OnTriggerExit2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
-            col.GetComponent<RopeManager>().checkExittingHook(this.gameObject);
+            col.GetComponent<RopeManager>().CheckExittingHook(this.gameObject);
+            OnHookSelected?.Invoke();
         }
     }
-    public void setHilight(bool state)
+
+    public void SetHilight(bool state)
     {
-        hilight.SetActive(state);
+        highlight.SetActive(state);
     }
 }

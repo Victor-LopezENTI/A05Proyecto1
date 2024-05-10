@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3724841385727529323}
   - component: {fileID: 3465918574423141264}
   - component: {fileID: 4326152268970554909}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 9.81
   m_Material: {fileID: 6200000, guid: db5eb257d7fe8c44bb88f76e43a8f7e6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -117,7 +117,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &4326152268970554909
 SpriteRenderer:

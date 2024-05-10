@@ -1,44 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
 {
-    public TextMeshProUGUI textComp;
+    public Text txt;
     public string[] lines;
     public float textSpeed;
 
     private int index;
     private bool near;
-    public GameObject contButton;
+    private bool alreadyEntered;
     public GameObject dialoguePanel;
+    public List<string> importantTxt;
 
     private void Start()
     {
-        textComp.text = string.Empty;
+        txt.text = string.Empty;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F) && near == true)
         {
-            if (textComp.text == lines[index])
-            {
-                NextLine();
-            }
-
-            else
-            {
-                StopAllCoroutines();
-                textComp.text = lines[index];
-            }
-        }
-
-        if (textComp.text == lines[index])
-        {
-            contButton.SetActive(true);
+            NextLine();
         }
     }
 
@@ -46,31 +32,56 @@ public class Dialogue : MonoBehaviour
     {
         index = 0;
         StartCoroutine(TypeLine());
+        AudioManager.Instance.PlaySFX("TextTyping1");
     }
 
     void EraseDialogue()
     {
-        textComp.text = string.Empty;
+        txt.text = string.Empty;
     }
 
     IEnumerator TypeLine()
     {
-        foreach (char c in lines[index].ToCharArray())
+        string line = lines[index];
+        string partialLine = "";
+
+        for (int i = 0; i < line.Length; i++)
         {
-            textComp.text += c;
-            yield return new WaitForSeconds(textSpeed);
+            partialLine += line[i];
+
+            foreach (string palabra in importantTxt)
+            {
+                if (partialLine.EndsWith(palabra))
+                {
+                    partialLine = partialLine.Substring(0, partialLine.Length - palabra.Length) + "<color=red>" + palabra + "</color>";
+                }
+            }
+
+            txt.text = partialLine;
+            yield return new WaitForSeconds(textSpeed); 
         }
+
+        foreach (string palabra in importantTxt)
+        {
+            if (partialLine.EndsWith(palabra))
+            {
+                partialLine += "</color>";
+                txt.text = partialLine;
+                break;
+            }
+        }
+
+        AudioManager.Instance.StopSFX("TextTyping1");
     }
 
     public void NextLine()
     {
-        contButton.SetActive(false);
-
         if (index < lines.Length - 1)
         {
             index++;
-            textComp.text = string.Empty;
+            txt.text = string.Empty;
             StartCoroutine(TypeLine());
+            AudioManager.Instance.PlaySFX("TextTyping1");
         }
         else
         {
@@ -80,11 +91,12 @@ public class Dialogue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !alreadyEntered)
         {
             near = true;
             dialoguePanel.SetActive(true);
             StartDialogue();
+            alreadyEntered = true;
         }
     }
 
@@ -96,6 +108,7 @@ public class Dialogue : MonoBehaviour
             EraseDialogue();
             dialoguePanel.SetActive(false);
             StopAllCoroutines();
+            AudioManager.Instance.StopSFX("TextTyping1");
         }
     }
 }

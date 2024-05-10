@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -8,12 +7,12 @@ public class PauseMenu : MonoBehaviour
     private bool paused;
     private bool settingsON;
 
-    void Start()
+    private void Start()
     {
         pauseMenuUI.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
         {
@@ -23,34 +22,45 @@ public class PauseMenu : MonoBehaviour
             else
                 PausedMenu();
         }
+        if (InputManager.Instance.resetInput && !paused)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
-    public void PausedMenu()
+    private void PausedMenu()
     {
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0.0f;
         paused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        AudioManager.Instance.PlaySFX("Pause");
+        Time.fixedDeltaTime = 0.0f;
     }
 
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 1.0f;
         paused = false;
+        Cursor.visible = false;
     }
     public void EnterSettings()
     {
-
+        
     }
 
     public void ExitSettings()
     {
         settingsON = false;
-        paused = false;
+        pauseMenuUI.SetActive(true);
+        AudioManager.Instance.PlaySFX("ButtonClick");
     }
 
     public void Quit()
     {
-        Application.Quit();
+        SceneController.instance.LoadScene("MainMenuScene");
+        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlayMusic("Initial");
     }
 }

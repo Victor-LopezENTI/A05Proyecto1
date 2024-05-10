@@ -15,40 +15,58 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Movimiento Vertical",
+                    "type": "PassThrough",
+                    "id": "310a4090-de43-4d8f-ae9f-1b89d55eb02c",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Salto",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "681f3d52-a9f6-4a4c-b8d5-e8df76d50366",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Interactuar",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "ed398bea-2508-4621-b94f-ed7ed4a24da4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Cancelar",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "a8599679-4216-4604-a539-0080ad8ec294",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
-                    "name": "Mouse Click",
-                    "type": "Button",
-                    "id": "2f503855-f96f-4a09-a4fb-55c1f2879418",
-                    "expectedControlType": "Button",
+                    "name": "Acción",
+                    "type": "Value",
+                    "id": "6ca0ded4-8569-48f8-8557-8dc647cc48c1",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Reset",
+                    "type": "Value",
+                    "id": "97e310cc-7b1e-426c-81f1-3f41a0259601",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=1.5)",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -164,12 +182,67 @@
                 },
                 {
                     "name": "",
-                    "id": "09ce7892-f4dc-4d4b-abb7-842a3d469916",
+                    "id": "37ed3e0b-fd7f-496e-be37-c862044ba1f8",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse Click",
+                    "action": "Acción",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68a12558-6e0c-4b28-8fca-b7897d7b7258",
+                    "path": "<Gamepad>/leftStick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Keyboard Y Axis",
+                    "id": "d64c17c2-a309-44b5-84cd-d03b521f5c98",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "071b574f-233d-419b-9e80-eb4d2682fa21",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "ef5aa138-43eb-44c7-98a5-e8de5c1f609a",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movimiento Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "dfd114bd-5409-43c3-b01f-f73e9678f0cb",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reset",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -5,5 +5,10 @@ using UnityEngine;
 
 public class CrateBehaviour : MonoBehaviour
 {
-    //void 
+    private Rigidbody2D crateRB;
+
+    private void Awake()
+    {
+        crateRB = GetComponent<Rigidbody2D>();
+    }
 }

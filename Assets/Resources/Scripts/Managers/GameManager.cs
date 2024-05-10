@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -33,4 +34,29 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    public List<Hook> hooks { get; private set; }
+
+    private void Awake()
+    {
+        hooks = new List<Hook>();
+    }
+
+    public void AddHook(Hook hook)
+    {
+        hooks.Add(hook);
+    }
+    
+    public void RemoveHook(Hook hook)
+    {
+        hooks.Remove(hook);
+    }
+    
+    public void SwitchHooksState()
+    {
+        foreach (var hook in hooks)
+        {
+            hook.ChangeState();
+        }
+    }
 }

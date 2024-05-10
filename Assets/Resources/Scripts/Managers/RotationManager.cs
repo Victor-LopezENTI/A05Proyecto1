@@ -1,19 +1,22 @@
 using DG.Tweening;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RotationManager : MonoBehaviour
 {
-    public static RotationManager Instance { get; private set; }
+    public static RotationManager instance { get; private set; }
+
+    public static Action OnRotationStarted;
 
     #region Variables
 
-    // The animated target containing the camera states
-    private Animator cameraAnimator;
+    public Vector2 globalDirection { get; private set; } = Vector2.one;
 
     // Whether the chamber is upside down or not
     public bool chamberUpsideDown { get; private set; } = false;
+
+    // The animated target containing the camera states
+    private Animator cameraAnimator;
 
     // Anti-spam buffer between chamber rotations
     [SerializeField] private float actionBuffer = 0f;
@@ -32,9 +35,9 @@ public class RotationManager : MonoBehaviour
     {
         #region Singleton Pattern
 
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
@@ -73,43 +76,21 @@ public class RotationManager : MonoBehaviour
             actionBuffer = maxActionBuffer;
     }
 
-    private void changeGravity()
+    public void RotateLevel()
     {
-        if (chamberUpsideDown)
-            Physics2D.gravity = Vector2.up * Physics2D.gravity.magnitude;
-        else
-            Physics2D.gravity = Vector2.down * Physics2D.gravity.magnitude;
-    }
-
-    private bool isAbleToRotate()
-    {
-        if (actionBuffer == maxActionBuffer)
-            return true;
-        else
-            return false;
-    }
-
-    private void transitionCamera()
-    {
-        if (chamberUpsideDown)
-            cameraAnimator.Play("Upside Down");
-        else
-            cameraAnimator.Play("Upside Up");
-
-        // Start the transition buffer
-        transitionBuffer = 0f;
-        onTransition = true;
-    }
-
-    public void rotateLevel()
-    {
-        if (isAbleToRotate())
+        if (IsAbleToRotate())
         {
+            OnRotationStarted?.Invoke();
+            
+            GameManager.Instance.SwitchHooksState();
+
+            globalDirection = -globalDirection;
             chamberUpsideDown = !chamberUpsideDown;
+
             transitionCamera();
 
             // Change the gravity
-            changeGravity();
+            ChangeGravity();
 
             // Rotate the player
             float rotationAngle;
@@ -124,4 +105,30 @@ public class RotationManager : MonoBehaviour
             actionBuffer = 0f;
         }
     }
+
+    private void ChangeGravity()
+    {
+        if (chamberUpsideDown)
+            Physics2D.gravity = Vector2.up * Physics2D.gravity.magnitude;
+        else
+            Physics2D.gravity = Vector2.down * Physics2D.gravity.magnitude;
+    }
+
+    private bool IsAbleToRotate()
+    {
+        return Mathf.Approximately(actionBuffer, maxActionBuffer);
+    }
+
+    private void transitionCamera()
+    {
+        if (chamberUpsideDown)
+            cameraAnimator.Play("Upside Down");
+        else
+            cameraAnimator.Play("Upside Up");
+
+        // Start the transition buffer
+        transitionBuffer = 0f;
+        onTransition = true;
+    }
+
 }

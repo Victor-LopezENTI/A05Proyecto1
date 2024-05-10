@@ -3,36 +3,52 @@
     align-self: center;
     justify-content: flex-start;
     align-items: center;
-    margin-left: -497px;
+    margin-left: -500px;
+    -unity-font: resource('UI/Fonts/SubVario/SubVario OT W03 Cond Fat');
+    letter-spacing: 0;
+    word-spacing: -13px;
+    -unity-font-style: normal;
 }
 
 .button {
-    font-size: 20px;
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
-    -unity-text-outline-width: 1px;
+    font-size: 25px;
+    -unity-font-style: normal;
+    -unity-text-align: upper-center;
+    -unity-text-outline-width: 0;
     align-self: center;
-    width: 220px;
-    height: 60px;
+    width: 150px;
+    height: 47px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 0;
-    background-image: url('project://database/Assets/Sprites/FightGame/POSTPRO/overlay.png?fileID=2800000&guid=e272e39261a77af46a915cc6355087db&type=3#overlay');
+    background-image: none;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    margin-top: 62px;
-    margin-left: -492px;
+    margin-top: 70px;
+    margin-left: -478px;
     -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Oswald-Bold.ttf?fileID=12800000&guid=c9f6d0e7bc8541498c9a4799ba184ede&type=3#Oswald-Bold');
-    color: rgb(255, 255, 255);
+    -unity-font: resource('UI/Fonts/SubVario/SubVario OT W03 Cond Medium');
+    color: rgb(209, 209, 209);
+    background-color: rgba(255, 255, 255, 0);
+    transform-origin: bottom;
+    letter-spacing: 5px;
+    word-spacing: 0;
+    -unity-paragraph-spacing: 0;
+    text-shadow: -2px 0 0 rgba(202, 202, 202, 0);
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
     transition-duration: 0.2s;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    transition-timing-function: ease-in-out-back;
 }
 
 .button:hover {
-    background-color: rgba(0, 0, 0, 0);
-    scale: 1.1 1.1;
-    -unity-background-image-tint-color: rgb(36, 62, 176);
+    background-color: rgba(255, 255, 255, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-image: resource('Sprites/UI/bordes');
+    color: rgb(135, 14, 13);
+    width: 210px;
+    font-size: 25px;
 }
