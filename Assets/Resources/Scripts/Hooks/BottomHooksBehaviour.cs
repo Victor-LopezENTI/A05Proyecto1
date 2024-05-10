@@ -22,7 +22,7 @@ public class BottomHooksBehaviour : MonoBehaviour
             highlight.transform.localScale = Vector3.one * 0.5f;
     }
 
-    public void chargeJumpAnimation(Vector2 position)
+    public void ChargeJumpAnimation(Vector2 position)
     {
         onTransition = true;
         highlight.transform.localPosition = -Vector2.ClampMagnitude(position, 10f);

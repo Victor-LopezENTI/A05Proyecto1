@@ -85,14 +85,14 @@ public class RopeManager : MonoBehaviour
             if (selectedHook == null)
             {
                 selectedHook = hook;
-                hook.GetComponent<TopHooksBehaviour>().setHilight(true);
+                hook.GetComponent<TopHooksBehaviour>().SetHilight(true);
             }
             else if (existingRope == null && Vector2.Distance(playerRB.transform.position, hook.transform.position) < Vector2.Distance(playerRB.transform.position, selectedHook.transform.position))
             {
-                selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
+                selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
                 selectedHook = null;
                 selectedHook = hook;
-                hook.GetComponent<TopHooksBehaviour>().setHilight(true);
+                hook.GetComponent<TopHooksBehaviour>().SetHilight(true);
             }
         }
         else
@@ -118,7 +118,7 @@ public class RopeManager : MonoBehaviour
         {
             DestroyRope();
         }
-        selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
+        selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
         selectedHook = null;
     }
 
