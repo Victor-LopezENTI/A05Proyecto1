@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        pauseMenuUI = GameUIManager.instance.pauseUI;
         pauseMenuUI.SetActive(false);
     }
 
@@ -25,6 +26,8 @@ public class PauseMenu : MonoBehaviour
         if (InputManager.Instance.resetInput && !paused)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SoulSpheresCollector.instance.soulSphereCounter -= SoulSpheresCollector.instance.sceneSphereCounter;
+            SoulSpheresCollector.instance.sceneSphereCounter = 0;
         }
     }
 
