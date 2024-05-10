@@ -73,6 +73,7 @@ public class SlingshotJump : MonoBehaviour
                 {
                     if (InputManager.Instance.clickReleased && chargingSlingshot)
                     {
+                        onClick = false;
                         slingShot.onTransition = false;
                         startSlingshot = true;
                         jumpingSlingshot = true;
@@ -90,6 +91,7 @@ public class SlingshotJump : MonoBehaviour
         }
         else if (jumpingSlingshot)
         {
+            onClick = false;
             jumpingSlingshot = !PlayerStateMachine.Instance.onGround;
         }
     }
