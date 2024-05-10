@@ -12,6 +12,7 @@ public class PlayerStateMachine : MonoBehaviour
         StartingJump,
         Jumping,
         Falling,
+        Paused,
 
         // Slingshot states
         ChargingSlingshot,
@@ -37,6 +38,7 @@ public class PlayerStateMachine : MonoBehaviour
     private bool jumpInput;
     private bool clickInput;
 
+    public bool isPaused = false;
     // Groundcheck variables
     [SerializeField] private LayerMask groundLayer;
     private const float distanceFromGround = 1f;
@@ -79,14 +81,17 @@ public class PlayerStateMachine : MonoBehaviour
     private void FixedUpdate()
     {
         // Ground check
-        onGround = Physics2D.Raycast(transform.position, Vector2.down * RotationManager.Instance.globalDirection, distanceFromGround, groundLayer);
+        onGround = Physics2D.Raycast(transform.position, Vector2.down * RotationManager.instance.globalDirection, distanceFromGround, groundLayer);
 
         // Get the inputs from InputManager
         moveInput = InputManager.Instance.moveInput;
         jumpInput = InputManager.Instance.jumpInput;
         clickInput = InputManager.Instance.clickInput;
-
-        if (onGround)
+        if (isPaused)
+        {
+            currentState = PlayerState.Paused;
+        }
+        else if (onGround)
         {
             // JumpingSlingshot
             if (lastState == PlayerState.StartingSlingshot)
@@ -118,9 +123,11 @@ public class PlayerStateMachine : MonoBehaviour
         }
         else
         {
+            // EnteringRope
             if (ropeManager.enteringRope)
                 currentState = PlayerState.EnteringRope;
 
+            // LeavingRope
             else if (ropeManager.leavingRope)
                 currentState = PlayerState.LeavingRope;
 
@@ -128,7 +135,7 @@ public class PlayerStateMachine : MonoBehaviour
             else if (currentState != PlayerState.EnteringRope && currentState != PlayerState.LeavingRope && ropeManager.hingeConnected)
                 currentState = PlayerState.Roping;
 
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y >= 0)
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.instance.globalDirection.y >= 0)
             {
                 // JumpingSlingshot
                 if (slingshotJump.jumpingSlingshot)
@@ -138,7 +145,7 @@ public class PlayerStateMachine : MonoBehaviour
                 else
                     currentState = PlayerState.Jumping;
             }
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.Instance.globalDirection.y < 0)
+            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.instance.globalDirection.y < 0)
             {
                 // FallingSlingshot
                 if (slingshotJump.jumpingSlingshot)

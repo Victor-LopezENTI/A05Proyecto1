@@ -46,4 +46,17 @@ public class GameManager : MonoBehaviour
     {
         hooks.Add(hook);
     }
+    
+    public void RemoveHook(Hook hook)
+    {
+        hooks.Remove(hook);
+    }
+    
+    public void SwitchHooksState()
+    {
+        foreach (var hook in hooks)
+        {
+            hook.ChangeState();
+        }
+    }
 }

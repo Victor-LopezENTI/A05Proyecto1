@@ -6,13 +6,28 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     private bool paused;
     private bool settingsON;
+    public static PauseMenu instance { get; private set; }
 
-    void Start()
+    private void Awake()
     {
+        if (instance != null)
+        {
+            Debug.Log("There is already an instance of " + instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject.transform.root.gameObject);
+        }
+    }
+    private void Start()
+    {
+        pauseMenuUI = GameUIManager.instance.pauseUI;
         pauseMenuUI.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
         {
@@ -25,26 +40,32 @@ public class PauseMenu : MonoBehaviour
         if (InputManager.Instance.resetInput && !paused)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SoulSpheresCollector.instance.soulSphereCounter -= SoulSpheresCollector.instance.sceneSphereCounter;
+            SoulSpheresCollector.instance.sceneSphereCounter = 0;
         }
     }
+    
 
-    public void PausedMenu()
+    private void PausedMenu()
     {
         pauseMenuUI.SetActive(true);
         paused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         AudioManager.Instance.PlaySFX("Pause");
-        Time.timeScale = 0.0f;
+        PlayerStateMachine.Instance.isPaused = true;
     }
 
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1.0f;
         paused = false;
+        Cursor.visible = false;
+        PlayerStateMachine.Instance.isPaused = false;
     }
     public void EnterSettings()
     {
-
+        
     }
 
     public void ExitSettings()

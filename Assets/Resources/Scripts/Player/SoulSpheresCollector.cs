@@ -1,19 +1,44 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class SoulSpheresCollector : MonoBehaviour
 {
-    private int soulSphereCounter = 0;
-   
+    public static SoulSpheresCollector instance { get; private set; }
+    public int soulSphereCounter;
+    public int sceneSphereCounter;
+    public Text counterText;
 
-    void OnTriggerEnter2D(Collider2D soulSphere)
+    private void Awake()
     {
-        if (soulSphere.gameObject.CompareTag("Soul")) 
+        if (instance != null)
         {
-            Debug.Log("Soul Sphere Collected. Counter: " + ++soulSphereCounter);
-            Destroy(soulSphere.gameObject); 
+            Debug.Log("There is already an instance of " + instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject.transform.root.gameObject);
         }
     }
 
+    private void Start()
+    {
+        soulSphereCounter = 0;
+        sceneSphereCounter = 0;
+        counterText = GameUIManager.instance.sphereCollector;
+
+    }
+
+    private void Update()
+    {
+        if (counterText)
+        {
+            counterText.text = "" + soulSphereCounter.ToString();
+        }
+    }
 }

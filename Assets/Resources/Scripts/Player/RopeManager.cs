@@ -12,6 +12,8 @@ public class RopeManager : MonoBehaviour
     public GameObject selectedHook { get; private set; }
     public float selectedHookAngle { get; private set; }
     public float selectedHookDistance { get; private set; }
+    private float ropeSpeed = 40;
+
     public bool hingeConnected = false;
     public bool enteringRope { get; private set; } = false;
     public bool leavingRope { get; private set; } = false;
@@ -47,7 +49,7 @@ public class RopeManager : MonoBehaviour
             ((InputManager.Instance.moveInput < 0 && transform.position.x < selectedHook.transform.position.x) ||
             (InputManager.Instance.moveInput > 0 && transform.position.x < selectedHook.transform.position.x)))
             {
-                playerRB.AddForce(new Vector2(InputManager.Instance.moveInput * 20, 0));
+                playerRB.AddForce(new Vector2(InputManager.Instance.moveInput * ropeSpeed, 0));
             }
             playerRB.velocity = Vector2.ClampMagnitude(playerRB.velocity, 100);
         }
@@ -85,14 +87,14 @@ public class RopeManager : MonoBehaviour
             if (selectedHook == null)
             {
                 selectedHook = hook;
-                hook.GetComponent<TopHooksBehaviour>().setHilight(true);
+                hook.GetComponent<TopHooksBehaviour>().SetHilight(true);
             }
             else if (existingRope == null && Vector2.Distance(playerRB.transform.position, hook.transform.position) < Vector2.Distance(playerRB.transform.position, selectedHook.transform.position))
             {
-                selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
+                selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
                 selectedHook = null;
                 selectedHook = hook;
-                hook.GetComponent<TopHooksBehaviour>().setHilight(true);
+                hook.GetComponent<TopHooksBehaviour>().SetHilight(true);
             }
         }
         else
@@ -118,7 +120,7 @@ public class RopeManager : MonoBehaviour
         {
             DestroyRope();
         }
-        selectedHook.GetComponent<TopHooksBehaviour>().setHilight(false);
+        selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
         selectedHook = null;
     }
 
