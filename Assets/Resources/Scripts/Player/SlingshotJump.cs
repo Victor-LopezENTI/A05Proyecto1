@@ -20,9 +20,10 @@ public class SlingshotJump : MonoBehaviour
     public bool jumpingSlingshot { get; private set; }
 
     // Trajectory
+    private Vector2 dragStartPos;
     private Vector2[] trajectory;
     private const int steps = 400;
-
+    
     private void Awake()
     {
         playerLR = GetComponent<LineRenderer>();
