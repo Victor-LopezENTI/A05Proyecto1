@@ -2,96 +2,82 @@ using UnityEngine;
 
 public class SlingshotJump : MonoBehaviour
 {
-    // Player components
     private LineRenderer playerLR;
     private Rigidbody2D playerRB;
     private BottomHooksBehaviour slingShot;
 
-    // Slingshot tweak variables
-    [SerializeField] public Vector2 escapeForce;
-    [SerializeField] private Vector2 maxEscapeForce;
-    [SerializeField] private float slingshotForce;
-
-    // Slingshot states
-    private bool onSlingShot;
-    private bool onClick = false;
-    public bool chargingSlingshot { get; private set; }
-    public bool startSlingshot { get; private set; }
-    public bool jumpingSlingshot { get; private set; }
-
-    // Trajectory
-    private Vector2[] trajectory;
+    [SerializeField] private float slingshotBuffer;
+    private const float slingshotForce = 100f;
     private const int steps = 400;
 
+    [SerializeField] private bool m_onSlingShot = false;
+    public bool onSlingShot { get => m_onSlingShot; private set => m_onSlingShot = value; }
+    [SerializeField] private bool m_chargingSlingshot = false;
+    public bool chargingSlingshot { get => m_chargingSlingshot; private set => m_chargingSlingshot = value; }
+    public bool startSlingshot { get; private set; } = false;
+    public bool jumpingSlingshot { get; private set; } = false;
+
+    private Vector2 dragStartPos;
+    private Vector2[] trajectory;
+    public Vector2 escapeForce { get; private set; }
+    
+    
     private void Awake()
     {
         playerLR = GetComponent<LineRenderer>();
         playerRB = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (onSlingShot)
         {
-            switch (InputManager.Instance.clickInput)
+            if (InputManager.Instance.clickInput && !chargingSlingshot)
             {
-                case true when !onClick:
-                    onClick = true;
-                    Cursor.lockState = CursorLockMode.Locked;
-                    Cursor.visible = false;
-                    break;
-                case true:
+                chargingSlingshot = true;
+                dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+            else if (InputManager.Instance.clickInput && chargingSlingshot)
+            {
+                Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                slingshotBuffer = (dragStartPos - dragEndPos).magnitude;
+                slingshotBuffer = Mathf.Clamp(slingshotBuffer, 10f, 25f);
+                playerLR.enabled = slingshotBuffer > 10f;
+                slingShot.ChargeJumpAnimation(dragStartPos - dragEndPos);
+
+                escapeForce = (dragStartPos - dragEndPos).normalized * 2f * slingshotBuffer;
+                float angle = Mathf.Atan2(dragStartPos.y - dragEndPos.y, dragStartPos.x - dragEndPos.x) * RotationManager.instance.globalDirection.y;
+                if (angle >= 0.5f && angle <= 2.5f)
                 {
-                    Cursor.lockState = CursorLockMode.None;
-                    Vector2 dragEndPos = -Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    trajectory = new Vector2[steps];
+                    trajectory = Plot(playerRB, playerRB.position, escapeForce, steps);
 
-                    if (dragEndPos.magnitude < 5f)
-                    {
-                        playerLR.enabled = false;
-                        chargingSlingshot = false;
-                        return;
-                    }
-                
-                    chargingSlingshot = true;
-                    playerLR.enabled = true;
-                    float angle = Mathf.Atan2(dragEndPos.y, dragEndPos.x) * RotationManager.instance.globalDirection.y;
-                    if (angle is >= 0.5f and <= 2.5f)
-                    {
-                        slingShot.ChargeJumpAnimation(dragEndPos);
+                    playerLR.positionCount = trajectory.Length;
 
-                        escapeForce = dragEndPos * slingshotForce;
-                        Vector2 clampedEscapeForce = new Vector2(
-                            Mathf.Clamp(escapeForce.x, -maxEscapeForce.x, maxEscapeForce.x),
-                            Mathf.Clamp(escapeForce.y, -maxEscapeForce.y, maxEscapeForce.y));
-                        escapeForce = clampedEscapeForce;
+                    Vector3[] positions = new Vector3[trajectory.Length];
+                    for (int i = 0; i < trajectory.Length; i++)
+                        positions[i] = trajectory[i];
 
-                        DrawTrajectory();
-                    }
-                    break;
-                }
-                default:
-                {
-                    if (InputManager.Instance.clickReleased && chargingSlingshot)
-                    {
-                        onClick = false;
-                        slingShot.onTransition = false;
-                        startSlingshot = true;
-                        jumpingSlingshot = true;
-                        chargingSlingshot = false;
-                        playerLR.enabled = false;
-                    }
-                    else
-                    {
-                        startSlingshot = false;
-                        escapeForce = Vector2.zero;
-                    }
-                    break;
+                    playerLR.SetPositions(positions);
                 }
             }
+            else if (InputManager.Instance.clickReleased && chargingSlingshot)
+            {
+                slingShot.onTransition = false;
+                startSlingshot = true;
+                jumpingSlingshot = true;
+                chargingSlingshot = false;
+                playerLR.enabled = false;
+                Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce;
+            }
+            else
+                startSlingshot = false;
         }
         else if (jumpingSlingshot)
         {
-            onClick = false;
             jumpingSlingshot = !PlayerStateMachine.Instance.onGround;
         }
     }

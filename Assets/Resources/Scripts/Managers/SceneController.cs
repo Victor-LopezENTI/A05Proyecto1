@@ -25,7 +25,14 @@ public class SceneController : MonoBehaviour
             SoulSpheresCollector.instance.sceneSphereCounter = 0;
         }
 
+        if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
+        {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync("MainMenuScene");
+        }
     }
 
     public void LoadScene(string sceneName)
