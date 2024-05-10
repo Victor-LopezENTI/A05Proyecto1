@@ -7,7 +7,7 @@ public class SlingshotJump : MonoBehaviour
     private BottomHooksBehaviour slingShot;
 
     [SerializeField] private float slingshotBuffer;
-    private const float slingshotForce = 150f;
+    private const float slingshotForce = 200f;
     private Vector2 slingShotForceMax = new Vector2(1300, 2400);
     private const int steps = 400;
 
@@ -72,7 +72,7 @@ public class SlingshotJump : MonoBehaviour
                 playerLR.enabled = false;
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce / 1.5f;
+                escapeForce = (dragStartPos - dragEndPos).normalized * slingshotBuffer * slingshotForce / 2f;
             }
             else
                 startSlingshot = false;
