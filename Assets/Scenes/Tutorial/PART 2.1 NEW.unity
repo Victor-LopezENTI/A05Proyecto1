@@ -21789,7 +21789,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 6
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -23083,10 +23083,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hook (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
-      propertyPath: m_SortingOrder
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23239,10 +23235,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hook (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
-      propertyPath: m_SortingOrder
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23307,10 +23299,6 @@ PrefabInstance:
     - target: {fileID: 4748083999513236387, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_Name
       value: Hook
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
-      propertyPath: m_SortingOrder
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34036,10 +34024,6 @@ PrefabInstance:
       propertyPath: souls
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1947897203651148326, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
-      propertyPath: m_SortingOrder
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3764074794962439830, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_SortingOrder
       value: 10
@@ -34232,17 +34216,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5873576405132181260, guid: 495ebbcd6708ce9449108ce27720241c, type: 3}
   m_PrefabInstance: {fileID: 1721610745}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1721610750 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3400718963574709526, guid: 495ebbcd6708ce9449108ce27720241c, type: 3}
-  m_PrefabInstance: {fileID: 1721610745}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d9daefca19cb664e9cb8bad778110c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1750625411
 GameObject:
   m_ObjectHideFlags: 0
@@ -34980,10 +34953,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hook (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
-      propertyPath: m_SortingOrder
-      value: 20
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35053,10 +35022,6 @@ PrefabInstance:
     - target: {fileID: 4748083999513236387, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_Name
       value: Hook (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
-      propertyPath: m_SortingOrder
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

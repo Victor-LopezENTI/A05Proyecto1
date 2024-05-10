@@ -11,6 +11,8 @@ public class FinishPoint : MonoBehaviour
     private string LevelName;
     [SerializeField]
     private bool zone1;
+    [SerializeField]
+    private bool death;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,6 +29,12 @@ public class FinishPoint : MonoBehaviour
             {
                 AudioManager.Instance.StopMusic();
                 AudioManager.Instance.PlayMusic("Zone1");
+            }
+
+            if (death)
+            {
+                AudioManager.Instance.StopMusic();
+                AudioManager.Instance.PlayMusic("Death");
             }
         }
     }

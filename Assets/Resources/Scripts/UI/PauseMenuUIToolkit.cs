@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -5,6 +6,11 @@ public class PauseMenuUIToolkit : MonoBehaviour
 {
     public PauseMenu pauseMenu;
     public GameObject settingsUI;
+
+    private void Awake()
+    {
+        pauseMenu = PauseMenu.instance;
+    }
 
     private void OnEnable()
     {

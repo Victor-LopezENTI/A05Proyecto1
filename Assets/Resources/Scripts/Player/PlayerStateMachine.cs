@@ -12,6 +12,7 @@ public class PlayerStateMachine : MonoBehaviour
         StartingJump,
         Jumping,
         Falling,
+        Paused,
 
         // Slingshot states
         ChargingSlingshot,
@@ -37,6 +38,7 @@ public class PlayerStateMachine : MonoBehaviour
     private bool jumpInput;
     private bool clickInput;
 
+    public bool isPaused = false;
     // Groundcheck variables
     [SerializeField] private LayerMask groundLayer;
     private const float distanceFromGround = 1f;
@@ -85,8 +87,11 @@ public class PlayerStateMachine : MonoBehaviour
         moveInput = InputManager.Instance.moveInput;
         jumpInput = InputManager.Instance.jumpInput;
         clickInput = InputManager.Instance.clickInput;
-
-        if (onGround)
+        if (isPaused)
+        {
+            currentState = PlayerState.Paused;
+        }
+        else if (onGround)
         {
             // JumpingSlingshot
             if (lastState == PlayerState.StartingSlingshot)

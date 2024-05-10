@@ -6,7 +6,21 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     private bool paused;
     private bool settingsON;
+    public static PauseMenu instance { get; private set; }
 
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.Log("There is already an instance of " + instance);
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject.transform.root.gameObject);
+        }
+    }
     private void Start()
     {
         pauseMenuUI = GameUIManager.instance.pauseUI;
@@ -30,6 +44,7 @@ public class PauseMenu : MonoBehaviour
             SoulSpheresCollector.instance.sceneSphereCounter = 0;
         }
     }
+    
 
     private void PausedMenu()
     {
@@ -38,15 +53,15 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         AudioManager.Instance.PlaySFX("Pause");
-        Time.fixedDeltaTime = 0.0f;
+        PlayerStateMachine.Instance.isPaused = true;
     }
 
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
-        Time.fixedDeltaTime = 1.0f;
         paused = false;
         Cursor.visible = false;
+        PlayerStateMachine.Instance.isPaused = false;
     }
     public void EnterSettings()
     {

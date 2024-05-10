@@ -9,7 +9,7 @@ public class Dialogue : MonoBehaviour
     public string[] lines;
     public float textSpeed;
 
-    private int index;
+    public int index { get; private set; }
     private bool near;
     private bool alreadyEntered;
     public GameObject dialoguePanel;
@@ -86,6 +86,7 @@ public class Dialogue : MonoBehaviour
         else
         {
             dialoguePanel.SetActive(false);
+            PlayerStateMachine.Instance.isPaused = false;
         }
     }
 
@@ -95,8 +96,10 @@ public class Dialogue : MonoBehaviour
         {
             near = true;
             dialoguePanel.SetActive(true);
+            
             StartDialogue();
             alreadyEntered = true;
+            PlayerStateMachine.Instance.isPaused = true;
         }
     }
 
@@ -109,6 +112,7 @@ public class Dialogue : MonoBehaviour
             dialoguePanel.SetActive(false);
             StopAllCoroutines();
             AudioManager.Instance.StopSFX("TextTyping1");
+            
         }
     }
 }
