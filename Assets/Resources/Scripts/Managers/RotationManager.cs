@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class RotationManager : MonoBehaviour
 {
-    public static RotationManager Instance { get; private set; }
+    public static RotationManager instance { get; private set; }
+
+    public static Action OnRotationStarted;
 
     #region Variables
 
@@ -32,9 +34,9 @@ public class RotationManager : MonoBehaviour
     {
         #region Singleton Pattern
 
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
@@ -50,9 +52,6 @@ public class RotationManager : MonoBehaviour
     // Update WILL be called when the game is paused
     private void Update()
     {
-        //if (InputManager.Instance.interactInput)
-           // rotateLevel();
-
         if (onTransition)
         {
             Time.timeScale = 0f;
@@ -76,16 +75,13 @@ public class RotationManager : MonoBehaviour
             actionBuffer = maxActionBuffer;
     }
 
-    public void rotateLevel()
+    public void RotateLevel()
     {
-
-        if (isAbleToRotate())
+        if (IsAbleToRotate())
         {
-            // Rotate the hooks
-            for (int i = 0; i < GameManager.Instance.hooks.Count; i++)
-            {
-                GameManager.Instance.hooks[i].changeState();
-            }
+            OnRotationStarted?.Invoke();
+            
+            GameManager.Instance.SwitchHooksState();
 
             globalDirection = -globalDirection;
             chamberUpsideDown = !chamberUpsideDown;
@@ -93,7 +89,7 @@ public class RotationManager : MonoBehaviour
             transitionCamera();
 
             // Change the gravity
-            changeGravity();
+            ChangeGravity();
 
             // Rotate the player
             float rotationAngle;
@@ -109,7 +105,7 @@ public class RotationManager : MonoBehaviour
         }
     }
 
-    private void changeGravity()
+    private void ChangeGravity()
     {
         if (chamberUpsideDown)
             Physics2D.gravity = Vector2.up * Physics2D.gravity.magnitude;
@@ -117,12 +113,9 @@ public class RotationManager : MonoBehaviour
             Physics2D.gravity = Vector2.down * Physics2D.gravity.magnitude;
     }
 
-    private bool isAbleToRotate()
+    private bool IsAbleToRotate()
     {
-        if (actionBuffer == maxActionBuffer)
-            return true;
-        else
-            return false;
+        return Mathf.Approximately(actionBuffer, maxActionBuffer);
     }
 
     private void transitionCamera()
