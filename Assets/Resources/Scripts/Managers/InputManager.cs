@@ -55,13 +55,13 @@ public class InputManager : MonoBehaviour
     // Horizontal movement input [A | D]
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<float>() * RotationManager.Instance.globalDirection.x;
+        moveInput = context.ReadValue<float>() * RotationManager.instance.globalDirection.x;
     }
 
     // Vertical movement input [W | S]
     public void OnVertical(InputAction.CallbackContext context)
     {
-        verticalInput = context.ReadValue<float>() * RotationManager.Instance.globalDirection.y;
+        verticalInput = context.ReadValue<float>() * RotationManager.instance.globalDirection.y;
     }
 
     // Jump input [Spacebar]

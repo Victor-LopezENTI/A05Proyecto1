@@ -7,12 +7,12 @@ public class PauseMenu : MonoBehaviour
     private bool paused;
     private bool settingsON;
 
-    void Start()
+    private void Start()
     {
         pauseMenuUI.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
         {
@@ -28,23 +28,26 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    public void PausedMenu()
+    private void PausedMenu()
     {
         pauseMenuUI.SetActive(true);
         paused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         AudioManager.Instance.PlaySFX("Pause");
-        Time.timeScale = 0.0f;
+        Time.fixedDeltaTime = 0.0f;
     }
 
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 1.0f;
         paused = false;
+        Cursor.visible = false;
     }
     public void EnterSettings()
     {
-
+        
     }
 
     public void ExitSettings()
