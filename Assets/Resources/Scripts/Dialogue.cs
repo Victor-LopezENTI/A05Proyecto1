@@ -9,7 +9,7 @@ public class Dialogue : MonoBehaviour
     public string[] lines;
     public float textSpeed;
 
-    private int index;
+    public int index { get; private set; }
     private bool near;
     private bool alreadyEntered;
     public GameObject dialoguePanel;

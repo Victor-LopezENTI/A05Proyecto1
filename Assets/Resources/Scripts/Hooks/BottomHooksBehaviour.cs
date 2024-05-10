@@ -18,8 +18,11 @@ public class BottomHooksBehaviour : MonoBehaviour
         {
             highlight.transform.DOMove(transform.position, 0.07f);
         }
-        else if (highlight.transform.localPosition == Vector3.zero)
+        else if (highlight.transform.localPosition.magnitude <= 6f)
+        {
             highlight.transform.localScale = Vector3.one * 0.5f;
+            highlight.transform.localPosition = Vector3.zero;
+        }
     }
 
     public void ChargeJumpAnimation(Vector2 position)
