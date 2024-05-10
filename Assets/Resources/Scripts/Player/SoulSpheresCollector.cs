@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class SoulSpheresCollector : MonoBehaviour
 {
-    private int soulSphereCounter = 0;
-   
+    public int soulSphereCounter;
+    public Text counterText;
 
-    void OnTriggerEnter2D(Collider2D soulSphere)
+    private void Start()
     {
-        if (soulSphere.gameObject.CompareTag("Soul")) 
-        {
-            Debug.Log("Soul Sphere Collected. Counter: " + ++soulSphereCounter);
-            Destroy(soulSphere.gameObject); 
-        }
+        soulSphereCounter = PlayerPrefs.GetInt("SoulSphere", 0);
     }
 
+    private void Update()
+    {
+        counterText.text = "" + soulSphereCounter.ToString();
+    }
 }

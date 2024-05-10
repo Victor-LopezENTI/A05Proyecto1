@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,5 +26,4 @@ public class PauseMenuUIToolkit : MonoBehaviour
         quit.clicked += () => pauseMenu.Quit();
         quit.clicked += () => AudioManager.Instance.PlaySFX("ButtonClick");
     }
-
 }

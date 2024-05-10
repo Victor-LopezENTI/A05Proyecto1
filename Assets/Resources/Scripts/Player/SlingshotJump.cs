@@ -54,10 +54,10 @@ public class SlingshotJump : MonoBehaviour
                 
                     chargingSlingshot = true;
                     playerLR.enabled = true;
-                    float angle = Mathf.Atan2(dragEndPos.y, dragEndPos.x) * RotationManager.Instance.globalDirection.y;
+                    float angle = Mathf.Atan2(dragEndPos.y, dragEndPos.x) * RotationManager.instance.globalDirection.y;
                     if (angle is >= 0.5f and <= 2.5f)
                     {
-                        slingShot.chargeJumpAnimation(dragEndPos);
+                        slingShot.ChargeJumpAnimation(dragEndPos);
 
                         escapeForce = dragEndPos * slingshotForce;
                         Vector2 clampedEscapeForce = new Vector2(
