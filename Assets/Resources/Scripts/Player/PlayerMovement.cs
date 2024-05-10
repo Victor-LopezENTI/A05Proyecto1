@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private float moveInput;
     [SerializeField] private float verticalInput;
 
+    private bool movePaused;
     // Jump timer variables
     private float holdTimer;
     [SerializeField] private float holdNormTimer;
@@ -90,16 +91,44 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Get the inputs from InputManager
-        moveInput = InputManager.Instance.moveInput;
-        verticalInput = InputManager.Instance.verticalInput;
-
+        
+        if (!playerStateMachine.isPaused)
+        {
+            // Get the inputs from InputManager
+            moveInput = InputManager.Instance.moveInput;
+            verticalInput = InputManager.Instance.verticalInput;
+        }
+        else
+        {
+            moveInput = 0;
+            verticalInput = 0;
+        }
         // Debug.Log(playerStateMachine.currentState);
 
         playerRB.gravityScale = 9.8f;
+        Time.timeScale = 1f;
+        if (PlayerStateMachine.Instance.isPaused && !movePaused)
+        {
+            SaveSpeed();
+            movePaused = true;
+        }
+        else if(!PlayerStateMachine.Instance.isPaused && movePaused)
+        {
+            Time.timeScale = 1f;
+            playerRB.gravityScale = 9.8f;
+            LoadSpeed();
+            movePaused = false;
+        }
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
+            case PlayerStateMachine.PlayerState.Paused:
+                playerRB.velocity = Vector2.zero;
+                Time.timeScale = 0f;
+                playerRB.gravityScale = 0f;
+                playerAnimator.Play("idle");
+                
+                break;
             case PlayerStateMachine.PlayerState.Walking:
                 sparks.gameObject.SetActive(false);
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime, 0);
@@ -224,7 +253,15 @@ public class PlayerMovement : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
-
+    private Vector2 tempSpeed;
+    public void SaveSpeed()
+    {
+        tempSpeed = playerRB.velocity;
+    }
+    public void LoadSpeed()
+    {
+        playerRB.velocity = tempSpeed;
+    }
     void OnTriggerEnter2D(Collider2D soulSphere)
     {
         if (soulSphere.gameObject.CompareTag("Soul"))
