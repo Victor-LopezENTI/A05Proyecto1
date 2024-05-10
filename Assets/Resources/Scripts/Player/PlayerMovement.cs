@@ -1,5 +1,8 @@
+using System.Numerics;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
+using Vector2 = UnityEngine.Vector2;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -39,8 +42,10 @@ public class PlayerMovement : MonoBehaviour
     private const float jumpForce = 1800f;
     private const float minJumpForce = 1250f;
 
+    // Rope jump variables
     [SerializeField] private float leaveRopeForce = 90f;
-    [SerializeField] private float maxLeaveRopeForce = 170f;
+    [SerializeField] private float maxLeaveRopeForce = 1100f;
+    [SerializeField] private Vector2 minLeaveRopeImpulse = new(300f, 390f);
 
     #endregion
 
@@ -131,25 +136,31 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.LeavingRope:
                 Vector2 impulse = Vector2.zero;
-                float distanceFactor = ropeManager.selectedHookDistance / 20f;
-                Debug.Log(distanceFactor);
-                if (Mathf.Abs(playerRB.velocity.x) > distanceFactor)
+                float angleDifference = Mathf.Min(Mathf.Abs(ropeManager.selectedHookAngle), Mathf.Abs(ropeManager.selectedHookAngle - 180));
+                float distanceFactor;
+                if (!(ropeManager.selectedHookDistance < 0.4f || angleDifference is > 80f and < 100f))
                 {
-                    impulse = playerRB.velocity * leaveRopeForce;
-                    Debug.Log("Impulse: " + impulse);
+                    float maxRopeLength = ropeManager.selectedHook.GetComponent<CircleCollider2D>().radius *
+                                          ropeManager.selectedHook.transform.lossyScale.x;
+                    distanceFactor = ropeManager.selectedHookDistance / maxRopeLength;
+                    impulse.x = Mathf.Abs(playerRB.velocity.x * leaveRopeForce * distanceFactor);
+                    impulse.y = Mathf.Abs(playerRB.velocity.y * leaveRopeForce * distanceFactor);
+                    if (playerRB.velocity.magnitude < 10f)
+                    {
+                        if (!facingRight)
+                        {
+                            impulse.x -= minLeaveRopeImpulse.x;
+                        }
+                        else
+                        {
+                            impulse.x += minLeaveRopeImpulse.x;
+                        }
+                        impulse.y += minLeaveRopeImpulse.y;
+                    }
+                    impulse = Vector2.ClampMagnitude(impulse, maxLeaveRopeForce);
                 }
                 playerRB.AddForce(impulse);
                 break;
-            /*
-            float angleDifference = Mathf.Min(Mathf.Abs(ropeManager.selectedHookAngle), Mathf.Abs(ropeManager.selectedHookAngle - 180));
-            float distanceFactor = ropeManager.selectedHookDistance / 11f;
-            if (angleDifference <= 50)
-            {
-                float proportionalForce = (50 - angleDifference) * distanceFactor;
-                impulse = playerRB.velocity * (proportionalForce);
-            }
-            Debug.Log("Distance factor: " + distanceFactor);
-            */
 
             case PlayerStateMachine.PlayerState.Roping:
                 if (verticalInput != 0)

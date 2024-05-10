@@ -40,6 +40,7 @@ public class InputManager : MonoBehaviour
     public float moveInput { get; private set; }
     public float verticalInput { get; private set; }
     public bool jumpInput { get; private set; }
+    public bool resetInput { get; private set; }
     public bool interactInput { get; private set; }
     public bool clickInput { get; private set; }
     public bool clickReleased { get; private set; }
@@ -68,6 +69,13 @@ public class InputManager : MonoBehaviour
     {
         float fJumpInput = context.ReadValue<float>();
         jumpInput = fJumpInput != 0;
+    }
+
+    // Reset input [R]
+    public void OnReset(InputAction.CallbackContext context)
+    {
+        float fResetInput = context.ReadValue<float>();
+        resetInput = fResetInput != 0;
     }
 
     // Interaction input [E]

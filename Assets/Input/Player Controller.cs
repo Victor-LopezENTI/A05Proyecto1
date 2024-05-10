@@ -80,6 +80,15 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Value"",
+                    ""id"": ""97e310cc-7b1e-426c-81f1-3f41a0259601"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=1.5)"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -247,6 +256,17 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""Movimiento Vertical"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfd114bd-5409-43c3-b01f-f73e9678f0cb"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -261,6 +281,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         m_Player_Interactuar = m_Player.FindAction("Interactuar", throwIfNotFound: true);
         m_Player_Cancelar = m_Player.FindAction("Cancelar", throwIfNotFound: true);
         m_Player_Acción = m_Player.FindAction("Acción", throwIfNotFound: true);
+        m_Player_Reset = m_Player.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -328,6 +349,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interactuar;
     private readonly InputAction m_Player_Cancelar;
     private readonly InputAction m_Player_Acción;
+    private readonly InputAction m_Player_Reset;
     public struct PlayerActions
     {
         private @PlayerController m_Wrapper;
@@ -338,6 +360,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         public InputAction @Interactuar => m_Wrapper.m_Player_Interactuar;
         public InputAction @Cancelar => m_Wrapper.m_Player_Cancelar;
         public InputAction @Acción => m_Wrapper.m_Player_Acción;
+        public InputAction @Reset => m_Wrapper.m_Player_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -365,6 +388,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Acción.started += instance.OnAcción;
             @Acción.performed += instance.OnAcción;
             @Acción.canceled += instance.OnAcción;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -387,6 +413,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Acción.started -= instance.OnAcción;
             @Acción.performed -= instance.OnAcción;
             @Acción.canceled -= instance.OnAcción;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -412,5 +441,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         void OnInteractuar(InputAction.CallbackContext context);
         void OnCancelar(InputAction.CallbackContext context);
         void OnAcción(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }
