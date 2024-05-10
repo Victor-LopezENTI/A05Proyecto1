@@ -1,5 +1,4 @@
-using System.Numerics;
-using System.Xml;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Vector2 = UnityEngine.Vector2;
@@ -7,6 +6,8 @@ using Vector2 = UnityEngine.Vector2;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance { get; private set; }
+
+    public SoulSpheresCollector souls;
 
     #region Variables
 
@@ -72,6 +73,8 @@ public class PlayerMovement : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         slingshotJump = GetComponent<SlingshotJump>();
         ropeManager = GetComponent<RopeManager>();
+        souls = GetComponent<SoulSpheresCollector>();
+
     }
 
     private void Start()
@@ -84,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         // Flip the player sprite
         if (moveInput != 0)
         {
-            facingRight = moveInput * RotationManager.Instance.globalDirection.x < 0;
+            facingRight = moveInput * RotationManager.instance.globalDirection.x < 0;
             playerSprite.flipX = facingRight;
         }
     }
@@ -95,8 +98,9 @@ public class PlayerMovement : MonoBehaviour
         moveInput = InputManager.Instance.moveInput;
         verticalInput = InputManager.Instance.verticalInput;
 
-        //Debug.Log(playerStateMachine.currentState);
+        // Debug.Log(playerStateMachine.currentState);
 
+        playerRB.gravityScale = 9.8f;
         // Switch all possible PlayerStates
         switch (playerStateMachine.currentState)
         {
@@ -107,6 +111,8 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
             case PlayerStateMachine.PlayerState.ChargingJump:
+                playerRB.gravityScale = 0f;
+                playerRB.velocity = Vector2.zero;
                 playerUI.enabled = true;
                 moveSpeed = moveSpeedChargeJump;
                 holdTimer += Time.deltaTime;
@@ -115,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
 
                 holdNormTimer = Mathf.Lerp(0, 1, holdTimer / maxHoldTime);
                 chargeBar.fillAmount = holdNormTimer;
-                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.instance.globalDirection.y);
                 playerAnimator.Play("charge_jump");
                 break;
 
@@ -124,9 +130,9 @@ public class PlayerMovement : MonoBehaviour
                 playerUI.enabled = false;
                 moveSpeed = moveSpeedJump;
                 if (holdTimer < 0.25f)
-                    playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce * RotationManager.Instance.globalDirection.y));
+                    playerRB.AddForce(new(moveInput * moveSpeed * (minJumpForce / jumpForce), minJumpForce * RotationManager.instance.globalDirection.y));
                 else
-                    playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer * RotationManager.Instance.globalDirection.y));
+                    playerRB.AddForce(new(moveInput * moveSpeed * holdNormTimer, jumpForce * holdNormTimer * RotationManager.instance.globalDirection.y));
                 holdTimer = 0f;
                 break;
 
@@ -182,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
 
 
             case PlayerStateMachine.PlayerState.ChargingSlingshot:
-                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.instance.globalDirection.y);
                 playerAnimator.Play("charge_jump");
                 break;
 
@@ -201,22 +207,34 @@ public class PlayerMovement : MonoBehaviour
 
             case PlayerStateMachine.PlayerState.Jumping:
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
-                                        playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                                        playerRB.velocity.y * RotationManager.instance.globalDirection.y);
                 playerAnimator.Play("jump");
                 sparks.gameObject.SetActive(false);
                 break;
 
             case PlayerStateMachine.PlayerState.Falling:
                 playerRB.velocity = new(moveInput * moveSpeed * Time.deltaTime,
-                                        playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                                        playerRB.velocity.y * RotationManager.instance.globalDirection.y);
                 playerAnimator.Play("fall");
                 sparks.gameObject.SetActive(false);
                 break;
 
             case PlayerStateMachine.PlayerState.Idle:
-                playerRB.velocity = new(0f, playerRB.velocity.y * RotationManager.Instance.globalDirection.y);
+                playerRB.velocity = Vector2.zero;
+                playerRB.gravityScale = 0f;
                 playerAnimator.Play("idle");
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D soulSphere)
+    {
+        if (soulSphere.gameObject.CompareTag("Soul"))
+        {
+            PlayerPrefs.SetInt("SoulSphere", ++souls.soulSphereCounter);
+            Destroy(soulSphere.gameObject);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class MainMenu : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class MainMenu : MonoBehaviour
     private void ActivateMainMenu(ClickEvent evnt)
     {
         mainMenu.SetActive(true);
+        Cursor.visible = true;
     }
 
     private void OnStartButtonsClick(ClickEvent evnt)
