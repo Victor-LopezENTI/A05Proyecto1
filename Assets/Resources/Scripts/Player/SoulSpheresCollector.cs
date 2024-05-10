@@ -1,16 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class SoulSpheresCollector : MonoBehaviour
 {
-    public int soulSphereCounter = 0;
-    public TMP_Text counterText;
-   
+    private int soulSphereCounter = 0;
+    public Text counterText;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+
     void Start()
     {
-        soulSphereCounter = PlayerPrefs.GetInt("SoulSphereCounter", 0);
+        PlayerPrefs.SetInt("SoulSphereCounter", soulSphereCounter);
+        soulSphereCounter = PlayerPrefs.GetInt("SoulSphereCounter");
         counterText.text =  soulSphereCounter.ToString();
     }
 
@@ -18,11 +25,16 @@ public class SoulSpheresCollector : MonoBehaviour
     {
         if (soulSphere.gameObject.CompareTag("Soul")) 
         {
+            soulSphereCounter++;
             PlayerPrefs.SetInt("SoulSphereCounter", soulSphereCounter);
-            Debug.Log("Soul Sphere Collected. Counter: " + ++soulSphereCounter);
+            Debug.Log("Soul Sphere Collected. Counter: " + soulSphereCounter);
             Destroy(soulSphere.gameObject);
-            counterText.text = soulSphereCounter.ToString();
         }
+    }
+
+    private void Update()
+    {
+        counterText.text = "" + soulSphereCounter.ToString();
     }
 
 }
