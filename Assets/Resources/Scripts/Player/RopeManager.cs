@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RopeManager : MonoBehaviour
 {
+    /*
     [SerializeField] Rigidbody2D playerRB;
     [SerializeField] PlayerStateMachine playerSM;
     [SerializeField] LayerMask obstacleLayers;
@@ -34,7 +35,7 @@ public class RopeManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (selectedHook != null && !playerSM.onGround && InputManager.Instance.clickInput && existingRope == null)
+        if (selectedHook != null && !playerSM.onGround && InputManager.instance.clickInput && existingRope == null)
         {
             LaunchRope(selectedHook.transform);
             enteringRope = true;
@@ -45,16 +46,16 @@ public class RopeManager : MonoBehaviour
         if (hingeConnected)
         {
             selectedHook.GetComponent<Rigidbody2D>().position = savedPos;
-            if (InputManager.Instance.moveInput != 0 &&
-            ((InputManager.Instance.moveInput < 0 && transform.position.x < selectedHook.transform.position.x) ||
-            (InputManager.Instance.moveInput > 0 && transform.position.x < selectedHook.transform.position.x)))
+            if (InputManager.instance.moveInput != 0 &&
+            ((InputManager.instance.moveInput < 0 && transform.position.x < selectedHook.transform.position.x) ||
+            (InputManager.instance.moveInput > 0 && transform.position.x < selectedHook.transform.position.x)))
             {
-                playerRB.AddForce(new Vector2(InputManager.Instance.moveInput * ropeSpeed, 0));
+                playerRB.AddForce(new Vector2(InputManager.instance.moveInput * ropeSpeed, 0));
             }
             playerRB.velocity = Vector2.ClampMagnitude(playerRB.velocity, 100);
         }
 
-        if (existingRope != null && (!InputManager.Instance.clickInput || playerSM.onGround))
+        if (existingRope != null && (!InputManager.instance.clickInput || playerSM.onGround))
         {
             DestroyRope();
             leavingRope = true;
@@ -173,4 +174,5 @@ public class RopeManager : MonoBehaviour
         }
         yield break;
     }
+    */
 }

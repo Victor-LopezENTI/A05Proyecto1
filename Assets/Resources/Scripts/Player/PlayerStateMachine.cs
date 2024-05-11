@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    public static PlayerStateMachine Instance { get; private set; }
+    public static PlayerStateMachine instance { get; private set; }
 
     public enum PlayerState
     {
@@ -28,49 +31,36 @@ public class PlayerStateMachine : MonoBehaviour
 
     #region Variables
 
-    // Player states variables
-    [SerializeField] private PlayerState m_currentState;
-    public PlayerState currentState { get => m_currentState; private set => m_currentState = value; }
-    private PlayerState lastState;
-
-    // Player input variables
-    private float moveInput;
-    private bool jumpInput;
-    private bool clickInput;
+    // Player states
+    [SerializeField] private PlayerState mCurrentState;
+    public PlayerState currentState { get => mCurrentState; private set => mCurrentState = value; }
+    
+    private bool _clickInput;
 
     public bool isPaused = false;
-    // Groundcheck variables
+    // Ground check variables
     [SerializeField] private LayerMask groundLayer;
-    private const float distanceFromGround = 1f;
-    [SerializeField] private bool m_onGround;
-    public bool onGround { get => m_onGround; private set => m_onGround = value; }
-
-    // Slingshot variables
-    private SlingshotJump slingshotJump;
-
-    // Rope variables
-    private RopeManager ropeManager;
-
+    private const float DistanceFromGround = 1f;
+    [SerializeField] private bool mOnGround;
+    public bool onGround { get => mOnGround; private set => mOnGround = value; }
+    
     #endregion
 
     private void Awake()
     {
         #region Singleton Pattern
 
-        if (Instance != null)
+        if (instance != null)
         {
-            Debug.Log("There is already an instance of " + Instance);
+            Debug.Log("There is already an instance of " + instance);
             Destroy(gameObject);
         }
         else
         {
-            Instance = this;
+            instance = this;
         }
 
         #endregion
-
-        slingshotJump = GetComponent<SlingshotJump>();
-        ropeManager = GetComponent<RopeManager>();
     }
 
     private void Start()
@@ -78,15 +68,44 @@ public class PlayerStateMachine : MonoBehaviour
         currentState = PlayerState.Idle;
     }
 
+    private void OnEnable()
+    {
+        InputManager.MovementPerformed += OnMovementInput;
+        InputManager.JumpPerformed += OnJumpInput;
+    }
+
+    private void OnMovementInput(Vector2 movement)
+    {
+        if (onGround)
+        {
+            currentState = PlayerState.Walking;
+        }
+    }
+    
+    private void OnJumpInput()
+    {
+        if (onGround)
+        {
+            currentState = PlayerState.ChargingJump;
+        }
+    }
+
+    private void OnDisable()
+    {
+        InputManager.MovementPerformed -= OnMovementInput;
+        InputManager.JumpPerformed -= OnJumpInput;
+    }
+
+    /*
     private void FixedUpdate()
     {
         // Ground check
         onGround = Physics2D.Raycast(transform.position, Vector2.down * RotationManager.instance.globalDirection, distanceFromGround, groundLayer);
 
         // Get the inputs from InputManager
-        moveInput = InputManager.Instance.moveInput;
-        jumpInput = InputManager.Instance.jumpInput;
-        clickInput = InputManager.Instance.clickInput;
+        moveInput = InputManager.instance.moveInput;
+        jumpInput = InputManager.instance.jumpInput;
+        clickInput = InputManager.instance.clickInput;
         if (isPaused)
         {
             currentState = PlayerState.Paused;
@@ -158,4 +177,5 @@ public class PlayerStateMachine : MonoBehaviour
         }
         lastState = currentState;
     }
+    */
 }

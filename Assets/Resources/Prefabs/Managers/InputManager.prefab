@@ -87,26 +87,14 @@ MonoBehaviour:
     m_ActionId: 3523f01e-ba80-4d96-9633-78dedf8cb785
     m_ActionName: Player/Movimiento Horizontal[/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6722898283083688984}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnJump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 681f3d52-a9f6-4a4c-b8d5-e8df76d50366
     m_ActionName: Player/Salto[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6722898283083688984}
+      - m_Target: {fileID: 476558761800095519}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnInteract
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -119,14 +107,10 @@ MonoBehaviour:
     m_ActionId: ed398bea-2508-4621-b94f-ed7ed4a24da4
     m_ActionName: Player/Interactuar[/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a8599679-4216-4604-a539-0080ad8ec294
-    m_ActionName: Player/Cancelar[/Keyboard/f]
-  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6722898283083688984}
+      - m_Target: {fileID: 476558761800095519}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnClick
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -140,25 +124,9 @@ MonoBehaviour:
     m_ActionName: "Player/Acci\xF3n[/Mouse/leftButton]"
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6722898283083688984}
+      - m_Target: {fileID: 476558761800095519}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnVertical
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 310a4090-de43-4d8f-ae9f-1b89d55eb02c
-    m_ActionName: Player/Movimiento Vertical[/Keyboard/s,/Keyboard/w]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6722898283083688984}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: OnReset
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -170,6 +138,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 97e310cc-7b1e-426c-81f1-3f41a0259601
     m_ActionName: Player/Reset[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 310a4090-de43-4d8f-ae9f-1b89d55eb02c
+    m_ActionName: Player/Movimiento Vertical[/Keyboard/s,/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a8599679-4216-4604-a539-0080ad8ec294
+    m_ActionName: Player/Cancelar[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

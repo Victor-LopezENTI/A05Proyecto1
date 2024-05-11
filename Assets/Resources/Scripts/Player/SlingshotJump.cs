@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class SlingshotJump : MonoBehaviour
 {
+/*
     private LineRenderer playerLR;
     private Rigidbody2D playerRB;
     private BottomHooksBehaviour slingShot;
@@ -33,12 +34,12 @@ public class SlingshotJump : MonoBehaviour
     {
         if (onSlingShot)
         {
-            if (InputManager.Instance.clickInput && !chargingSlingshot)
+            if (InputManager.instance.clickInput && !chargingSlingshot)
             {
                 chargingSlingshot = true;
                 dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
-            else if (InputManager.Instance.clickInput && chargingSlingshot)
+            else if (InputManager.instance.clickInput && chargingSlingshot)
             {
                 Vector2 dragEndPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -63,7 +64,7 @@ public class SlingshotJump : MonoBehaviour
                     playerLR.SetPositions(positions);
                 }
             }
-            else if (InputManager.Instance.clickReleased && chargingSlingshot)
+            else if (InputManager.instance.clickReleased && chargingSlingshot)
             {
                 slingShot.onTransition = false;
                 startSlingshot = true;
@@ -79,7 +80,7 @@ public class SlingshotJump : MonoBehaviour
         }
         else if (jumpingSlingshot)
         {
-            jumpingSlingshot = !PlayerStateMachine.Instance.onGround;
+            jumpingSlingshot = !PlayerStateMachine.instance.onGround;
         }
     }
 
@@ -131,4 +132,5 @@ public class SlingshotJump : MonoBehaviour
         onSlingShot = false;
         slingShot = null;
     }
+    */
 }

@@ -2,95 +2,84 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public static class InputManager
 {
-    #region Singleton Pattern
+    #region Events
 
-    private static InputManager _Instance;
-    public static InputManager Instance
-    {
-        get
-        {
-            if (!_Instance)
-            {
-                // Load the prefab from the Resources folder
-                var prefab = Resources.Load<GameObject>("Prefabs/Managers/InputManager");
-
-                // Instantiate the prefab
-                var inScene = Instantiate<GameObject>(prefab);
-
-                // Get the InputManager component from the prefab
-                _Instance = inScene.GetComponentInChildren<InputManager>();
-
-                // If the component is not found, add it to the prefab
-                if (!_Instance)
-                    _Instance = inScene.AddComponent<InputManager>();
-
-                DontDestroyOnLoad(_Instance.transform.root.gameObject);
-            }
-            return _Instance;
-        }
-    }
+    public static event Action MovementStarted;
+    public static event Action<Vector2> MovementPerformed;
+    public static event Action MovementCanceled;
+    public static event Action JumpPerformed;
+    public static event Action InteractPerformed;
+    public static event Action ResetPerformed;
+    public static event Action ResetCanceled;
+    public static event Action ClickPerformed;
 
     #endregion
 
-    private PlayerController playerController;
-
-    // Input variables
-    public float moveInput { get; private set; }
-    public float verticalInput { get; private set; }
-    public bool jumpInput { get; private set; }
-    public bool resetInput { get; private set; }
-    public bool interactInput { get; private set; }
-    public bool clickInput { get; private set; }
-    public bool clickReleased { get; private set; }
-
-    private void Awake()
+    static InputManager()
     {
-        // Create and enable the player controller
-        playerController = new PlayerController();
-        playerController.Enable();
+        var playerInputActions = new PlayerInputActions();
+        playerInputActions.Enable();
+
+        playerInputActions.Player.Movement.started += OnMove;
+        playerInputActions.Player.Movement.canceled += OnMove;
+        playerInputActions.Player.Movement.performed += OnMove;
+        playerInputActions.Player.Jump.performed += OnJump;
+        playerInputActions.Player.Interact.performed += OnInteract;
+        playerInputActions.Player.Reset.performed += OnReset;
+        playerInputActions.Player.Click.performed += OnClick;
     }
 
-    // Horizontal movement input [A | D]
-    public void OnMove(InputAction.CallbackContext context)
+    private static void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<float>() * RotationManager.instance.globalDirection.x;
+        if (context.started)
+        {
+            MovementStarted?.Invoke();
+        }
+        else if (context.performed)
+        {
+            MovementPerformed?.Invoke(context.ReadValue<Vector2>());
+        }
+        else if (context.canceled)
+        {
+            MovementCanceled?.Invoke();
+        }
     }
 
-    // Vertical movement input [W | S]
-    public void OnVertical(InputAction.CallbackContext context)
+    private static void OnJump(InputAction.CallbackContext context)
     {
-        verticalInput = context.ReadValue<float>() * RotationManager.instance.globalDirection.y;
+        if (context.performed)
+        {
+            JumpPerformed?.Invoke();
+        }
     }
 
-    // Jump input [Spacebar]
-    public void OnJump(InputAction.CallbackContext context)
+    private static void OnInteract(InputAction.CallbackContext context)
     {
-        float fJumpInput = context.ReadValue<float>();
-        jumpInput = fJumpInput != 0;
+        if (context.performed)
+        {
+            InteractPerformed?.Invoke();
+        }
     }
 
-    // Reset input [R]
-    public void OnReset(InputAction.CallbackContext context)
+    private static void OnReset(InputAction.CallbackContext context)
     {
-        float fResetInput = context.ReadValue<float>();
-        resetInput = fResetInput != 0;
+        if (context.performed)
+        {
+            ResetPerformed?.Invoke();
+        }
+        else if (context.canceled)
+        {
+            ResetCanceled?.Invoke();
+        }
     }
 
-    // Interaction input [E]
-    public void OnInteract(InputAction.CallbackContext context)
+    private static void OnClick(InputAction.CallbackContext context)
     {
-        float fInteractInput = context.ReadValue<float>();
-        interactInput = fInteractInput != 0;
-    }
-
-    // Action input [LMB]
-    public void OnClick(InputAction.CallbackContext context)
-    {
-        float fClickInput = context.ReadValue<float>();
-        clickInput = fClickInput != 0;
-
-        clickReleased = context.canceled;
+        if (context.performed)
+        {
+            ClickPerformed?.Invoke();
+        }
     }
 }

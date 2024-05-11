@@ -82,7 +82,7 @@ public class RotationManager : MonoBehaviour
         {
             OnRotationStarted?.Invoke();
             
-            GameManager.Instance.SwitchHooksState();
+            GameManager.instance.SwitchHooksState();
 
             globalDirection = -globalDirection;
             chamberUpsideDown = !chamberUpsideDown;

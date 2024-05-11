@@ -29,7 +29,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
+        /*
+         * if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
         {
             if (paused)
                 ResumeGame();
@@ -37,12 +38,13 @@ public class PauseMenu : MonoBehaviour
             else
                 PausedMenu();
         }
-        if (InputManager.Instance.resetInput && !paused)
+        if (InputManager.instance.resetInput && !paused)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             SoulSpheresCollector.instance.soulSphereCounter -= SoulSpheresCollector.instance.sceneSphereCounter;
             SoulSpheresCollector.instance.sceneSphereCounter = 0;
         }
+         */
     }
     
 
@@ -53,7 +55,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         AudioManager.Instance.PlaySFX("Pause");
-        PlayerStateMachine.Instance.isPaused = true;
+        PlayerStateMachine.instance.isPaused = true;
     }
 
     public void ResumeGame()
@@ -61,7 +63,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         paused = false;
         Cursor.visible = false;
-        PlayerStateMachine.Instance.isPaused = false;
+        PlayerStateMachine.instance.isPaused = false;
     }
     public void EnterSettings()
     {

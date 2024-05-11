@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class TopHooksBehaviour : MonoBehaviour
 {
+    /*
     [SerializeField] GameObject highlight;
     public static Action OnHookSelected;
     
@@ -42,4 +43,5 @@ public class TopHooksBehaviour : MonoBehaviour
     {
         highlight.SetActive(state);
     }
+    */
 }
