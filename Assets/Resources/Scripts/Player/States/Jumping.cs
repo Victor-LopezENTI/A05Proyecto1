@@ -26,7 +26,8 @@ public class Jumping : IPlayerState
     {
         _horizontalInput = PlayerStateMachine.instance.horizontalInput;
 
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInputPerformed;
+        InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
+        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
         InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
     }
 
@@ -83,7 +84,7 @@ public class Jumping : IPlayerState
         }
     }
 
-    private void OnMovementInputPerformed(InputAction.CallbackContext context)
+    private void OnMovementInput(InputAction.CallbackContext context)
     {
         _horizontalInput = context.ReadValue<float>();
 
@@ -103,6 +104,8 @@ public class Jumping : IPlayerState
         PlayerStateMachine.instance.horizontalInput = _horizontalInput;
         _timeInAir = 0;
 
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInputPerformed;
+        InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
+        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;
+        InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
     }
 }

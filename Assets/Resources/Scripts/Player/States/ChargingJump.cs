@@ -25,6 +25,8 @@ public class ChargingJump : IPlayerState
     {
         _horizontalInput = PlayerStateMachine.instance.horizontalInput;
 
+        PlayerStateMachine.instance.chargeBar.enabled = true;
+
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
         InputManager.PlayerInputActions.Player.Jump.canceled += OnJumpInputCanceled;
@@ -57,9 +59,9 @@ public class ChargingJump : IPlayerState
         }
 
         _holdTimerNormalized = _holdTimer / HoldTimeMax;
-
+        PlayerStateMachine.instance.chargeBar.fillAmount = _holdTimerNormalized;
+        
         var movement = _holdTimerNormalized * JumpForceMax * Vector2.up;
-
         _jumpForceVector = movement;
     }
 
@@ -95,6 +97,8 @@ public class ChargingJump : IPlayerState
     public void OnExit()
     {
         PlayerStateMachine.instance.horizontalInput = _horizontalInput;
+
+        PlayerStateMachine.instance.chargeBar.enabled = false;
 
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;

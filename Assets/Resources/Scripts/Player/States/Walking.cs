@@ -13,7 +13,7 @@ public class Walking : IPlayerState
     private const float DistanceFromGround = 1f;
 
     private readonly Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
-    private float _horizontalInput = PlayerStateMachine.instance.horizontalInput;
+    private float _horizontalInput;
 
     private bool _onGround;
     private readonly LayerMask _groundLayer = LayerMask.GetMask("Platforms");
@@ -25,6 +25,8 @@ public class Walking : IPlayerState
 
     public void OnEnter()
     {
+        _horizontalInput = PlayerStateMachine.instance.horizontalInput;
+        
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
         InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
@@ -53,7 +55,7 @@ public class Walking : IPlayerState
         var accelerationRate = targetSpeed != 0 ? Acceleration : Deceleration;
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
                        Mathf.Sign(speedDifference);
-
+        
         _playerRb.AddForce(movement * Vector2.right);
 
         // Ground check

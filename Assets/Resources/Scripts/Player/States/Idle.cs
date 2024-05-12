@@ -23,7 +23,11 @@ public class Idle : IPlayerState
     {
         PlayerStateMachine.instance.playerRb.velocity = new Vector2(0f, PlayerStateMachine.instance.playerRb.velocity.y);
         
-        if (PlayerStateMachine.instance.jumpInput > 0)
+        if (PlayerStateMachine.instance.horizontalInput != 0)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.WalkingState);
+        }
+        else if (PlayerStateMachine.instance.jumpInput > 0)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
         }
