@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -6,19 +7,17 @@ public class PlayerStateMachine : MonoBehaviour
     
     #region Variables
 
-    private IPlayerState _currentState;
-    public IPlayerState IdleState;
-    public IPlayerState WalkingState;
-    public IPlayerState ChargingJumpState;
-    public IPlayerState JumpingState;
-
-    // Ground check variables
-    [SerializeField] private LayerMask groundLayer;
-    private const float DistanceFromGround = 1f;
-    private bool _onGround;
-
+    private static IPlayerState _currentState;
+    public static IPlayerState IdleState;
+    public static IPlayerState WalkingState;
+    public static IPlayerState ChargingJumpState;
+    public static IPlayerState JumpingState;
+    
     public Rigidbody2D playerRb;
     public Animator playerAnimator;
+    
+    public float horizontalInput;
+    public float jumpInput;
 
     #endregion
     
@@ -45,25 +44,23 @@ public class PlayerStateMachine : MonoBehaviour
         WalkingState = new Walking();
         ChargingJumpState = new ChargingJump();
         JumpingState = new Jumping();
+        
         ChangeState(IdleState);
     }
 
     private void FixedUpdate()
     {
         _currentState?.FixedUpdate();
-        _onGround = Physics2D.Raycast(transform.position, Vector2.down,
-            DistanceFromGround, groundLayer);
     }
 
     private void Update()
     {
         _currentState?.Update();
-        Debug.Log(_currentState);
     }
 
-    public void ChangeState(IPlayerState newState)
+    public static void ChangeState(IPlayerState newState)
     {
-        Debug.Log("Changing state to " + newState + " from " + _currentState);
+        //Debug.Log(_currentState + "----->" + newState);
         _currentState?.OnExit();
         _currentState = newState;
         _currentState?.OnEnter();
