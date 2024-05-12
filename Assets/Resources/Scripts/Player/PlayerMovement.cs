@@ -1,29 +1,24 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Vector2 = UnityEngine.Vector2;
-
+/*
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance { get; private set; }
-    
+
     #region Variables
 
-    private PlayerStateMachine _playerStateMachine;
-
     // Player components
+    private PlayerStateMachine _playerStateMachine;
     private Rigidbody2D _playerRb;
     private Animator _playerAnimator;
     private SpriteRenderer _playerSprite;
-    [SerializeField] Image chargeBar;
-    [SerializeField] Canvas playerUI;
-    [SerializeField] ParticleSystem sparks;
-
-    // Input variables
-    private float moveInput;
-    [SerializeField] private float verticalInput;
+    [SerializeField] private Image chargeBar;
+    [SerializeField] private Canvas playerUI;
+    [SerializeField] private ParticleSystem sparks;
 
     private bool movePaused;
+
     // Jump timer variables
     private float holdTimer;
     [SerializeField] private float holdNormTimer;
@@ -31,10 +26,6 @@ public class PlayerMovement : MonoBehaviour
 
     // Movement variables
     public bool facingRight { get; private set; }
-    private float moveSpeed = 400f;
-    private const float moveSpeedWalk = 400f;
-    private const float moveSpeedChargeJump = 0f;
-    private const float moveSpeedJump = 350f;
 
     // Jump variables
     private const float jumpForce = 1800f;
@@ -44,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float leaveRopeForce = 90f;
     [SerializeField] private float maxLeaveRopeForce = 1100f;
     [SerializeField] private Vector2 minLeaveRopeImpulse = new(300f, 390f);
+
+    private Vector2 _movement;
 
     #endregion
 
@@ -64,32 +57,68 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         // Get components
-        _playerStateMachine = GetComponent<PlayerStateMachine>();
+        _playerStateMachine = PlayerStateMachine.instance;
         _playerRb = GetComponent<Rigidbody2D>();
         _playerAnimator = GetComponent<Animator>();
         _playerSprite = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        _playerRb.velocity = Vector2.zero;
+        PlayerStateMachine.OnWalk += OnWalk;
     }
-    
+
+    private void OnWalk(float horizontalInput)
+    {
+        var playerDirection = horizontalInput > 0 ? Vector2.right : Vector2.left;
+
+        //_movement += horizontalInput * WalkSpeed * playerDirection;
+    }
+
+    private void FixedUpdate()
+    {
+        _playerRb.AddForce(_movement * Time.deltaTime);
+        _movement = Vector2.zero;
+/*
+        // Debug.Log(_playerStateMachine.currentState);
+         switch (_playerStateMachine.currentState)
+        {
+            case PlayerStateMachine.PlayerState.Idle:
+                _playerRb.velocity = new Vector2(0f, 0f);
+                break;
+
+            case PlayerStateMachine.PlayerState.Walking:
+                break;
+
+            case PlayerStateMachine.PlayerState.ChargingJump:
+                _playerRb.velocity = new Vector2(0f, _playerRb.velocity.y);
+                break;
+
+            case PlayerStateMachine.PlayerState.Jumping:
+                break;
+
+            case PlayerStateMachine.PlayerState.Falling:
+                break;
+
+            default:
+                break;
+        }
+        
+    }
 
     private void Update()
     {
-        // Flip the player sprite
-        if (moveInput != 0)
-        {
-            facingRight = moveInput * RotationManager.instance.globalDirection.x < 0;
-            _playerSprite.flipX = facingRight;
-        }
+        _playerSprite.flipX = _movement.x < 0;
     }
-    
+
+    private void OnDisable()
+    {
+        PlayerStateMachine.OnWalk -= OnWalk;
+    }
 /*
     private void FixedUpdate()
     {
-        
+
         if (!playerStateMachine.isPaused)
         {
             // Get the inputs from InputManager
@@ -124,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
                 Time.timeScale = 0f;
                 playerRB.gravityScale = 0f;
                 playerAnimator.Play("idle");
-                
+
                 break;
             case PlayerStateMachine.PlayerState.Walking:
                 sparks.gameObject.SetActive(false);
@@ -193,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
             case PlayerStateMachine.PlayerState.Roping:
                 if (verticalInput != 0)
                 {
-                    
+
                     if (ropeManager.ClimbRope(verticalInput))
                     {
                         sparks.gameObject.SetActive(true);
@@ -202,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         sparks.gameObject.SetActive(false);
                     }
-                    
+
                 }
                 else
                 {
@@ -270,5 +299,5 @@ public class PlayerMovement : MonoBehaviour
             Destroy(soulSphere.gameObject);
         }
     }
-*/
 }
+*/

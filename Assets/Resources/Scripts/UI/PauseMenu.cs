@@ -55,7 +55,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         AudioManager.Instance.PlaySFX("Pause");
-        PlayerStateMachine.instance.isPaused = true;
+      //  PlayerStateMachine.instance.isPaused = true;
     }
 
     public void ResumeGame()
@@ -63,7 +63,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         paused = false;
         Cursor.visible = false;
-        PlayerStateMachine.instance.isPaused = false;
+       // PlayerStateMachine.instance.isPaused = false;
     }
     public void EnterSettings()
     {

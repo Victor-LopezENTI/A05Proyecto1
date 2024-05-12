@@ -4913,8 +4913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6532852219761283813}
-  - component: {fileID: -2811256032292616605}
-  - component: {fileID: 1362663552124734422}
+  - component: {fileID: 6016781303863020730}
   - component: {fileID: 4638037395009310092}
   - component: {fileID: 1400350846760594606}
   - component: {fileID: 4951220181675927794}
@@ -4948,27 +4947,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2811256032292616605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5753142299670203745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e1f11a4e7b263c4d89b02006c71d26f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chargeBar: {fileID: 1443061658998541084}
-  playerUI: {fileID: 3764074794962439830}
-  sparks: {fileID: 6570142967822960047}
-  verticalInput: 0
-  holdNormTimer: 0
-  leaveRopeForce: 89.7
-  maxLeaveRopeForce: 800
-  minLeaveRopeImpulse: {x: 300, y: 390}
---- !u!114 &1362663552124734422
+--- !u!114 &6016781303863020730
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4980,12 +4959,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6072d19baa55c6f41aea0260f713fe3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currentState: 0
-  isPaused: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
-  m_onGround: 0
+    m_Bits: 0
+  playerRb: {fileID: 5918233817066234992}
+  playerAnimator: {fileID: 6768553796988181243}
 --- !u!114 &4638037395009310092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4998,9 +4976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1e32f3cbf434b47a89193efd6a2b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slingshotBuffer: 0
-  m_onSlingShot: 0
-  m_chargingSlingshot: 0
 --- !u!114 &1400350846760594606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5013,15 +4988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5b11c1617b1d74cbbbcb9d17a74be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRB: {fileID: 5918233817066234992}
-  playerSM: {fileID: 1362663552124734422}
-  obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  ropePrefab: {fileID: 7869006388537451705, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
-  hingeConnected: 0
-  ropeExpansionSpeed: 10
-  hjoint: {fileID: 2990710734459649998}
 --- !u!120 &4951220181675927794
 LineRenderer:
   serializedVersion: 2
