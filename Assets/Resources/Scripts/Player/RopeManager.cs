@@ -10,7 +10,7 @@ public class RopeManager : MonoBehaviour
     private Rigidbody2D _playerRb;
     private LayerMask _groundLayer;
     [SerializeField] private GameObject ropePrefab; 
-    private LineRenderer _ropeLineRenderer;
+    private LineRenderer _ropeLineRenderer; 
     
     public GameObject selectedHook { get; private set; }
     public float selectedHookAngle { get; private set; }

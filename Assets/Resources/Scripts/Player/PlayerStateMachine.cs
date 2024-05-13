@@ -20,9 +20,11 @@ public class PlayerStateMachine : MonoBehaviour
     public Rigidbody2D playerRb;
     public LineRenderer playerLr;
     public Animator playerAnimator;
+    public LayerMask groundLayer;
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
     [SerializeField] public ParticleSystem sparks;
+    public GameObject selectedHook;
 
     public float horizontalInput;
     public float jumpInput;
@@ -54,13 +56,14 @@ public class PlayerStateMachine : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         playerLr = GetComponent<LineRenderer>();
         playerAnimator = GetComponent<Animator>();
+        groundLayer = LayerMask.GetMask("Platforms");
 
         IdleState = new Idle();
         WalkingState = new Walking();
         ChargingJumpState = new ChargingJump();
         JumpingState = new Jumping();
         ChargingSlingshotState = new ChargingSlingshot();
-        RopingState = new Roping();
+        RopingState = new Roping(this);
     }
 
     private void OnEnable()

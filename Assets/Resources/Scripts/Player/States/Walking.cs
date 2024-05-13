@@ -9,10 +9,6 @@ public class Walking : IPlayerState
     private const float Deceleration = 16f;
     private const float VelocityPower = 0.96f;
 
-    private readonly Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
-
-    private readonly LayerMask _groundLayer = LayerMask.GetMask("Platforms");
-
     public void OnEnter()
     {
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
@@ -45,7 +41,7 @@ public class Walking : IPlayerState
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
                        Mathf.Sign(speedDifference);
 
-        _playerRb.AddForce(movement * Vector2.right);
+        PlayerStateMachine.instance.playerRb.AddForce(movement * Vector2.right);
 
         if (!PlayerStateMachine.instance.onGround)
         {
