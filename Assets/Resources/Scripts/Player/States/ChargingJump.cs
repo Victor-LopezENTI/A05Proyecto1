@@ -4,18 +4,16 @@ using Vector2 = UnityEngine.Vector2;
 
 public class ChargingJump : IPlayerState
 {
-    private const float HoldTimeMin = 0.22f;
+    private const float HoldTimeMin = 0.33f;
     private const float HoldTimeMax = 0.5f;
-    private const float JumpForceMin = 1250f;
+    private const float JumpForceMin = 1200f;
     private const float JumpForceMax = 1800f;
 
     private readonly Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
     private float _holdTimer;
     private float _holdTimerNormalized;
     private Vector2 _jumpForceVector;
-
-    private float _horizontalInput;
-
+    
     public ChargingJump()
     {
         OnEnter();
@@ -23,8 +21,6 @@ public class ChargingJump : IPlayerState
 
     public void OnEnter()
     {
-        _horizontalInput = PlayerStateMachine.instance.horizontalInput;
-
         PlayerStateMachine.instance.chargeBar.enabled = true;
 
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
@@ -35,7 +31,7 @@ public class ChargingJump : IPlayerState
     public void Update()
     {
         //Debug.Log(_horizontalInput);
-        switch (_horizontalInput)
+        switch (PlayerStateMachine.instance.horizontalInput)
         {
             case > 0:
                 PlayerStateMachine.instance.transform.localScale = new Vector3(1, 1, 1);
@@ -69,11 +65,11 @@ public class ChargingJump : IPlayerState
     {
         if (context.performed)
         {
-            _horizontalInput = context.ReadValue<float>();
+            PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
         }
         else if (context.canceled)
         {
-            _horizontalInput = 0f;
+            PlayerStateMachine.instance.horizontalInput = 0f;
             PlayerStateMachine.instance.horizontalInput = 0f;
         }
     }
@@ -96,8 +92,6 @@ public class ChargingJump : IPlayerState
 
     public void OnExit()
     {
-        PlayerStateMachine.instance.horizontalInput = _horizontalInput;
-
         PlayerStateMachine.instance.chargeBar.enabled = false;
 
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;

@@ -13,19 +13,10 @@ public class Jumping : IPlayerState
     private readonly LayerMask _groundLayer = LayerMask.GetMask("Platforms");
 
     private readonly Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
-    private float _horizontalInput;
     private float _timeInAir;
-    private bool _onGround;
-
-    public Jumping()
-    {
-        OnEnter();
-    }
 
     public void OnEnter()
     {
-        _horizontalInput = PlayerStateMachine.instance.horizontalInput;
-
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
         InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
@@ -33,7 +24,7 @@ public class Jumping : IPlayerState
 
     public void Update()
     {
-        switch (_horizontalInput)
+        switch (PlayerStateMachine.instance.horizontalInput)
         {
             case > 0:
                 PlayerStateMachine.instance.transform.localScale = new Vector3(1, 1, 1);
@@ -56,19 +47,15 @@ public class Jumping : IPlayerState
     public void FixedUpdate()
     {
         // Movement
-        var targetSpeed = _horizontalInput * HorizontalSpeed;
+        var targetSpeed = PlayerStateMachine.instance.horizontalInput * HorizontalSpeed;
         var speedDifference = targetSpeed - PlayerStateMachine.instance.playerRb.velocity.x;
         var accelerationRate = targetSpeed != 0 ? HorizontalAcceleration : HorizontalDeceleration;
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, HorizontalVelocityPower) *
                        Mathf.Sign(speedDifference);
         _playerRb.AddForce(movement * Vector2.right);
 
-        // Ground check
-        _onGround = Physics2D.Raycast(_playerRb.position, Vector2.down,
-            DistanceFromGround, _groundLayer);
-
         _timeInAir += Time.deltaTime;
-        if (_onGround && _timeInAir > 0.1f)
+        if (PlayerStateMachine.instance.onGround && _timeInAir > 0.1f)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         }
@@ -76,7 +63,7 @@ public class Jumping : IPlayerState
         if (PlayerStateMachine.instance.jumpInput > 0f)
         {
             bool canJumpBeforeGround =
-                Physics2D.Raycast(_playerRb.position, Vector2.down, DistanceFromGround * 4.5f, _groundLayer);
+                Physics2D.Raycast(_playerRb.position, Vector2.down, DistanceFromGround * 5f, _groundLayer);
             if (canJumpBeforeGround)
             {
                 PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
@@ -86,9 +73,9 @@ public class Jumping : IPlayerState
 
     private void OnMovementInput(InputAction.CallbackContext context)
     {
-        _horizontalInput = context.ReadValue<float>();
+        PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
 
-        if (_onGround)
+        if (PlayerStateMachine.instance.onGround)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.WalkingState);
         }
@@ -101,9 +88,7 @@ public class Jumping : IPlayerState
 
     public void OnExit()
     {
-        PlayerStateMachine.instance.horizontalInput = _horizontalInput;
         _timeInAir = 0;
-
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;
         InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;

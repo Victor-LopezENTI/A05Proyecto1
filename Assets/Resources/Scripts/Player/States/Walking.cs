@@ -9,32 +9,21 @@ public class Walking : IPlayerState
     private const float Deceleration = 16f;
     private const float VelocityPower = 0.96f;
 
-    // Ground check constants
-    private const float DistanceFromGround = 1f;
-
     private readonly Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
-    private float _horizontalInput;
 
-    private bool _onGround;
     private readonly LayerMask _groundLayer = LayerMask.GetMask("Platforms");
-
-    public Walking()
-    {
-        OnEnter();
-    }
 
     public void OnEnter()
     {
-        _horizontalInput = PlayerStateMachine.instance.horizontalInput;
-        
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
         InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
+        InputManager.PlayerInputActions.Player.Click.performed += OnClickInputPerformed;
     }
 
     public void Update()
     {
-        switch (_horizontalInput)
+        switch (PlayerStateMachine.instance.horizontalInput)
         {
             case > 0:
                 PlayerStateMachine.instance.transform.localScale = new Vector3(1, 1, 1);
@@ -50,18 +39,15 @@ public class Walking : IPlayerState
     public void FixedUpdate()
     {
         // Movement
-        var targetSpeed = _horizontalInput * WalkSpeed;
+        var targetSpeed = PlayerStateMachine.instance.horizontalInput * WalkSpeed;
         var speedDifference = targetSpeed - PlayerStateMachine.instance.playerRb.velocity.x;
         var accelerationRate = targetSpeed != 0 ? Acceleration : Deceleration;
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
                        Mathf.Sign(speedDifference);
-        
+
         _playerRb.AddForce(movement * Vector2.right);
 
-        // Ground check
-        _onGround = Physics2D.Raycast(_playerRb.position, Vector2.down, DistanceFromGround, _groundLayer);
-
-        if (!_onGround)
+        if (!PlayerStateMachine.instance.onGround)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
         }
@@ -69,7 +55,7 @@ public class Walking : IPlayerState
 
     private void OnMovementInput(InputAction.CallbackContext context)
     {
-        _horizontalInput = context.ReadValue<float>();
+        PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
 
         if (context.canceled)
         {
@@ -82,11 +68,16 @@ public class Walking : IPlayerState
         PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
     }
 
+    private void OnClickInputPerformed(InputAction.CallbackContext context)
+    {
+        PlayerStateMachine.instance.clickInput = context.ReadValue<float>();
+    }
+
     public void OnExit()
     {
-        PlayerStateMachine.instance.horizontalInput = _horizontalInput;
-        
+        InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;
         InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
+        InputManager.PlayerInputActions.Player.Click.performed -= OnClickInputPerformed;
     }
 }
