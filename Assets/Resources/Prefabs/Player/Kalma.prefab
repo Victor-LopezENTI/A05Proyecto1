@@ -4960,12 +4960,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 5918233817066234992}
+  playerLr: {fileID: 0}
   playerAnimator: {fileID: 6768553796988181243}
   chargeBar: {fileID: 1443061658998541084}
   playerUi: {fileID: 3764074794962439830}
   sparks: {fileID: 6570142967822960047}
   horizontalInput: 0
   jumpInput: 0
+  clickInput: 0
+  onGround: 0
+  onSlingshot: 0
 --- !u!114 &4638037395009310092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5341,7 +5345,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 9.8
+  m_GravityScale: 9.81
   m_Material: {fileID: 6200000, guid: f28e3dbb18c3ae94b9183d4118650904, type: 2}
   m_IncludeLayers:
     serializedVersion: 2

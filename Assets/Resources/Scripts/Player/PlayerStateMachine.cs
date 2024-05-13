@@ -33,6 +33,8 @@ public class PlayerStateMachine : MonoBehaviour
     public bool onGround;
     public bool onSlingshot;
 
+    public bool canMoveInAir;
+
     #endregion
     
     private void Awake()
@@ -65,6 +67,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnEnable()
     {
+        canMoveInAir = true;
         ChangeState(IdleState);
     }
 
