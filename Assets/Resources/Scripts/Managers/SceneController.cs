@@ -12,7 +12,7 @@ public class SceneController : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject.transform.root.gameObject);
         }
         else
             Destroy(gameObject);
@@ -20,11 +20,32 @@ public class SceneController : MonoBehaviour
 
     public void NextLevel()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        if (SoulSpheresCollector.instance)
+        {
+            SoulSpheresCollector.instance.sceneSphereCounter = 0;
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync("MainMenuScene");
+        }
     }
 
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadSceneAsync(sceneName);
+        if (sceneName == "MainMenuScene")
+        {
+            Destroy(GameUIManager.instance.gameObject);
+            Destroy(SoulSpheresCollector.instance.gameObject);
+        }
+        else
+        {
+            SoulSpheresCollector.instance.sceneSphereCounter = 0;
+        }
     }
 }
