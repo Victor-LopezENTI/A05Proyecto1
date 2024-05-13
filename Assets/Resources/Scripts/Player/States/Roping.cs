@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Roping : IPlayerState
 {
-    private GameObject _selectedHook;
-    private HingeJoint2D _hingeJoint = PlayerStateMachine.instance.GetComponent<HingeJoint2D>();
+    private const float RopeExpansionSpeed = 0.15f;
+    private const float ClimbSpeed = 0.15f;
     
+    private HingeJoint2D _hingeJoint = PlayerStateMachine.instance.GetComponent<HingeJoint2D>();
+    private GameObject _ropePrefab = Resources.Load<GameObject>("Prefabs/Player/Rope");
+    private GameObject _selectedHook;
+
     public void OnEnter()
     {
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += ctx => PlayerStateMachine.instance.horizontalInput = ctx.ReadValue<float>();

@@ -1,14 +1,12 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
 {
     public static PlayerStateMachine instance { get; private set; }
-    
+
     public const float DistanceFromGround = 0.85f;
-    
+
     #region Variables
 
     private static IPlayerState _currentState;
@@ -18,14 +16,14 @@ public class PlayerStateMachine : MonoBehaviour
     public static IPlayerState JumpingState;
     public static IPlayerState ChargingSlingshotState;
     public static IPlayerState RopingState;
-    
+
     public Rigidbody2D playerRb;
     public LineRenderer playerLr;
     public Animator playerAnimator;
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
     [SerializeField] public ParticleSystem sparks;
-    
+
     public float horizontalInput;
     public float jumpInput;
     public float clickInput;
@@ -36,7 +34,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool canMoveInAir;
 
     #endregion
-    
+
     private void Awake()
     {
         #region Singleton Pattern
@@ -56,7 +54,7 @@ public class PlayerStateMachine : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         playerLr = GetComponent<LineRenderer>();
         playerAnimator = GetComponent<Animator>();
-        
+
         IdleState = new Idle();
         WalkingState = new Walking();
         ChargingJumpState = new ChargingJump();
@@ -71,15 +69,16 @@ public class PlayerStateMachine : MonoBehaviour
         ChangeState(IdleState);
     }
 
-    private void FixedUpdate()
-    {
-        onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround, LayerMask.GetMask("Platforms"));
-        _currentState?.FixedUpdate();
-    }
-
     private void Update()
     {
         _currentState?.Update();
+    }
+    
+    private void FixedUpdate()
+    {
+        onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround,
+            LayerMask.GetMask("Platforms"));
+        _currentState?.FixedUpdate();
     }
 
     public static void ChangeState(IPlayerState newState)
@@ -94,7 +93,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         onSlingshot = other.gameObject.CompareTag("Slingshot");
     }
-    
+
     private void OnTriggerExit2D(Collider2D other)
     {
         onSlingshot = !other.gameObject.CompareTag("Slingshot");

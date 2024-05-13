@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class RopeManager : MonoBehaviour
 {
-    /*
+    
     public static RopeManager Instance;
     
     private Rigidbody2D _playerRb;
     private LayerMask _groundLayer;
-    [SerializeField] private GameObject ropePrefab;
+    [SerializeField] private GameObject ropePrefab; 
     private LineRenderer _ropeLineRenderer;
     
     public GameObject selectedHook { get; private set; }
@@ -196,5 +196,4 @@ public class RopeManager : MonoBehaviour
         }
         yield break;
     }
-    */
 }
