@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
 {
     public static PlayerStateMachine instance { get; private set; }
 
-    public const float DistanceFromGround = 0.85f;
+    private const float DistanceFromGround = 0.85f;
 
     #region Variables
 
@@ -24,7 +25,6 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
     [SerializeField] public ParticleSystem sparks;
-    public GameObject selectedHook;
 
     public float horizontalInput;
     public float jumpInput;
@@ -32,7 +32,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool onGround;
     public bool onSlingshot;
-
+    public bool onTopHook;
+    
     public bool canMoveInAir;
 
     #endregion
@@ -63,7 +64,7 @@ public class PlayerStateMachine : MonoBehaviour
         ChargingJumpState = new ChargingJump();
         JumpingState = new Jumping();
         ChargingSlingshotState = new ChargingSlingshot();
-        RopingState = new Roping(this);
+        RopingState = new Roping();
     }
 
     private void OnEnable()
@@ -95,11 +96,13 @@ public class PlayerStateMachine : MonoBehaviour
     private void OnTriggerStay2D(Collider2D other)
     {
         onSlingshot = other.gameObject.CompareTag("Slingshot");
+        onTopHook = other.gameObject.CompareTag("TopHook");
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         onSlingshot = !other.gameObject.CompareTag("Slingshot");
+        onTopHook = !other.gameObject.CompareTag("TopHook");
     }
 
     private void OnDisable()

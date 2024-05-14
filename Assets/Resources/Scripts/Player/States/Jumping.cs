@@ -93,7 +93,7 @@ public class Jumping : IPlayerState
     private void OnClickPerformed(InputAction.CallbackContext context)
     {
         PlayerStateMachine.instance.clickInput = context.ReadValue<float>();
-        if (PlayerStateMachine.instance.selectedHook != null)
+        if (RopeManager.Instance.selectedHook)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.RopingState);
         }
