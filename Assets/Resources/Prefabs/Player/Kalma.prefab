@@ -4914,7 +4914,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6532852219761283813}
   - component: {fileID: 6016781303863020730}
-  - component: {fileID: 4638037395009310092}
   - component: {fileID: 1400350846760594606}
   - component: {fileID: 4951220181675927794}
   - component: {fileID: 2990710734459649998}
@@ -4945,7 +4944,7 @@ Transform:
   - {fileID: 7563383931890952555}
   - {fileID: 8750783482406463855}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6016781303863020730
 MonoBehaviour:
@@ -4960,8 +4959,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 5918233817066234992}
-  playerLr: {fileID: 0}
+  playerLr: {fileID: 4951220181675927794}
   playerAnimator: {fileID: 6768553796988181243}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
   chargeBar: {fileID: 1443061658998541084}
   playerUi: {fileID: 3764074794962439830}
   sparks: {fileID: 6570142967822960047}
@@ -4970,19 +4972,8 @@ MonoBehaviour:
   clickInput: 0
   onGround: 0
   onSlingshot: 0
+  onTopHook: 0
   canMoveInAir: 0
---- !u!114 &4638037395009310092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5753142299670203745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c1e32f3cbf434b47a89193efd6a2b1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1400350846760594606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4995,6 +4986,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5b11c1617b1d74cbbbcb9d17a74be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedHook: {fileID: 0}
+  ropePrefab: {fileID: 7869006388537451705, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
+  _hingeJoint: {fileID: 2990710734459649998}
+  ropeLineRenderer: {fileID: 8014186853738873083, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
+  hingeConnected: 0
 --- !u!120 &4951220181675927794
 LineRenderer:
   serializedVersion: 2

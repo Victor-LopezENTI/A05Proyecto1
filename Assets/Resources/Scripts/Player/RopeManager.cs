@@ -7,16 +7,16 @@ public class RopeManager : MonoBehaviour
 {
 	public static RopeManager Instance;
 
-	private const float RopeExpansionSpeed = 1.5f;
+	private const float RopeExpansionSpeed = 7f;
 	private const float ClimbSpeed = 0.15f;
 
 	public GameObject selectedHook;
 	[SerializeField] private GameObject ropePrefab;
 	private Rigidbody2D _playerRb;
-	private HingeJoint2D _hingeJoint;
+	[SerializeField] private HingeJoint2D _hingeJoint;
 	public LineRenderer ropeLineRenderer;
-	private readonly LayerMask _obstacleLayer = LayerMask.GetMask("Platforms");
-	
+	private LayerMask _obstacleLayer;
+
 	public float selectedHookAngle { get; private set; }
 	public float selectedHookDistance { get; private set; }
 	private float ropeSpeed;
@@ -43,7 +43,8 @@ public class RopeManager : MonoBehaviour
 
 		#endregion
 
-		_playerRb = GetComponent<Rigidbody2D>();
+		_playerRb = GetComponent<Rigidbody2D>(); 
+		_obstacleLayer= LayerMask.GetMask("Platforms");
 	}
 
 	private void Update()
@@ -142,29 +143,22 @@ public class RopeManager : MonoBehaviour
 		}
 	}
 
-	public void CheckExittingHook(GameObject hook)
+	public void DeselectHook()
 	{
-		if (selectedHook == hook)
-		{
-			DeselectHook();
-		}
-	}
-
-	void DeselectHook()
-	{
-		if (ropeLineRenderer != null)
+		if (ropeLineRenderer)
 		{
 			DestroyRope();
 		}
 
 		selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
+		Instance.selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+		Instance.selectedHook.GetComponent<Rigidbody2D>().rotation = 0f;
 		selectedHook = null;
 	}
 
-	void HookIsConnected()
+	private void AssignHinge()
 	{
 		hingeConnected = true;
-		_savedPos = selectedHook.transform.position;
 		_hingeJoint.connectedBody = selectedHook.GetComponent<Rigidbody2D>();
 		_hingeJoint.enabled = true;
 	}
@@ -185,7 +179,7 @@ public class RopeManager : MonoBehaviour
 		return false;
 	}
 
-	public void DestroyRope()
+	private void DestroyRope()
 	{
 		selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0;
 		_hingeJoint.enabled = false;
@@ -211,7 +205,7 @@ public class RopeManager : MonoBehaviour
 		if (!ropeLineRenderer) yield break;
 
 		ropeLineRenderer.SetPosition(1, hook.position);
-		HookIsConnected();
+		AssignHinge();
 		yield break;
 	}
 }
