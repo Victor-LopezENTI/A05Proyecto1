@@ -1,55 +1,40 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    public static PlayerStateMachine Instance { get; private set; }
+    public static PlayerStateMachine instance { get; private set; }
 
-    public enum PlayerState
-    {
-        Idle,
-        Walking,
-        ChargingJump,
-        StartingJump,
-        Jumping,
-        Falling,
-        Paused,
-
-        // Slingshot states
-        ChargingSlingshot,
-        StartingSlingshot,
-        JumpingSlingshot,
-        FallingSlingshot,
-
-        // Rope States
-        Roping,
-        EnteringRope,
-        LeavingRope
-    };
+    private const float DistanceFromGround = 0.85f;
 
     #region Variables
 
-    // Player states variables
-    [SerializeField] private PlayerState m_currentState;
-    public PlayerState currentState { get => m_currentState; private set => m_currentState = value; }
-    private PlayerState lastState;
+    private static IPlayerState _currentState;
+    public static IPlayerState IdleState;
+    public static IPlayerState WalkingState;
+    public static IPlayerState ChargingJumpState;
+    public static IPlayerState JumpingState;
+    public static IPlayerState ChargingSlingshotState;
+    public static IPlayerState RopingState;
 
-    // Player input variables
-    private float moveInput;
-    private bool jumpInput;
-    private bool clickInput;
+    public Rigidbody2D playerRb;
+    public LineRenderer playerLr;
+    public Animator playerAnimator;
+    public LayerMask groundLayer;
+    [SerializeField] public Image chargeBar;
+    [SerializeField] public Canvas playerUi;
+    [SerializeField] public ParticleSystem sparks;
 
-    public bool isPaused = false;
-    // Groundcheck variables
-    [SerializeField] private LayerMask groundLayer;
-    private const float distanceFromGround = 1f;
-    [SerializeField] private bool m_onGround;
-    public bool onGround { get => m_onGround; private set => m_onGround = value; }
+    public float horizontalInput;
+    public float jumpInput;
+    public float clickInput;
 
-    // Slingshot variables
-    private SlingshotJump slingshotJump;
-
-    // Rope variables
-    private RopeManager ropeManager;
+    public bool onGround;
+    public bool onSlingshot;
+    public bool onTopHook;
+    
+    public bool canMoveInAir;
 
     #endregion
 
@@ -57,105 +42,71 @@ public class PlayerStateMachine : MonoBehaviour
     {
         #region Singleton Pattern
 
-        if (Instance != null)
+        if (instance != null)
         {
-            Debug.Log("There is already an instance of " + Instance);
+            Debug.Log("There is already an instance of " + instance);
             Destroy(gameObject);
         }
         else
         {
-            Instance = this;
+            instance = this;
         }
 
         #endregion
 
-        slingshotJump = GetComponent<SlingshotJump>();
-        ropeManager = GetComponent<RopeManager>();
+        playerRb = GetComponent<Rigidbody2D>();
+        playerLr = GetComponent<LineRenderer>();
+        playerAnimator = GetComponent<Animator>();
+        groundLayer = LayerMask.GetMask("Platforms");
+
+        IdleState = new Idle();
+        WalkingState = new Walking();
+        ChargingJumpState = new ChargingJump();
+        JumpingState = new Jumping();
+        ChargingSlingshotState = new ChargingSlingshot();
+        RopingState = new Roping();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        currentState = PlayerState.Idle;
+        canMoveInAir = true;
+        ChangeState(IdleState);
     }
 
+    private void Update()
+    {
+        _currentState?.Update();
+    }
+    
     private void FixedUpdate()
     {
-        // Ground check
-        onGround = Physics2D.Raycast(transform.position, Vector2.down * RotationManager.instance.globalDirection, distanceFromGround, groundLayer);
+        onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround,
+            LayerMask.GetMask("Platforms"));
+        _currentState?.FixedUpdate();
+    }
 
-        // Get the inputs from InputManager
-        moveInput = InputManager.Instance.moveInput;
-        jumpInput = InputManager.Instance.jumpInput;
-        clickInput = InputManager.Instance.clickInput;
-        if (isPaused)
-        {
-            currentState = PlayerState.Paused;
-        }
-        else if (onGround)
-        {
-            // JumpingSlingshot
-            if (lastState == PlayerState.StartingSlingshot)
-                currentState = PlayerState.JumpingSlingshot;
+    public static void ChangeState(IPlayerState newState)
+    {
+        //Debug.Log(_currentState + "----->" + newState);
+        _currentState?.OnExit();
+        _currentState = newState;
+        _currentState?.OnEnter();
+    }
 
-            // ChargingJump
-            else if (jumpInput && !clickInput)
-                currentState = PlayerState.ChargingJump;
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        onSlingshot = other.gameObject.CompareTag("Slingshot");
+        onTopHook = other.gameObject.CompareTag("TopHook");
+    }
 
-            // ChargingSlingshot
-            else if (slingshotJump.chargingSlingshot)
-                currentState = PlayerState.ChargingSlingshot;
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        onSlingshot = !other.gameObject.CompareTag("Slingshot");
+        onTopHook = !other.gameObject.CompareTag("TopHook");
+    }
 
-            // StartingJump
-            else if (lastState == PlayerState.ChargingJump)
-                currentState = PlayerState.StartingJump;
-
-            // StartingSlingshot
-            else if (slingshotJump.startSlingshot)
-                currentState = PlayerState.StartingSlingshot;
-
-            // Walking
-            else if (moveInput != 0)
-                currentState = PlayerState.Walking;
-
-            // Idle
-            else if (moveInput == 0 && lastState != PlayerState.Jumping)
-                currentState = PlayerState.Idle;
-        }
-        else
-        {
-            // EnteringRope
-            if (ropeManager.enteringRope)
-                currentState = PlayerState.EnteringRope;
-
-            // LeavingRope
-            else if (ropeManager.leavingRope)
-                currentState = PlayerState.LeavingRope;
-
-            // Roping
-            else if (currentState != PlayerState.EnteringRope && currentState != PlayerState.LeavingRope && ropeManager.hingeConnected)
-                currentState = PlayerState.Roping;
-
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.instance.globalDirection.y >= 0)
-            {
-                // JumpingSlingshot
-                if (slingshotJump.jumpingSlingshot)
-                    currentState = PlayerState.JumpingSlingshot;
-
-                // Jumping
-                else
-                    currentState = PlayerState.Jumping;
-            }
-            else if (PlayerMovement.Instance.playerRB.velocity.y * RotationManager.instance.globalDirection.y < 0)
-            {
-                // FallingSlingshot
-                if (slingshotJump.jumpingSlingshot)
-                    currentState = PlayerState.FallingSlingshot;
-
-                // Falling
-                else
-                    currentState = PlayerState.Falling;
-            }
-        }
-        lastState = currentState;
+    private void OnDisable()
+    {
+        _currentState?.OnExit();
     }
 }
