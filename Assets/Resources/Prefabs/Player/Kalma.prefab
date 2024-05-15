@@ -4966,8 +4966,8 @@ MonoBehaviour:
     m_Bits: 0
   chargeBar: {fileID: 1443061658998541084}
   playerUi: {fileID: 3764074794962439830}
-  sparks: {fileID: 6570142967822960047}
   horizontalInput: 0
+  verticalInput: 0
   jumpInput: 0
   clickInput: 0
   onGround: 0
@@ -4987,10 +4987,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedHook: {fileID: 0}
+  ropeLineRenderer: {fileID: 8014186853738873083, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
+  sparks: {fileID: 6570142967822960047}
   ropePrefab: {fileID: 7869006388537451705, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
   _hingeJoint: {fileID: 2990710734459649998}
-  ropeLineRenderer: {fileID: 8014186853738873083, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
-  hingeConnected: 0
 --- !u!120 &4951220181675927794
 LineRenderer:
   serializedVersion: 2

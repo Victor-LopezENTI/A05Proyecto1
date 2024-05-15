@@ -24,9 +24,9 @@ public class PlayerStateMachine : MonoBehaviour
     public LayerMask groundLayer;
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
-    [SerializeField] public ParticleSystem sparks;
 
     public float horizontalInput;
+    public float verticalInput;
     public float jumpInput;
     public float clickInput;
 
