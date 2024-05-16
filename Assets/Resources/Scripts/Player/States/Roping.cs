@@ -55,6 +55,7 @@ public class Roping : IPlayerState
         if (PlayerStateMachine.instance.onGround)
         {
             RopeManager.Instance.DeselectHook();
+            
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         }
     }
@@ -78,6 +79,8 @@ public class Roping : IPlayerState
 
     public void OnExit()
     {
+        RopeManager.Instance.sparks.gameObject.SetActive(false);
+        PlayerStateMachine.instance.verticalInput = 0;
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnHorizontalInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnHorizontalInput;
         InputManager.PlayerInputActions.Player.VerticalMovement.performed -= OnVerticalInput;

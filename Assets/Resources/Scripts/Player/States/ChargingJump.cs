@@ -9,7 +9,7 @@ public class ChargingJump : IPlayerState
     private const float JumpForceMin = 1200f;
     private const float JumpForceMax = 1800f;
 
-    private readonly Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
+    private Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
     private float _holdTimer;
     private float _holdTimerNormalized;
     private Vector2 _jumpForceVector;

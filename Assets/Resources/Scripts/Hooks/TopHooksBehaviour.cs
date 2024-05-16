@@ -25,8 +25,8 @@ public class TopHooksBehaviour : MonoBehaviour
 		{
 			if (gameObject == RopeManager.Instance.selectedHook)
 			{
-				SetHilight(false);
-				RopeManager.Instance.selectedHook = null;
+				RopeManager.Instance.DeselectHook();
+				PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
 			}
 		}
 	}
