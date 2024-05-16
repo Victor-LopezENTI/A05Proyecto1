@@ -86,7 +86,7 @@ public class Dialogue : MonoBehaviour
         else
         {
             dialoguePanel.SetActive(false);
-            PlayerStateMachine.Instance.isPaused = false;
+            //PlayerStateMachine.instance.isPaused = false;
         }
     }
 
@@ -99,7 +99,7 @@ public class Dialogue : MonoBehaviour
             
             StartDialogue();
             alreadyEntered = true;
-            PlayerStateMachine.Instance.isPaused = true;
+           // PlayerStateMachine.instance.isPaused = true;
         }
     }
 
