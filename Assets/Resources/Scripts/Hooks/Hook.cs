@@ -11,7 +11,7 @@ public class Hook : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.AddHook(this);
+        GameManager.instance.AddHook(this);
         TopHook = transform.Find("TopHook").gameObject;
         BottomHook = transform.Find("BottomHook").gameObject;
     }
