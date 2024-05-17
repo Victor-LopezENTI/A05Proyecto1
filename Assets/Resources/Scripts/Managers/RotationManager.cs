@@ -82,7 +82,7 @@ public class RotationManager : MonoBehaviour
         {
             OnRotationStarted?.Invoke();
             
-            GameManager.Instance.SwitchHooksState();
+            GameManager.instance.SwitchHooksState();
 
             globalDirection = -globalDirection;
             chamberUpsideDown = !chamberUpsideDown;
@@ -93,13 +93,13 @@ public class RotationManager : MonoBehaviour
             ChangeGravity();
 
             // Rotate the player
-            float rotationAngle;
-            if (chamberUpsideDown)
-                rotationAngle = 180f;
-            else
-                rotationAngle = 0f;
+            // float rotationAngle;
+            // if (chamberUpsideDown)
+            //     rotationAngle = 180f;
+            // else
+            //     rotationAngle = 0f;
 
-            PlayerMovement.Instance.transform.DORotate(new(0, 0, rotationAngle), maxTransitionBuffer).SetUpdate(true).SetEase(Ease.InOutSine);
+            //PlayerMovement.Instance.transform.DORotate(new(0, 0, rotationAngle), maxTransitionBuffer).SetUpdate(true).SetEase(Ease.InOutSine);
 
             // Reset the action buffer
             actionBuffer = 0f;
