@@ -18,7 +18,8 @@ public class Jumping : IPlayerState
     {
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
-        InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
+        InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInput;
+        InputManager.PlayerInputActions.Player.Jump.canceled += OnJumpInput;
         InputManager.PlayerInputActions.Player.Click.performed += OnClickPerformed;
     }
 
@@ -58,20 +59,9 @@ public class Jumping : IPlayerState
         }
 
         _timeInAir += Time.deltaTime;
-        if (PlayerStateMachine.instance.onGround && _timeInAir > 0.1f)
+        if (PlayerStateMachine.instance.onGround && _timeInAir >= 0.05f)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-        }
-
-        if (PlayerStateMachine.instance.jumpInput > 0f)
-        {
-            bool canJumpBeforeGround =
-                Physics2D.Raycast(_playerRb.position, Vector2.down, DistanceFromGround * 5f,
-                    PlayerStateMachine.instance.groundLayer);
-            if (canJumpBeforeGround)
-            {
-                PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
-            }
         }
     }
 
@@ -85,9 +75,22 @@ public class Jumping : IPlayerState
         }
     }
 
-    private void OnJumpInputPerformed(InputAction.CallbackContext context)
+    private void OnJumpInput(InputAction.CallbackContext context)
     {
         PlayerStateMachine.instance.jumpInput = context.ReadValue<float>();
+
+        if (!context.performed) return;
+        
+        if (_playerRb.velocity.y < 0)
+        {
+            bool canJumpBeforeGround =
+                Physics2D.Raycast(_playerRb.position, Vector2.down, DistanceFromGround * 5.5f,
+                    PlayerStateMachine.instance.groundLayer);
+            if (canJumpBeforeGround)
+            {
+                PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
+            }
+        }
     }
 
     private void OnClickPerformed(InputAction.CallbackContext context)
@@ -107,7 +110,8 @@ public class Jumping : IPlayerState
 
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;
-        InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
+        InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInput;
+        InputManager.PlayerInputActions.Player.Jump.canceled -= OnJumpInput;
         InputManager.PlayerInputActions.Player.Click.performed -= OnClickPerformed;
     }
 }

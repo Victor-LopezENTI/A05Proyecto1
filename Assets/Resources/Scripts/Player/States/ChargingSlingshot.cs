@@ -4,17 +4,17 @@ using Vector2 = UnityEngine.Vector2;
 
 public class ChargingSlingshot : IPlayerState
 {
+    // Constants
     private const float SlingshotForce = 3.95f;
-    private const float MinDragPos = 400f;
+    private const float MinDragPos = 1000;
+    private const int MaxSteps = 400;
     private static readonly Vector2 EscapeForceMax = new(1400f, 2000f);
 
+    // Private variables
     private bool _isDragging;
     private Vector2 _vectorToCenter;
     private static readonly Vector2 DragStartPos = new(Screen.width / 2, Screen.height / 2);
     private Vector2 _escapeForce;
-
-    // Line renderer
-    private const int Steps = 400;
     private Vector2[] _trajectory;
 
     public void OnEnter()
@@ -22,7 +22,7 @@ public class ChargingSlingshot : IPlayerState
         PlayerStateMachine.instance.playerRb.velocity =
             new Vector2(0f, PlayerStateMachine.instance.playerRb.velocity.y);
         PlayerStateMachine.instance.playerLr.enabled = true;
-        
+
         _isDragging = false;
 
         InputManager.PlayerInputActions.Player.Click.performed += OnClick;
@@ -45,9 +45,9 @@ public class ChargingSlingshot : IPlayerState
             PlayerStateMachine.instance.playerLr.enabled = false;
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         }
-        
+
         var angle = Mathf.Atan2(DragStartPos.y - dragEndPos.y, DragStartPos.x - dragEndPos.x);
-        if (angle is >= 0.5f and <= 2.5f)
+        if (angle is >= 0.5f and <= Mathf.PI - 0.5f)
         {
             var vectorToCenter = _vectorToCenter;
             var plotVelocity = vectorToCenter * SlingshotForce / 50f;
@@ -65,19 +65,19 @@ public class ChargingSlingshot : IPlayerState
 
     private static Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity)
     {
-        var results = new Vector2[Steps];
-
+        var results = new Vector2[MaxSteps];
         var timestep = Time.fixedDeltaTime / Physics2D.velocityIterations;
         var gravityAccel = Physics2D.gravity * (rigidbody.gravityScale * timestep * timestep);
 
         var drag = 1f - timestep * rigidbody.drag;
         var moveStep = velocity * timestep;
 
-        for (int i = 0; i < Steps; i++)
+        for (var i = 0; i < MaxSteps; i++)
         {
             moveStep += gravityAccel;
             moveStep *= drag;
             pos += moveStep;
+
             results[i] = pos;
         }
 
@@ -114,8 +114,9 @@ public class ChargingSlingshot : IPlayerState
     public void OnExit()
     {
         PlayerStateMachine.instance.playerRb.AddForce(_escapeForce);
-        PlayerStateMachine.instance.playerLr.enabled = false;
         PlayerStateMachine.instance.onSlingshot = false;
+        PlayerStateMachine.instance.playerLr.positionCount = 0;
+        PlayerStateMachine.instance.playerLr.enabled = false;
 
         _vectorToCenter = Vector2.zero;
         _escapeForce = Vector2.zero;

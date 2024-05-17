@@ -101,7 +101,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        onSlingshot = !other.gameObject.CompareTag("Slingshot");
+        // The slingshot exit is managed in the ChargingSlingshot state
         onTopHook = !other.gameObject.CompareTag("TopHook");
     }
 
