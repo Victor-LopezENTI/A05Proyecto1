@@ -8,9 +8,11 @@ public class ChargingSlingshot : IPlayerState
     private const float SlingshotForce = 3.95f;
     private const float MinDragPos = 1000;
     private const int MaxSteps = 400;
-    private static readonly Vector2 EscapeForceMax = new(1400f, 2000f);
+    private static readonly Vector2 EscapeForceMax = new(1400f, 2400f);
 
-    // Private variables
+    // Private variable
+    private readonly LayerMask _obstacleLayer = LayerMask.GetMask("Platforms");
+    private int _currentSteps;
     private bool _isDragging;
     private Vector2 _vectorToCenter;
     private static readonly Vector2 DragStartPos = new(Screen.width / 2, Screen.height / 2);
@@ -50,7 +52,11 @@ public class ChargingSlingshot : IPlayerState
         if (angle is >= 0.5f and <= Mathf.PI - 0.5f)
         {
             var vectorToCenter = _vectorToCenter;
-            var plotVelocity = vectorToCenter * SlingshotForce / 50f;
+            var plotVelocity = vectorToCenter * SlingshotForce;
+            plotVelocity = new Vector2(Mathf.Clamp(plotVelocity.x, -EscapeForceMax.x, EscapeForceMax.x),
+                Mathf.Clamp(plotVelocity.y, 0f, EscapeForceMax.y));
+
+            plotVelocity /= 50f;
 
             PlayerStateMachine.instance.playerLr.enabled = vectorToCenter.magnitude >= MinDragPos;
             _trajectory = Plot(PlayerStateMachine.instance.playerRb, PlayerStateMachine.instance.playerRb.position,
@@ -63,7 +69,7 @@ public class ChargingSlingshot : IPlayerState
     {
     }
 
-    private static Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity)
+    private Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity)
     {
         var results = new Vector2[MaxSteps];
         var timestep = Time.fixedDeltaTime / Physics2D.velocityIterations;
@@ -72,6 +78,7 @@ public class ChargingSlingshot : IPlayerState
         var drag = 1f - timestep * rigidbody.drag;
         var moveStep = velocity * timestep;
 
+        _currentSteps = MaxSteps;
         for (var i = 0; i < MaxSteps; i++)
         {
             moveStep += gravityAccel;
@@ -79,6 +86,11 @@ public class ChargingSlingshot : IPlayerState
             pos += moveStep;
 
             results[i] = pos;
+            if (i > 0 && Physics2D.Raycast(results[i - 1], results[i], 0.1f, _obstacleLayer))
+            {
+                _currentSteps = i;
+                break;
+            }
         }
 
         return results;
@@ -87,10 +99,10 @@ public class ChargingSlingshot : IPlayerState
     private void DrawTrajectory()
     {
         PlayerStateMachine.instance.playerLr.enabled = true;
-        PlayerStateMachine.instance.playerLr.positionCount = _trajectory.Length;
+        PlayerStateMachine.instance.playerLr.positionCount = _currentSteps;
 
-        var positions = new Vector3[_trajectory.Length];
-        for (var i = 0; i < _trajectory.Length; i++)
+        var positions = new Vector3[_currentSteps];
+        for (var i = 0; i < _currentSteps; i++)
             positions[i] = _trajectory[i];
         PlayerStateMachine.instance.playerLr.SetPositions(positions);
     }
@@ -101,6 +113,7 @@ public class ChargingSlingshot : IPlayerState
         if (context.performed)
         {
             PlayerStateMachine.instance.playerLr.enabled = true;
+            PlayerStateMachine.instance.playerLr.endWidth = 10f;
         }
         else if (context.canceled)
         {
@@ -113,11 +126,14 @@ public class ChargingSlingshot : IPlayerState
 
     public void OnExit()
     {
+        _escapeForce = new Vector2(Mathf.Clamp(_escapeForce.x, -EscapeForceMax.x, EscapeForceMax.x),
+            Mathf.Clamp(_escapeForce.y, 0f, EscapeForceMax.y));
         PlayerStateMachine.instance.playerRb.AddForce(_escapeForce);
         PlayerStateMachine.instance.onSlingshot = false;
         PlayerStateMachine.instance.playerLr.positionCount = 0;
         PlayerStateMachine.instance.playerLr.enabled = false;
 
+        _currentSteps = 0;
         _vectorToCenter = Vector2.zero;
         _escapeForce = Vector2.zero;
 
