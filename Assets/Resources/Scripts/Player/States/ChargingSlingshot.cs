@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Vector2 = UnityEngine.Vector2;
@@ -11,7 +12,7 @@ public class ChargingSlingshot : IPlayerState
     private static readonly Vector2 EscapeForceMax = new(1400f, 2400f);
 
     // Private variable
-    private readonly LayerMask _obstacleLayer = LayerMask.GetMask("Platforms");
+    private readonly LayerMask _platformsLayer = LayerMask.GetMask("Platforms");
     private int _currentSteps;
     private bool _isDragging;
     private Vector2 _vectorToCenter;
@@ -56,7 +57,7 @@ public class ChargingSlingshot : IPlayerState
             plotVelocity = new Vector2(Mathf.Clamp(plotVelocity.x, -EscapeForceMax.x, EscapeForceMax.x),
                 Mathf.Clamp(plotVelocity.y, 0f, EscapeForceMax.y));
 
-            plotVelocity /= 50f;
+            plotVelocity /= 51.7f;
 
             PlayerStateMachine.instance.playerLr.enabled = vectorToCenter.magnitude >= MinDragPos;
             _trajectory = Plot(PlayerStateMachine.instance.playerRb, PlayerStateMachine.instance.playerRb.position,
@@ -86,7 +87,11 @@ public class ChargingSlingshot : IPlayerState
             pos += moveStep;
 
             results[i] = pos;
-            if (i > 0 && Physics2D.Raycast(results[i - 1], results[i], 0.1f, _obstacleLayer))
+
+            if (i == 0) continue;
+            
+            Debug.DrawLine(results[i - 1], results[i], Color.green);
+            if (Physics2D.Raycast(results[i - 1], results[i], 0.1f, _platformsLayer))
             {
                 _currentSteps = i;
                 break;
