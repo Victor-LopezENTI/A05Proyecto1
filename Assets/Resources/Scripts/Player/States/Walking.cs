@@ -47,16 +47,16 @@ public class Walking : IPlayerState
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
         }
+
+        if (PlayerStateMachine.instance.horizontalInput == 0)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+        }
     }
 
     private void OnMovementInput(InputAction.CallbackContext context)
     {
         PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
-
-        if (context.canceled)
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-        }
     }
 
     private void OnJumpInputPerformed(InputAction.CallbackContext context)
