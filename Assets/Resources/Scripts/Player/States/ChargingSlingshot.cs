@@ -9,7 +9,7 @@ public class ChargingSlingshot : IPlayerState
     private const float SlingshotForce = 3.95f;
     private const float MinDragPos = 1000;
     private const int MaxSteps = 400;
-    private static readonly Vector2 EscapeForceMax = new(1400f, 2400f);
+    private static readonly Vector2 EscapeForceMax = new(1400f, 2650f);
 
     // Private variable
     private readonly LayerMask _platformsLayer = LayerMask.GetMask("Platforms");

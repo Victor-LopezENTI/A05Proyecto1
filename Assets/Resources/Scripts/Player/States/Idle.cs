@@ -5,7 +5,8 @@ using Vector2 = UnityEngine.Vector2;
 
 public class Idle : IPlayerState
 {
-    private const float FrictionAmount = 1.7f;
+    private const float FrictionAmount = 2.3f;
+    private Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
 
     public void OnEnter()
     {
@@ -23,10 +24,10 @@ public class Idle : IPlayerState
 
     public void FixedUpdate()
     {
-        var friction = Mathf.Min(Mathf.Abs(PlayerStateMachine.instance.playerRb.velocity.x),
+        var friction = Mathf.Min(Mathf.Abs(_playerRb.velocity.x),
             Mathf.Abs(FrictionAmount));
-        friction *= Mathf.Sign(PlayerStateMachine.instance.playerRb.velocity.x);
-        PlayerStateMachine.instance.playerRb.AddForce(Vector2.right * -friction, ForceMode2D.Impulse);
+        friction *= Mathf.Sign(_playerRb.velocity.x);
+        _playerRb.AddForce(Vector2.right * -friction, ForceMode2D.Impulse);
 
         if (PlayerStateMachine.instance.horizontalInput != 0)
         {

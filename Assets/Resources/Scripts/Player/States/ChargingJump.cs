@@ -86,6 +86,7 @@ public class ChargingJump : IPlayerState
                 _jumpForceVector = Vector2.zero;
         }
 
+        AudioManager.Instance.PlaySFX("Jump");
         _playerRb.AddForce(_jumpForceVector);
         _jumpForceVector = Vector2.zero;
         _holdTimer = 0;
