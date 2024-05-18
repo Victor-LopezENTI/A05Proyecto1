@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Vector2 = UnityEngine.Vector2;
@@ -6,10 +5,10 @@ using Vector2 = UnityEngine.Vector2;
 public class ChargingSlingshot : IPlayerState
 {
     // Constants
-    private const float SlingshotForce = 3.95f;
+    private const float SlingshotForce = 4.4f;
     private const float MinDragPos = 1000;
     private const int MaxSteps = 400;
-    private static readonly Vector2 EscapeForceMax = new(1400f, 2650f);
+    private static readonly Vector2 EscapeForceMax = new(1400f, 2800f);
 
     // Private variable
     private readonly LayerMask _platformsLayer = LayerMask.GetMask("Platforms");
@@ -123,6 +122,7 @@ public class ChargingSlingshot : IPlayerState
         else if (context.canceled)
         {
             _escapeForce = _vectorToCenter * SlingshotForce;
+            AudioManager.Instance.PlaySFX("SlingShot");
 
             PlayerStateMachine.instance.canMoveInAir = false;
             PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);

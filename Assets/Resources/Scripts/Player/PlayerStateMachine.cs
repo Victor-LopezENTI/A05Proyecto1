@@ -9,6 +9,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     #region Variables
 
+    public bool isPaused;
+
     private static IPlayerState _currentState;
     public static IPlayerState IdleState;
     public static IPlayerState WalkingState;
@@ -30,10 +32,10 @@ public class PlayerStateMachine : MonoBehaviour
     public float clickInput;
 
     public bool onGround;
-    public bool onSlingshot;
-    public bool onTopHook;
-    
-    public bool canMoveInAir;
+    public bool onSlingshot = false;
+    public bool onTopHook = false;
+
+    public bool canMoveInAir = true;
 
     #endregion
 
@@ -74,11 +76,26 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
+        if (isPaused)
+        {
+            return;
+        }
+
         _currentState?.Update();
     }
-    
+
     private void FixedUpdate()
     {
+        if (isPaused)
+        {
+            playerRb.bodyType = RigidbodyType2D.Static;
+            return;
+        }
+        else
+        {
+            playerRb.bodyType = RigidbodyType2D.Dynamic;
+        }
+
         onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround,
             LayerMask.GetMask("Platforms"));
         _currentState?.FixedUpdate();
