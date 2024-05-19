@@ -43,9 +43,9 @@ public class Walking : IPlayerState
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
                        Mathf.Sign(speedDifference) * Vector2.right;
 
-        if (playerRb.velocity.y > 0f)
+        if (playerRb.velocity.y >= 1f)
         {
-            movement.y += 100f;
+            movement.y += 98.1f;
         }
 
         PlayerStateMachine.instance.playerRb.AddForce(movement);
@@ -54,16 +54,16 @@ public class Walking : IPlayerState
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
         }
-
-        if (PlayerStateMachine.instance.horizontalInput == 0)
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-        }
     }
 
     private void OnMovementInput(InputAction.CallbackContext context)
     {
         PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
+
+        if (context.canceled)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+        }
     }
 
     private void OnJumpInputPerformed(InputAction.CallbackContext context)
