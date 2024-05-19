@@ -6,6 +6,7 @@ public class PlayerStateMachine : MonoBehaviour
     public static PlayerStateMachine instance { get; private set; }
 
     private const float DistanceFromGround = 0.64f;
+    private const float GroundCheckDistance = 0.4f;
 
     #region Variables
 
@@ -94,12 +95,12 @@ public class PlayerStateMachine : MonoBehaviour
             playerRb.bodyType = RigidbodyType2D.Dynamic;
         }
 
-        // Ray-cast
+        // Ground detection ray-cast
         Debug.DrawLine(playerRb.position - new Vector2(0, DistanceFromGround),
-            playerRb.position + Vector2.down * DistanceFromGround + DistanceFromGround / 2 * Vector2.down, Color.red);
-        
+            playerRb.position + Vector2.down * DistanceFromGround + GroundCheckDistance * Vector2.down, Color.red);
+
         onGround = Physics2D.Raycast(playerRb.position - new Vector2(0, DistanceFromGround), Vector2.down,
-            DistanceFromGround, groundLayer);
+            GroundCheckDistance, groundLayer);
 
         _currentState?.FixedUpdate();
     }

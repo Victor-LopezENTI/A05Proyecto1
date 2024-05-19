@@ -45,7 +45,7 @@ public class Walking : IPlayerState
 
         if (playerRb.velocity.y >= 1f)
         {
-            movement.y += 105f;
+            movement.y += 98.1f;
         }
 
         PlayerStateMachine.instance.playerRb.AddForce(movement);
