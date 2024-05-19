@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Screen = UnityEngine.Device.Screen;
@@ -10,8 +11,7 @@ public class Idle : IPlayerState
 
     public void OnEnter()
     {
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
-        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
+        InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInputPerformed;
         InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
         InputManager.PlayerInputActions.Player.Click.performed += OnClickInput;
         InputManager.PlayerInputActions.Player.Click.canceled += OnClickInput;
@@ -39,14 +39,10 @@ public class Idle : IPlayerState
         }
     }
 
-    private void OnMovementInput(InputAction.CallbackContext context)
+    private void OnMovementInputPerformed(InputAction.CallbackContext context)
     {
         PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
-
-        if (context.performed)
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.WalkingState);
-        }
+        PlayerStateMachine.ChangeState(PlayerStateMachine.WalkingState);
     }
 
     private void OnJumpInputPerformed(InputAction.CallbackContext context)
@@ -69,8 +65,7 @@ public class Idle : IPlayerState
 
     public void OnExit()
     {
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
-        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;
+        InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInputPerformed;
         InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
         InputManager.PlayerInputActions.Player.Click.performed -= OnClickInput;
         InputManager.PlayerInputActions.Player.Click.canceled -= OnClickInput;

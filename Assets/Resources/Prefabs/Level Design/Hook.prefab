@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4758706269164455621}
   m_Layer: 0
   m_Name: TopHook
-  m_TagString: TopHook
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 295f10a002268094893eb5904bd2996c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlight: {fileID: 7086633956121494837}
 --- !u!58 &8960781980340661205
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -63,7 +63,6 @@ public class ChargingJump : IPlayerState
 
     private void OnMovementInput(InputAction.CallbackContext context)
     {
-        PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
         if (context.performed)
         {
             PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
@@ -77,13 +76,9 @@ public class ChargingJump : IPlayerState
 
     private void OnJumpInputCanceled(InputAction.CallbackContext context)
     {
-        PlayerStateMachine.instance.jumpInput = context.ReadValue<float>();
         if (_holdTimer < HoldTimeMin)
         {
             _jumpForceVector = JumpForceMin * Vector2.up;
-            
-            if (!PlayerStateMachine.instance.onGround)
-                _jumpForceVector = Vector2.zero;
         }
 
         AudioManager.Instance.PlaySFX("Jump");
