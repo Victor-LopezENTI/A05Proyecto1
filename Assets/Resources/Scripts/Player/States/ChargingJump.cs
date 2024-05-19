@@ -13,11 +13,6 @@ public class ChargingJump : IPlayerState
     private float _holdTimer;
     private float _holdTimerNormalized;
     private Vector2 _jumpForceVector;
-    
-    public ChargingJump()
-    {
-        OnEnter();
-    }
 
     public void OnEnter()
     {

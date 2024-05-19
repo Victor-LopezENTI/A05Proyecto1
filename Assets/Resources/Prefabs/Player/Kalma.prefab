@@ -4944,7 +4944,7 @@ Transform:
   - {fileID: 7563383931890952555}
   - {fileID: 8750783482406463855}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6016781303863020730
 MonoBehaviour:
@@ -4958,7 +4958,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6072d19baa55c6f41aea0260f713fe3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPaused: 0
   playerRb: {fileID: 5918233817066234992}
   playerLr: {fileID: 4951220181675927794}
   playerAnimator: {fileID: 6768553796988181243}
@@ -4971,6 +4970,7 @@ MonoBehaviour:
   verticalInput: 0
   jumpInput: 0
   clickInput: 0
+  isPaused: 0
   onGround: 0
   onSlingshot: 0
   onTopHook: 0
