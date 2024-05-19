@@ -11,6 +11,8 @@ public class Idle : IPlayerState
 
     public void OnEnter()
     {
+        playerRb.gravityScale = 0f;
+        
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInputPerformed;
         InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
         InputManager.PlayerInputActions.Player.Click.performed += OnClickInput;
@@ -67,6 +69,8 @@ public class Idle : IPlayerState
 
     public void OnExit()
     {
+        playerRb.gravityScale = 9.81f;
+        
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInputPerformed;
         InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
         InputManager.PlayerInputActions.Player.Click.performed -= OnClickInput;
