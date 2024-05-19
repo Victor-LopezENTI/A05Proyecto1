@@ -4958,6 +4958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6072d19baa55c6f41aea0260f713fe3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPaused: 0
   playerRb: {fileID: 5918233817066234992}
   playerLr: {fileID: 4951220181675927794}
   playerAnimator: {fileID: 6768553796988181243}
@@ -4973,7 +4974,7 @@ MonoBehaviour:
   onGround: 0
   onSlingshot: 0
   onTopHook: 0
-  canMoveInAir: 0
+  canMoveInAir: 1
 --- !u!114 &1400350846760594606
 MonoBehaviour:
   m_ObjectHideFlags: 0

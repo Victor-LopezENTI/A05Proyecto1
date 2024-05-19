@@ -8,6 +8,8 @@ public class Walking : IPlayerState
     private const float Acceleration = 13f;
     private const float Deceleration = 16f;
     private const float VelocityPower = 0.96f;
+    
+    private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
 
     public void OnEnter()
     {
@@ -36,12 +38,17 @@ public class Walking : IPlayerState
     {
         // Movement
         var targetSpeed = PlayerStateMachine.instance.horizontalInput * WalkSpeed;
-        var speedDifference = targetSpeed - PlayerStateMachine.instance.playerRb.velocity.x;
+        var speedDifference = targetSpeed - playerRb.velocity.x;
         var accelerationRate = targetSpeed != 0 ? Acceleration : Deceleration;
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
-                       Mathf.Sign(speedDifference);
+                       Mathf.Sign(speedDifference) * Vector2.right;
 
-        PlayerStateMachine.instance.playerRb.AddForce(movement * Vector2.right);
+        if (playerRb.velocity.y >= 1f)
+        {
+            movement.y += 105f;
+        }
+
+        PlayerStateMachine.instance.playerRb.AddForce(movement);
 
         if (!PlayerStateMachine.instance.onGround)
         {

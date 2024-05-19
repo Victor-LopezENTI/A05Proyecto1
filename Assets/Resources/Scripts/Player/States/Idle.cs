@@ -6,10 +6,13 @@ using Vector2 = UnityEngine.Vector2;
 
 public class Idle : IPlayerState
 {
-    private const float FrictionAmount = 1.7f;
+    private const float FrictionAmount = 2.3f;
+    private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
 
     public void OnEnter()
     {
+        playerRb.gravityScale = 0f;
+        
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInputPerformed;
         InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
         InputManager.PlayerInputActions.Player.Click.performed += OnClickInput;
@@ -23,10 +26,12 @@ public class Idle : IPlayerState
 
     public void FixedUpdate()
     {
-        var friction = Mathf.Min(Mathf.Abs(PlayerStateMachine.instance.playerRb.velocity.x),
-            Mathf.Abs(FrictionAmount));
-        friction *= Mathf.Sign(PlayerStateMachine.instance.playerRb.velocity.x);
-        PlayerStateMachine.instance.playerRb.AddForce(Vector2.right * -friction, ForceMode2D.Impulse);
+        playerRb.velocity = Vector2.zero;
+
+        // var friction = Mathf.Min(Mathf.Abs(playerRb.velocity.x),
+        //     Mathf.Abs(FrictionAmount));
+        // friction *= Mathf.Sign(playerRb.velocity.x);
+        // playerRb.AddForce(Vector2.right * -friction, ForceMode2D.Impulse);
 
         if (PlayerStateMachine.instance.horizontalInput != 0)
         {
@@ -64,6 +69,8 @@ public class Idle : IPlayerState
 
     public void OnExit()
     {
+        playerRb.gravityScale = 9.81f;
+        
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInputPerformed;
         InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
         InputManager.PlayerInputActions.Player.Click.performed -= OnClickInput;
