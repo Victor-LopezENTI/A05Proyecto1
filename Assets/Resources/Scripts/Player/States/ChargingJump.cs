@@ -30,7 +30,6 @@ public class ChargingJump : IPlayerState
 
     public void Update()
     {
-        //Debug.Log(_horizontalInput);
         switch (PlayerStateMachine.instance.horizontalInput)
         {
             case > 0:
