@@ -13,15 +13,13 @@ public class ChargingJump : IPlayerState
     private float _holdTimer;
     private float _holdTimerNormalized;
     private Vector2 _jumpForceVector;
-    
-    public ChargingJump()
-    {
-        OnEnter();
-    }
 
     public void OnEnter()
     {
-        PlayerStateMachine.instance.chargeBar.enabled = true;
+        PlayerStateMachine.instance.chargeBar.fillAmount = 0f;
+        PlayerStateMachine.instance.playerUi.transform.localScale = _playerRb.transform.lossyScale.x < 0 ? new Vector3(-0.1f, 0.1f, 0.1f) : new Vector3(0.1f, 0.1f, 0.1f);
+        
+        PlayerStateMachine.instance.playerUi.enabled = true;
 
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
@@ -97,7 +95,7 @@ public class ChargingJump : IPlayerState
 
     public void OnExit()
     {
-        PlayerStateMachine.instance.chargeBar.enabled = false;
+        PlayerStateMachine.instance.playerUi.enabled = false;
 
         InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
         InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;

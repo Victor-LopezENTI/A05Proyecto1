@@ -4944,7 +4944,7 @@ Transform:
   - {fileID: 7563383931890952555}
   - {fileID: 8750783482406463855}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6016781303863020730
 MonoBehaviour:
@@ -4958,11 +4958,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6072d19baa55c6f41aea0260f713fe3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPaused: 0
   playerRb: {fileID: 5918233817066234992}
   playerLr: {fileID: 4951220181675927794}
   playerAnimator: {fileID: 6768553796988181243}
   groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  rampLayer:
     serializedVersion: 2
     m_Bits: 0
   chargeBar: {fileID: 1443061658998541084}
@@ -4971,6 +4973,7 @@ MonoBehaviour:
   verticalInput: 0
   jumpInput: 0
   clickInput: 0
+  isPaused: 0
   onGround: 0
   onSlingshot: 0
   onTopHook: 0
@@ -5739,7 +5742,7 @@ RectTransform:
   m_GameObject: {fileID: 6800623148614496456}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8314996701437839248}
@@ -5749,8 +5752,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 982, y: 554.49}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchoredPosition: {x: 0, y: 1.25}
+  m_SizeDelta: {x: 34, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3764074794962439830
 Canvas:
@@ -5759,7 +5762,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6800623148614496456}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -5773,7 +5776,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_TargetDisplay: 0
 --- !u!1 &7806904673545403353
 GameObject:
