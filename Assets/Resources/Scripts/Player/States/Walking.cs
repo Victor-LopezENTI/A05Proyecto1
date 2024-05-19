@@ -43,9 +43,9 @@ public class Walking : IPlayerState
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
                        Mathf.Sign(speedDifference) * Vector2.right;
 
-        if (playerRb.velocity.y > 0f)
+        if (playerRb.velocity.y >= 1f)
         {
-            movement.y += 100f;
+            movement.y += 105f;
         }
 
         PlayerStateMachine.instance.playerRb.AddForce(movement);

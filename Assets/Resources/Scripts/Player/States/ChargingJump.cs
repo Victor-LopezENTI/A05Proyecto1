@@ -9,7 +9,7 @@ public class ChargingJump : IPlayerState
     private const float JumpForceMin = 1200f;
     private const float JumpForceMax = 1800f;
 
-    private Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
+    private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
     private float _holdTimer;
     private float _holdTimerNormalized;
     private Vector2 _jumpForceVector;
@@ -45,7 +45,7 @@ public class ChargingJump : IPlayerState
 
     public void FixedUpdate()
     {
-        _playerRb.velocity = new Vector2(0f, _playerRb.velocity.y);
+        playerRb.velocity = new Vector2(0f, playerRb.velocity.y);
 
         _holdTimer += Time.deltaTime;
         if (_holdTimer > HoldTimeMax)
@@ -81,7 +81,7 @@ public class ChargingJump : IPlayerState
         }
 
         AudioManager.Instance.PlaySFX("Jump");
-        _playerRb.AddForce(_jumpForceVector);
+        playerRb.AddForce(_jumpForceVector);
         _jumpForceVector = Vector2.zero;
         _holdTimer = 0;
 

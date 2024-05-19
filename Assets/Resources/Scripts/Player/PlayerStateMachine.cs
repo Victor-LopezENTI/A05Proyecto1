@@ -5,7 +5,7 @@ public class PlayerStateMachine : MonoBehaviour
 {
     public static PlayerStateMachine instance { get; private set; }
 
-    private const float DistanceFromGround = 1.1f;
+    private const float DistanceFromGround = 0.64f;
 
     #region Variables
 
@@ -21,7 +21,6 @@ public class PlayerStateMachine : MonoBehaviour
     public LineRenderer playerLr;
     public Animator playerAnimator;
     public LayerMask groundLayer;
-    public LayerMask rampLayer;
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
 
@@ -96,7 +95,11 @@ public class PlayerStateMachine : MonoBehaviour
         }
 
         // Ray-cast
-        onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround, groundLayer);
+        Debug.DrawLine(playerRb.position - new Vector2(0, DistanceFromGround),
+            playerRb.position + Vector2.down * DistanceFromGround + DistanceFromGround / 2 * Vector2.down, Color.red);
+        
+        onGround = Physics2D.Raycast(playerRb.position - new Vector2(0, DistanceFromGround), Vector2.down,
+            DistanceFromGround, groundLayer);
 
         _currentState?.FixedUpdate();
     }
