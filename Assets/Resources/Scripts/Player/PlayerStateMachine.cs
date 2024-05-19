@@ -5,11 +5,9 @@ public class PlayerStateMachine : MonoBehaviour
 {
     public static PlayerStateMachine instance { get; private set; }
 
-    private const float DistanceFromGround = 0.85f;
+    private const float DistanceFromGround = 1.1f;
 
     #region Variables
-
-    public bool isPaused;
 
     private static IPlayerState _currentState;
     public static IPlayerState IdleState;
@@ -23,6 +21,7 @@ public class PlayerStateMachine : MonoBehaviour
     public LineRenderer playerLr;
     public Animator playerAnimator;
     public LayerMask groundLayer;
+    public LayerMask rampLayer;
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
 
@@ -31,10 +30,10 @@ public class PlayerStateMachine : MonoBehaviour
     public float jumpInput;
     public float clickInput;
 
+    public bool isPaused;
     public bool onGround;
     public bool onSlingshot = false;
     public bool onTopHook = false;
-
     public bool canMoveInAir = true;
 
     #endregion
@@ -96,8 +95,9 @@ public class PlayerStateMachine : MonoBehaviour
             playerRb.bodyType = RigidbodyType2D.Dynamic;
         }
 
-        onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround,
-            LayerMask.GetMask("Platforms"));
+        // Ray-cast
+        onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround, groundLayer);
+
         _currentState?.FixedUpdate();
     }
 
