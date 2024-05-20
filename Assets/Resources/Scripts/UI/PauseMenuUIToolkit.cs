@@ -6,6 +6,7 @@ public class PauseMenuUIToolkit : MonoBehaviour
 {
     public PauseMenu pauseMenu;
     public GameObject settingsUI;
+    public GameObject returnPauseMenu;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PauseMenuUIToolkit : MonoBehaviour
         settings.clicked += () => pauseMenu.EnterSettings();
         settings.clicked += () => settingsUI.SetActive(true);
         settings.clicked += () => gameObject.SetActive(false);
+        settings.clicked += () => returnPauseMenu.SetActive(true);
         settings.clicked += () => AudioManager.Instance.PlaySFX("ButtonClick");
 
         quit.clicked += () => pauseMenu.Quit();
