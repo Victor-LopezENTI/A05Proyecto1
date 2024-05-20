@@ -24,11 +24,10 @@ public class ChargingSlingshot : IPlayerState
         PlayerStateMachine.instance.playerRb.velocity =
             new Vector2(0f, PlayerStateMachine.instance.playerRb.velocity.y);
         PlayerStateMachine.instance.playerLr.enabled = true;
-        
+
         _isDragging = false;
 
-        InputManager.PlayerInputActions.Player.Click.performed += OnClick;
-        InputManager.PlayerInputActions.Player.Click.canceled += OnClick;
+        PlayerInput.instance.PlayerInputActions.Player.Click.canceled += OnClickCanceled;
     }
 
     public void Update()
@@ -47,7 +46,7 @@ public class ChargingSlingshot : IPlayerState
             PlayerStateMachine.instance.playerLr.enabled = false;
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         }
-        
+
         var angle = Mathf.Atan2(DragStartPos.y - dragEndPos.y, DragStartPos.x - dragEndPos.x);
         if (angle is >= 0.5f and <= 2.5f)
         {
@@ -97,21 +96,13 @@ public class ChargingSlingshot : IPlayerState
         PlayerStateMachine.instance.playerLr.SetPositions(positions);
     }
 
-    private void OnClick(InputAction.CallbackContext context)
+    private void OnClickCanceled(InputAction.CallbackContext context)
     {
-        PlayerStateMachine.instance.clickInput = context.ReadValue<float>();
-        if (context.performed)
-        {
-            PlayerStateMachine.instance.playerLr.enabled = true;
-        }
-        else if (context.canceled)
-        {
-            _escapeForce = _vectorToCenter * SlingshotForce;
-            AudioManager.Instance.PlaySFX("SlingShot");
+        _escapeForce = _vectorToCenter * SlingshotForce;
+        AudioManager.Instance.PlaySFX("SlingShot");
 
-            PlayerStateMachine.instance.canMoveInAir = false;
-            PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
-        }
+        PlayerStateMachine.instance.canMoveInAir = false;
+        PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
     }
 
     public void OnExit()
@@ -122,8 +113,7 @@ public class ChargingSlingshot : IPlayerState
 
         _vectorToCenter = Vector2.zero;
         _escapeForce = Vector2.zero;
-
-        InputManager.PlayerInputActions.Player.Click.performed -= OnClick;
-        InputManager.PlayerInputActions.Player.Click.canceled -= OnClick;
+        
+        PlayerInput.instance.PlayerInputActions.Player.Click.canceled -= OnClickCanceled;
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +6,7 @@ public class PlayerStateMachine : MonoBehaviour
     public static PlayerStateMachine instance { get; private set; }
 
     private const float DistanceFromGround = 0.64f;
-    private const float GroundCheckDistance = 0.08f;
+    private const float GroundCheckDistance = 0.1f;
 
     #region Variables
 
@@ -27,13 +26,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
 
-    public float horizontalInput;
-    public float verticalInput;
-    public float jumpInput;
-    public float clickInput;
-
     public bool isPaused;
-    public bool onGround => OnGround;
     public bool onSlingshot = false;
     public bool onTopHook = false;
     public bool canMoveInAir = true;
@@ -82,6 +75,18 @@ public class PlayerStateMachine : MonoBehaviour
             return;
         }
 
+        switch (PlayerInput.instance.horizontalInput)
+        {
+            case > 0:
+                transform.localScale = new Vector3(1, 1, 1);
+                playerUi.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                break;
+            case < 0:
+                transform.localScale = new Vector3(-1, 1, 1);
+                playerUi.transform.localScale = new Vector3(-0.1f, 0.1f, 0.1f);
+                break;
+        }
+
         _currentState?.Update();
     }
 
@@ -109,7 +114,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public static void ChangeState(IPlayerState newState)
     {
-        //Debug.Log(_currentState + "----->" + newState);
+        // Debug.Log(_currentState + "----->" + newState);
         _currentState?.OnExit();
         _currentState = newState;
         _currentState?.OnEnter();

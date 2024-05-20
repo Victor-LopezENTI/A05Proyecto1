@@ -4915,6 +4915,7 @@ GameObject:
   - component: {fileID: 6532852219761283813}
   - component: {fileID: 6016781303863020730}
   - component: {fileID: 1400350846760594606}
+  - component: {fileID: 8499319154088915583}
   - component: {fileID: 4951220181675927794}
   - component: {fileID: 2990710734459649998}
   - component: {fileID: 5918233817066234992}
@@ -4964,9 +4965,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
-  rampLayer:
-    serializedVersion: 2
-    m_Bits: 0
   chargeBar: {fileID: 1443061658998541084}
   playerUi: {fileID: 3764074794962439830}
   horizontalInput: 0
@@ -4974,7 +4972,6 @@ MonoBehaviour:
   jumpInput: 0
   clickInput: 0
   isPaused: 0
-  onGround: 0
   onSlingshot: 0
   onTopHook: 0
   canMoveInAir: 1
@@ -4995,6 +4992,22 @@ MonoBehaviour:
   sparks: {fileID: 6570142967822960047}
   ropePrefab: {fileID: 7869006388537451705, guid: 2d513794ecf723d4cab147fb6312ed31, type: 3}
   _hingeJoint: {fileID: 2990710734459649998}
+--- !u!114 &8499319154088915583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5753142299670203745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc17764608561d045b08283827c89464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _horizontalInput: 0
+  _verticalInput: 0
+  _jumpInput: 0
+  _clickInput: 0
 --- !u!120 &4951220181675927794
 LineRenderer:
   serializedVersion: 2
