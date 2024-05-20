@@ -3967,6 +3967,7 @@ MonoBehaviour:
   returnSettings: {fileID: 2220940510153671383}
   creditsMenu: {fileID: 5243459956216978909}
   mainMenu: {fileID: 6742531182383111069}
+  background: {fileID: 0}
 --- !u!1 &6816234072431154902
 GameObject:
   m_ObjectHideFlags: 0
@@ -4448,6 +4449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 0}
   settingsUI: {fileID: 6834340715732897188}
+  returnPauseMenu: {fileID: 0}
 --- !u!114 &4586456524933288392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4463,7 +4465,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 7009d90388177d14d87b732752111fa8, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 9f20bb784bb5f4c4ba5c0d07d0ad11ef, type: 3}
-  m_SortingOrder: 1
+  m_SortingOrder: 0
 --- !u!1 &7418517389708544316
 GameObject:
   m_ObjectHideFlags: 0

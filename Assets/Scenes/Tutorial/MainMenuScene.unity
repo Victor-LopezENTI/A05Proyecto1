@@ -444,6 +444,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7adf9172d9e295948a904f4047252bb0, type: 3}
+--- !u!1 &282571538 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5187126566043140286, guid: 7adf9172d9e295948a904f4047252bb0, type: 3}
+  m_PrefabInstance: {fileID: 282571537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &376621264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5873576405132181260, guid: 495ebbcd6708ce9449108ce27720241c, type: 3}
@@ -699,6 +704,10 @@ PrefabInstance:
       propertyPath: pauseMenuUI
       value: 
       objectReference: {fileID: 1267338131}
+    - target: {fileID: 7482376351733060341, guid: eaf7840d2f4da424ba8f994d5fa30bd2, type: 3}
+      propertyPath: soulSpheres
+      value: 
+      objectReference: {fileID: 282571538}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
