@@ -32,9 +32,11 @@ public class ChargingJump : IPlayerState
         {
             case > 0:
                 PlayerStateMachine.instance.transform.localScale = new Vector3(1, 1, 1);
+                PlayerStateMachine.instance.playerUi.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                 break;
             case < 0:
                 PlayerStateMachine.instance.transform.localScale = new Vector3(-1, 1, 1);
+                PlayerStateMachine.instance.playerUi.transform.localScale = new Vector3(-0.1f, 0.1f, 0.1f);
                 break;
         }
 
