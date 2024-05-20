@@ -8,7 +8,6 @@ public class Jumping : IPlayerState
     private const float HorizontalAcceleration = 13f;
     private const float HorizontalDeceleration = 16f;
     private const float HorizontalVelocityPower = 0.96f;
-    private const float DistanceFromGround = 0.85f;
 
     // Properties
     private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
@@ -17,6 +16,8 @@ public class Jumping : IPlayerState
     public void OnEnter()
     {
         PlayerStateMachine.instance.canMoveInAir = true;
+        
+        PlayerInput.instance.PlayerInputActions.Player.Click.performed += OnClickInputPerformed;
     }
 
     public void Update()
@@ -44,6 +45,7 @@ public class Jumping : IPlayerState
             playerRb.AddForce(movement * Vector2.right);
         }
 
+        // Ground detection
         _timeInAir += Time.deltaTime;
         if (_timeInAir > 0.1f)
         {
@@ -60,10 +62,11 @@ public class Jumping : IPlayerState
             }
         }
 
-        if (PlayerInput.instance.jumpInput > 0f)
+        // Charge jump before ground
+        if (PlayerInput.instance.jumpInput > 0f && playerRb.velocity.y <= 0f)
         {
             bool canJumpBeforeGround =
-                Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround * 5f,
+                Physics2D.Raycast(playerRb.position, Vector2.down, PlayerStateMachine.DistanceFromGround * 6f,
                     PlayerStateMachine.instance.groundLayer);
             if (canJumpBeforeGround)
             {
@@ -72,15 +75,7 @@ public class Jumping : IPlayerState
         }
     }
 
-    private void OnMovementInput(InputAction.CallbackContext context)
-    {
-        if (PlayerStateMachine.instance.OnGround)
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.WalkingState);
-        }
-    }
-
-    private void OnClickPerformed(InputAction.CallbackContext context)
+    private void OnClickInputPerformed(InputAction.CallbackContext context)
     {
         if (RopeManager.Instance.selectedHook)
         {
@@ -91,5 +86,7 @@ public class Jumping : IPlayerState
     public void OnExit()
     {
         _timeInAir = 0;
+        
+        PlayerInput.instance.PlayerInputActions.Player.Click.performed -= OnClickInputPerformed;
     }
 }

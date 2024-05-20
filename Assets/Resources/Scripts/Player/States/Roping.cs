@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Roping : IPlayerState
 {
-    private const float RopeSpeed = 550f;
+    private const float RopeSpeed = 40f;
 
     private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
     
@@ -18,7 +18,7 @@ public class Roping : IPlayerState
 
     public void Update()
     {
-        //RopeManager.Instance.sparks.gameObject.SetActive(PlayerStateMachine.instance.verticalInput != 0);
+        RopeManager.Instance.sparks.gameObject.SetActive(PlayerInput.instance.verticalInput != 0);
 
         // Play animations based on vertical input
         switch (playerRb.velocity.y)
@@ -30,28 +30,20 @@ public class Roping : IPlayerState
                 PlayerStateMachine.instance.playerAnimator.Play("fall");
                 break;
         }
-
         
-        RopeManager.Instance.ropeLineRenderer.SetPosition(0, playerRb.position);
+        RopeManager.Instance.ropeLineRenderer?.SetPosition(0, playerRb.position);
     }
 
     public void FixedUpdate()
     {
-        //RopeManager.Instance.ClimbRope(-PlayerStateMachine.instance.verticalInput);
+        RopeManager.Instance.ClimbRope(-PlayerInput.instance.verticalInput);
         
         if (PlayerStateMachine.instance.OnGround)
         {
-            RopeManager.Instance.DeselectHook();
-            
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         }
         
         playerRb.AddForce(PlayerInput.instance.horizontalInput * RopeSpeed * Vector2.right);
-    }
-
-    private void OnHorizontalInput(InputAction.CallbackContext context)
-    {
-        playerRb.AddForce(new Vector2(context.ReadValue<float>() * RopeSpeed, 0));
     }
     
     private void OnJumpInputPerformed(InputAction.CallbackContext context)
@@ -61,12 +53,12 @@ public class Roping : IPlayerState
     
     private void OnClickInputCanceled(InputAction.CallbackContext context)
     {
-        RopeManager.Instance.DeselectHook();
         PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
     }
 
     public void OnExit()
     {
+        RopeManager.Instance.DeselectHook();
         RopeManager.Instance.sparks.gameObject.SetActive(false);
         
         PlayerInput.instance.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
