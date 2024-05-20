@@ -6,7 +6,7 @@ public class Walking : IPlayerState
     // Movement constants
     private const float WalkSpeed = 9f;
     private const float Acceleration = 13f;
-    private const float Deceleration = 16f;
+    private const float Deceleration = 25f;
     private const float VelocityPower = 0.96f;
     
     private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
