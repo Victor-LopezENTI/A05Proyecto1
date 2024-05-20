@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -6,7 +7,6 @@ public class PlayerStateMachine : MonoBehaviour
     public static PlayerStateMachine instance { get; private set; }
 
     public const float DistanceFromGround = 0.64f;
-    private const float GroundCheckDistance = 0.1f;
 
     #region Variables
 
@@ -26,9 +26,9 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
 
+    public float groundCheckDistance;
     public bool isPaused;
     public bool onSlingshot = false;
-    public bool onTopHook = false;
     public bool canMoveInAir = true;
 
     #endregion
@@ -65,7 +65,9 @@ public class PlayerStateMachine : MonoBehaviour
     private void OnEnable()
     {
         canMoveInAir = true;
-        ChangeState(IdleState);
+        onSlingshot = false;
+        groundCheckDistance = 0.1f;
+        ChangeState(JumpingState);
     }
 
     private void Update()
@@ -74,7 +76,6 @@ public class PlayerStateMachine : MonoBehaviour
         {
             return;
         }
-
 
         _currentState?.Update();
     }
@@ -103,17 +104,17 @@ public class PlayerStateMachine : MonoBehaviour
 
         // Ground detection ray-cast
         Debug.DrawLine(playerRb.position - new Vector2(0, DistanceFromGround),
-            playerRb.position + Vector2.down * DistanceFromGround + GroundCheckDistance * Vector2.down, Color.red);
+            playerRb.position + Vector2.down * DistanceFromGround + groundCheckDistance * Vector2.down, Color.red);
 
         OnGround = Physics2D.Raycast(playerRb.position - new Vector2(0, DistanceFromGround), Vector2.down,
-            GroundCheckDistance, groundLayer);
+            groundCheckDistance, groundLayer);
 
         _currentState?.FixedUpdate();
     }
 
     public static void ChangeState(IPlayerState newState)
     {
-        Debug.Log(_currentState + "----->" + newState);
+        //Debug.Log(_currentState + "----->" + newState);
         _currentState?.OnExit();
         _currentState = newState;
         _currentState?.OnEnter();
@@ -131,14 +132,18 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        onSlingshot = other.gameObject.CompareTag("Slingshot");
-        onTopHook = other.gameObject.CompareTag("TopHook");
+        if (other.gameObject.CompareTag("Slingshot"))
+        {
+            onSlingshot = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        onSlingshot = !other.gameObject.CompareTag("Slingshot");
-        onTopHook = !other.gameObject.CompareTag("TopHook");
+        if (other.gameObject.CompareTag("Slingshot"))
+        {
+            onSlingshot = false;
+        }
     }
 
     private void OnDisable()

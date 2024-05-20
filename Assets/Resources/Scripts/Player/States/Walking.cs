@@ -13,6 +13,8 @@ public class Walking : IPlayerState
 
     public void OnEnter()
     {
+        PlayerStateMachine.instance.groundCheckDistance = 0.45f;
+
         PlayerInput.instance.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInputCanceled;
         PlayerInput.instance.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
     }
@@ -31,9 +33,9 @@ public class Walking : IPlayerState
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
                        Mathf.Sign(speedDifference) * Vector2.right;
 
-        if (playerRb.velocity.y >= 1f)
+        if (playerRb.velocity.y >= 0.8f)
         {
-            movement.y += 98.1f;
+            movement.y += 97f;
         }
 
         PlayerStateMachine.instance.playerRb.AddForce(movement);
@@ -56,6 +58,8 @@ public class Walking : IPlayerState
 
     public void OnExit()
     {
+        PlayerStateMachine.instance.groundCheckDistance = 0.1f;
+
         PlayerInput.instance.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInputCanceled;
         PlayerInput.instance.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
     }
