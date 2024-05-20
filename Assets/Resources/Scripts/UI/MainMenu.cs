@@ -7,8 +7,10 @@ using Cursor = UnityEngine.Cursor;
 public class MainMenu : MonoBehaviour
 {
     public GameObject settingsMenu;
+    public GameObject returnSettings;
     public GameObject creditsMenu;
     public GameObject mainMenu;
+    public GameObject background;
 
     private UIDocument doc;
     private List<Button> buttons = new List<Button>();
@@ -62,11 +64,14 @@ public class MainMenu : MonoBehaviour
         SceneController.instance.NextLevel();
         AudioManager.Instance.PlaySFX("ButtonClick");
         AudioManager.Instance.PlayMusic("Game");
+        mainMenu.SetActive(false);
+        background.SetActive(false);
     }
     private void OnSettingsButtonsClick(ClickEvent evnt)
     {
         mainMenu.SetActive(false);
         settingsMenu.SetActive(true);
+        returnSettings.SetActive(true);
         AudioManager.Instance.PlaySFX("ButtonClick");
     }
     private void OnCreditsButtonsClick(ClickEvent evnt)

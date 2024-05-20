@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cursor = UnityEngine.Cursor;
+
 
 public class FinishPoint : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class FinishPoint : MonoBehaviour
     private bool zone1;
     [SerializeField]
     private bool death;
+    [SerializeField]
+    private bool endGame;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,6 +39,13 @@ public class FinishPoint : MonoBehaviour
             {
                 AudioManager.Instance.StopMusic();
                 AudioManager.Instance.PlayMusic("Death");
+            }
+
+            if (endGame)
+            {
+                AudioManager.Instance.StopMusic();
+                AudioManager.Instance.PlayMusic("Game");
+                Cursor.visible = true;
             }
         }
     }

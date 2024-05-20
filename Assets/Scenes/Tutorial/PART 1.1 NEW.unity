@@ -512,7 +512,10 @@ PrefabInstance:
     - {fileID: 299193771533209732, guid: 5a4f146cd8c2e5a4b8fc122fd1c105de, type: 3}
     - {fileID: 6785572967810816579, guid: 5a4f146cd8c2e5a4b8fc122fd1c105de, type: 3}
     - {fileID: 8219187041298760261, guid: 5a4f146cd8c2e5a4b8fc122fd1c105de, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7110775203556875885, guid: 5a4f146cd8c2e5a4b8fc122fd1c105de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 273003382}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a4f146cd8c2e5a4b8fc122fd1c105de, type: 3}
 --- !u!1 &105180418
@@ -35849,6 +35852,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2177420304370494401, guid: 8338477b6837b944cba8e556c9d0d944, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 466.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177420304370494401, guid: 8338477b6837b944cba8e556c9d0d944, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2799182500354789638, guid: 8338477b6837b944cba8e556c9d0d944, type: 3}
       propertyPath: m_Name
       value: Dialogue Show
@@ -35859,7 +35870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3870469525595785150, guid: 8338477b6837b944cba8e556c9d0d944, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 182.7
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 4014791530929441975, guid: 8338477b6837b944cba8e556c9d0d944, type: 3}
       propertyPath: m_Pivot.x

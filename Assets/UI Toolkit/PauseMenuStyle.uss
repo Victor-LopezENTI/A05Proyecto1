@@ -15,12 +15,10 @@
     color: rgb(209, 209, 209);
     font-size: 30px;
     background-image: none;
-    transition-duration: 0.2s;
     -unity-background-image-tint-color: rgb(255, 255, 255);
     background-color: rgba(255, 255, 255, 0);
     -unity-font-style: normal;
     top: -647px;
-    transition-timing-function: ease-in-out-back;
 }
 
 .text {
@@ -40,4 +38,6 @@
     background-image: resource('Sprites/UI/bordes');
     width: 220px;
     font-size: 30px;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out-back;
 }
