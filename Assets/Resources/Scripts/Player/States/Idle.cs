@@ -33,6 +33,11 @@ public class Idle : IPlayerState
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
         }
+
+        if (!PlayerStateMachine.instance.OnGround)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
+        }
     }
 
     private void OnMovementInputPerformed(InputAction.CallbackContext context)
