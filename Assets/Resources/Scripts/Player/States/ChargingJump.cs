@@ -17,7 +17,7 @@ public class ChargingJump : IPlayerState
     public void OnEnter()
     {
         PlayerStateMachine.instance.chargeBar.fillAmount = 0f;
-        PlayerStateMachine.instance.playerUi.transform.localScale = _playerRb.transform.lossyScale.x < 0 ? new Vector3(-0.1f, 0.1f, 0.1f) : new Vector3(0.1f, 0.1f, 0.1f);
+        PlayerStateMachine.instance.playerUi.transform.localScale = playerRb.transform.lossyScale.x < 0 ? new Vector3(-0.1f, 0.1f, 0.1f) : new Vector3(0.1f, 0.1f, 0.1f);
         
         PlayerStateMachine.instance.playerUi.enabled = true;
 
