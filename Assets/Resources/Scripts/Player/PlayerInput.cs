@@ -10,11 +10,13 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float _verticalInput;
     [SerializeField] private float _jumpInput;
     [SerializeField] private float _clickInput;
+    [SerializeField] private float _resetInput;
 
     public float horizontalInput => _horizontalInput;
     public float verticalInput => _verticalInput; 
     public float jumpInput => _jumpInput;
     public float clickInput => _clickInput;
+    public float resetInput => _resetInput;
 
     private void Awake()
     {
@@ -72,6 +74,7 @@ public class PlayerInput : MonoBehaviour
 
     private void OnResetInput(InputAction.CallbackContext context)
     {
+        _resetInput = context.ReadValue<float>();
     }
 
     private void OnDisable()
