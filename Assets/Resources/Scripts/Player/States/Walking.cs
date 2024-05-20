@@ -50,7 +50,7 @@ public class Walking : IPlayerState
 
         PlayerStateMachine.instance.playerRb.AddForce(movement);
 
-        if (!PlayerStateMachine.instance.onGround)
+        if (!PlayerStateMachine.instance.OnGround)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
         }

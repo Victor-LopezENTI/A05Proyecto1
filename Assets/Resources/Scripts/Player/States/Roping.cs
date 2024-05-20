@@ -52,7 +52,7 @@ public class Roping : IPlayerState
     {
         RopeManager.Instance.ClimbRope(-PlayerStateMachine.instance.verticalInput);
         
-        if (PlayerStateMachine.instance.onGround)
+        if (PlayerStateMachine.instance.OnGround)
         {
             RopeManager.Instance.DeselectHook();
             
