@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class TopHooksBehaviour : MonoBehaviour
@@ -7,7 +6,7 @@ public class TopHooksBehaviour : MonoBehaviour
 
 	private void OnEnable()
 	{
-		if (_highlight == null)
+		if (!_highlight)
 			_highlight = transform.GetChild(0).gameObject;
 	}
 

@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
         {
             Debug.Log("There is already an instance of " + instance);
             Destroy(gameObject);
@@ -64,17 +64,6 @@ public class PauseMenu : MonoBehaviour
         paused = false;
         Cursor.visible = false;
         PlayerStateMachine.instance.isPaused = false;
-    }
-
-    public void EnterSettings()
-    {
-    }
-
-    public void ExitSettings()
-    {
-        settingsON = false;
-        pauseMenuUI.SetActive(true);
-        AudioManager.Instance.PlaySFX("ButtonClick");
     }
 
     public void Quit()
