@@ -5,7 +5,8 @@ public class PlayerStateMachine : MonoBehaviour
 {
     public static PlayerStateMachine instance { get; private set; }
 
-    private const float DistanceFromGround = 0.64f;
+    public const float DistanceFromGround = 0.64f;
+    private const float GroundCheckDistance = 0.1f;
 
     #region Variables
 
@@ -21,16 +22,11 @@ public class PlayerStateMachine : MonoBehaviour
     public LineRenderer playerLr;
     public Animator playerAnimator;
     public LayerMask groundLayer;
+    public RaycastHit2D OnGround;
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
 
-    public float horizontalInput;
-    public float verticalInput;
-    public float jumpInput;
-    public float clickInput;
-
     public bool isPaused;
-    public bool onGround;
     public bool onSlingshot = false;
     public bool onTopHook = false;
     public bool canMoveInAir = true;
@@ -79,6 +75,7 @@ public class PlayerStateMachine : MonoBehaviour
             return;
         }
 
+
         _currentState?.Update();
     }
 
@@ -89,27 +86,47 @@ public class PlayerStateMachine : MonoBehaviour
             playerRb.bodyType = RigidbodyType2D.Static;
             return;
         }
-        else
+
+        playerRb.bodyType = RigidbodyType2D.Dynamic;
+
+        switch (PlayerInput.instance.horizontalInput)
         {
-            playerRb.bodyType = RigidbodyType2D.Dynamic;
+            case > 0:
+                transform.localScale = new Vector3(1, 1, 1);
+                playerUi.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                break;
+            case < 0:
+                transform.localScale = new Vector3(-1, 1, 1);
+                playerUi.transform.localScale = new Vector3(-0.1f, 0.1f, 0.1f);
+                break;
         }
 
-        // Ray-cast
+        // Ground detection ray-cast
         Debug.DrawLine(playerRb.position - new Vector2(0, DistanceFromGround),
-            playerRb.position + Vector2.down * DistanceFromGround + DistanceFromGround / 2 * Vector2.down, Color.red);
-        
-        onGround = Physics2D.Raycast(playerRb.position - new Vector2(0, DistanceFromGround), Vector2.down,
-            DistanceFromGround, groundLayer);
+            playerRb.position + Vector2.down * DistanceFromGround + GroundCheckDistance * Vector2.down, Color.red);
+
+        OnGround = Physics2D.Raycast(playerRb.position - new Vector2(0, DistanceFromGround), Vector2.down,
+            GroundCheckDistance, groundLayer);
 
         _currentState?.FixedUpdate();
     }
 
     public static void ChangeState(IPlayerState newState)
     {
-        //Debug.Log(_currentState + "----->" + newState);
+        Debug.Log(_currentState + "----->" + newState);
         _currentState?.OnExit();
         _currentState = newState;
         _currentState?.OnEnter();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Soul"))
+        {
+            SoulSpheresCollector.instance.soulSphereCounter++;
+            SoulSpheresCollector.instance.sceneSphereCounter++;
+            Destroy(other.gameObject);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)

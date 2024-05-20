@@ -13,31 +13,19 @@ public class Walking : IPlayerState
 
     public void OnEnter()
     {
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
-        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
-        InputManager.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
-        InputManager.PlayerInputActions.Player.Click.performed += OnClickInputPerformed;
+        PlayerInput.instance.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInputCanceled;
+        PlayerInput.instance.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
     }
 
     public void Update()
     {
-        switch (PlayerStateMachine.instance.horizontalInput)
-        {
-            case > 0:
-                PlayerStateMachine.instance.transform.localScale = new Vector3(1, 1, 1);
-                break;
-            case < 0:
-                PlayerStateMachine.instance.transform.localScale = new Vector3(-1, 1, 1);
-                break;
-        }
-
         PlayerStateMachine.instance.playerAnimator.Play("walk");
     }
 
     public void FixedUpdate()
     {
         // Movement
-        var targetSpeed = PlayerStateMachine.instance.horizontalInput * WalkSpeed;
+        var targetSpeed = PlayerInput.instance.horizontalInput * WalkSpeed;
         var speedDifference = targetSpeed - playerRb.velocity.x;
         var accelerationRate = targetSpeed != 0 ? Acceleration : Deceleration;
         var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
@@ -45,25 +33,20 @@ public class Walking : IPlayerState
 
         if (playerRb.velocity.y >= 1f)
         {
-            movement.y += 105f;
+            movement.y += 98.1f;
         }
 
         PlayerStateMachine.instance.playerRb.AddForce(movement);
 
-        if (!PlayerStateMachine.instance.onGround)
+        if (!PlayerStateMachine.instance.OnGround)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
         }
     }
 
-    private void OnMovementInput(InputAction.CallbackContext context)
+    private void OnMovementInputCanceled(InputAction.CallbackContext context)
     {
-        PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
-
-        if (context.canceled)
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-        }
+        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
     }
 
     private void OnJumpInputPerformed(InputAction.CallbackContext context)
@@ -71,16 +54,9 @@ public class Walking : IPlayerState
         PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
     }
 
-    private void OnClickInputPerformed(InputAction.CallbackContext context)
-    {
-        PlayerStateMachine.instance.clickInput = context.ReadValue<float>();
-    }
-
     public void OnExit()
     {
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
-        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;
-        InputManager.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
-        InputManager.PlayerInputActions.Player.Click.performed -= OnClickInputPerformed;
+        PlayerInput.instance.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInputCanceled;
+        PlayerInput.instance.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
     }
 }
