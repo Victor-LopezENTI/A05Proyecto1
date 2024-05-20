@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
 {
     public static PlayerStateMachine instance { get; private set; }
 
-    private const float DistanceFromGround = 0.85f;
+    private const float DistanceFromGround = 0.64f;
 
     #region Variables
 
@@ -30,11 +29,11 @@ public class PlayerStateMachine : MonoBehaviour
     public float jumpInput;
     public float clickInput;
 
+    public bool isPaused;
     public bool onGround;
-    public bool onSlingshot;
-    public bool onTopHook;
-    
-    public bool canMoveInAir;
+    public bool onSlingshot = false;
+    public bool onTopHook = false;
+    public bool canMoveInAir = true;
 
     #endregion
 
@@ -75,13 +74,33 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Update()
     {
+        if (isPaused)
+        {
+            return;
+        }
+
         _currentState?.Update();
     }
-    
+
     private void FixedUpdate()
     {
-        onGround = Physics2D.Raycast(playerRb.position, Vector2.down, DistanceFromGround,
-            LayerMask.GetMask("Platforms"));
+        if (isPaused)
+        {
+            playerRb.bodyType = RigidbodyType2D.Static;
+            return;
+        }
+        else
+        {
+            playerRb.bodyType = RigidbodyType2D.Dynamic;
+        }
+
+        // Ray-cast
+        Debug.DrawLine(playerRb.position - new Vector2(0, DistanceFromGround),
+            playerRb.position + Vector2.down * DistanceFromGround + DistanceFromGround / 2 * Vector2.down, Color.red);
+        
+        onGround = Physics2D.Raycast(playerRb.position - new Vector2(0, DistanceFromGround), Vector2.down,
+            DistanceFromGround, groundLayer);
+
         _currentState?.FixedUpdate();
     }
 

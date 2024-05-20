@@ -9,7 +9,7 @@ public class ChargingJump : IPlayerState
     private const float JumpForceMin = 1200f;
     private const float JumpForceMax = 1800f;
 
-    private Rigidbody2D _playerRb = PlayerStateMachine.instance.playerRb;
+    private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
     private float _holdTimer;
     private float _holdTimerNormalized;
     private Vector2 _jumpForceVector;
@@ -30,7 +30,6 @@ public class ChargingJump : IPlayerState
 
     public void Update()
     {
-        //Debug.Log(_horizontalInput);
         switch (PlayerStateMachine.instance.horizontalInput)
         {
             case > 0:
@@ -46,7 +45,7 @@ public class ChargingJump : IPlayerState
 
     public void FixedUpdate()
     {
-        _playerRb.velocity = new Vector2(0f, _playerRb.velocity.y);
+        playerRb.velocity = new Vector2(0f, playerRb.velocity.y);
 
         _holdTimer += Time.deltaTime;
         if (_holdTimer > HoldTimeMax)
@@ -63,7 +62,6 @@ public class ChargingJump : IPlayerState
 
     private void OnMovementInput(InputAction.CallbackContext context)
     {
-        PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
         if (context.performed)
         {
             PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
@@ -77,16 +75,13 @@ public class ChargingJump : IPlayerState
 
     private void OnJumpInputCanceled(InputAction.CallbackContext context)
     {
-        PlayerStateMachine.instance.jumpInput = context.ReadValue<float>();
         if (_holdTimer < HoldTimeMin)
         {
             _jumpForceVector = JumpForceMin * Vector2.up;
-            
-            if (!PlayerStateMachine.instance.onGround)
-                _jumpForceVector = Vector2.zero;
         }
 
-        _playerRb.AddForce(_jumpForceVector);
+        AudioManager.Instance.PlaySFX("Jump");
+        playerRb.AddForce(_jumpForceVector);
         _jumpForceVector = Vector2.zero;
         _holdTimer = 0;
 

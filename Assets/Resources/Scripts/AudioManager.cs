@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
     {
         Sound s = Array.Find(sfxSound, x => x.nameClip == name);
 
-        if (s != null)        
+        if (s != null)
             SFXMusic.PlayOneShot(s.clip);        
     }
 
