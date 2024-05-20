@@ -4,13 +4,14 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject soulSpheres;
     private bool paused;
     private bool settingsON;
     public static PauseMenu instance { get; private set; }
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
         {
             Debug.Log("There is already an instance of " + instance);
             Destroy(gameObject);
@@ -21,6 +22,7 @@ public class PauseMenu : MonoBehaviour
             DontDestroyOnLoad(gameObject.transform.root.gameObject);
         }
     }
+
     private void Start()
     {
         pauseMenuUI = GameUIManager.instance.pauseUI;
@@ -41,15 +43,20 @@ public class PauseMenu : MonoBehaviour
             }
         }
 
-        //if (PlayerInput.instance.resetInput != 0f && !paused)
-        //{
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //    SoulSpheresCollector.instance.soulSphereCounter -= SoulSpheresCollector.instance.sceneSphereCounter;
-        //    SoulSpheresCollector.instance.sceneSphereCounter = 0;
-        //}
-         
+        if (SceneManager.GetActiveScene().name == "PART 1 NEW")
+        {
+            soulSpheres.SetActive(true);
+        }
+
+        if (PlayerInput.instance && PlayerInput.instance.resetInput != 0f && !paused)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SoulSpheresCollector.instance.soulSphereCounter -= SoulSpheresCollector.instance.sceneSphereCounter;
+            SoulSpheresCollector.instance.sceneSphereCounter = 0;
+        }
+
     }
-    
+
 
     private void PausedMenu()
     {
@@ -67,17 +74,6 @@ public class PauseMenu : MonoBehaviour
         paused = false;
         Cursor.visible = false;
         PlayerStateMachine.instance.isPaused = false;
-    }
-    public void EnterSettings()
-    {
-        
-    }
-
-    public void ExitSettings()
-    {
-        settingsON = false;
-        pauseMenuUI.SetActive(true);
-        AudioManager.Instance.PlaySFX("ButtonClick");
     }
 
     public void Quit()

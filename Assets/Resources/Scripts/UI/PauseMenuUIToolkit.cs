@@ -25,7 +25,6 @@ public class PauseMenuUIToolkit : MonoBehaviour
         resume.clicked += () => gameObject.SetActive(false);
         resume.clicked += () => AudioManager.Instance.PlaySFX("ButtonClick");
 
-        settings.clicked += () => pauseMenu.EnterSettings();
         settings.clicked += () => settingsUI.SetActive(true);
         settings.clicked += () => gameObject.SetActive(false);
         settings.clicked += () => returnPauseMenu.SetActive(true);

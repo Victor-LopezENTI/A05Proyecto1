@@ -33,6 +33,11 @@ public class Idle : IPlayerState
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
         }
+
+        if (!PlayerStateMachine.instance.OnGround)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
+        }
     }
 
     private void OnMovementInputPerformed(InputAction.CallbackContext context)
@@ -49,8 +54,6 @@ public class Idle : IPlayerState
     {
         if (context.performed && PlayerStateMachine.instance.onSlingshot)
         {
-            var screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
-            Mouse.current.WarpCursorPosition(screenCenter);
             PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingSlingshotState);
         }
     }

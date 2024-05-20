@@ -42,6 +42,11 @@ public class RopeManager : MonoBehaviour
         _obstacleLayer = LayerMask.GetMask("Platforms");
     }
 
+    private void OnEnable()
+    {
+        ropeLineRenderer = null;
+    }
+
     public void LaunchRope(Transform hook)
     {
         if (RopeHasTrajectory(hook))
@@ -56,10 +61,10 @@ public class RopeManager : MonoBehaviour
     public void DeselectHook()
     {
         if (ropeLineRenderer)
-        {
+        { 
             DestroyRope();
         }
-
+        
         selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
         Instance.selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0f;
         Instance.selectedHook.GetComponent<Rigidbody2D>().rotation = 0f;

@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 295f10a002268094893eb5904bd2996c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlight: {fileID: 7086633956121494837}
 --- !u!58 &8960781980340661205
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -204,7 +203,6 @@ GameObject:
   - component: {fileID: 175963559462368401}
   - component: {fileID: 3624063736876710876}
   - component: {fileID: 6544794486798133683}
-  - component: {fileID: 8569574099594320534}
   - component: {fileID: 1845582158382342969}
   m_Layer: 0
   m_Name: Hook
@@ -295,18 +293,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8569574099594320534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4748083999513236387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c3251f913b3f58418c0fc05b57b3b25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1845582158382342969
 MonoBehaviour:
   m_ObjectHideFlags: 0

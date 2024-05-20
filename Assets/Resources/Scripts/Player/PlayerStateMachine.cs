@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -28,7 +27,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public float groundCheckDistance;
     public bool isPaused;
-    public bool onSlingshot = false;
+    public bool onSlingshot;
     public bool canMoveInAir = true;
 
     #endregion
@@ -129,7 +128,7 @@ public class PlayerStateMachine : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
-
+    
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Slingshot"))
@@ -137,7 +136,7 @@ public class PlayerStateMachine : MonoBehaviour
             onSlingshot = true;
         }
     }
-
+    
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Slingshot"))
