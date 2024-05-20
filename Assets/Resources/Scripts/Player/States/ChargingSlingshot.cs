@@ -21,6 +21,7 @@ public class ChargingSlingshot : IPlayerState
 
     public void OnEnter()
     {
+        Mouse.current.WarpCursorPosition(DragStartPos);
         PlayerStateMachine.instance.playerRb.velocity =
             new Vector2(0f, PlayerStateMachine.instance.playerRb.velocity.y);
         PlayerStateMachine.instance.playerLr.enabled = true;
