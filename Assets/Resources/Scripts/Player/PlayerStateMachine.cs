@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -25,9 +26,9 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] public Image chargeBar;
     [SerializeField] public Canvas playerUi;
 
-    public float groundCheckDistance;
+    public GameObject slingshot;
     public bool isPaused;
-    public bool onSlingshot;
+    public float groundCheckDistance;
     public bool canMoveInAir = true;
 
     #endregion
@@ -64,7 +65,7 @@ public class PlayerStateMachine : MonoBehaviour
     private void OnEnable()
     {
         canMoveInAir = true;
-        onSlingshot = false;
+        slingshot = null;
         groundCheckDistance = 0.1f;
         ChangeState(JumpingState);
     }
@@ -73,8 +74,11 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (isPaused)
         {
+            playerAnimator.speed = 0f;
             return;
         }
+        
+        playerAnimator.speed = 1f;
 
         _currentState?.Update();
     }
@@ -133,7 +137,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Slingshot"))
         {
-            onSlingshot = true;
+            slingshot = other.gameObject;
         }
     }
     
@@ -141,7 +145,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Slingshot"))
         {
-            onSlingshot = false;
+            slingshot = null;
         }
     }
 

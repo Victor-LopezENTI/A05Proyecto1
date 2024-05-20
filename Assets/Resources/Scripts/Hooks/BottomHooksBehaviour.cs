@@ -3,7 +3,7 @@ using DG.Tweening;
 
 public class BottomHooksBehaviour : MonoBehaviour
 {
-    [SerializeField] GameObject highlight;
+    public GameObject highlight;
     public bool onTransition = false;
 
     private void Start()
@@ -27,10 +27,11 @@ public class BottomHooksBehaviour : MonoBehaviour
 
     public void ChargeJumpAnimation(Vector2 position)
     {
+        position /= 35f;
         onTransition = true;
-        highlight.transform.localPosition = -Vector2.ClampMagnitude(position, 10f);
-        highlight.transform.localScale = new(Mathf.Lerp(1f, 2f, Map(position.magnitude, 10f, 25f, 0f, 1f))
-                                            ,Mathf.Lerp(1f, 2f, Map(position.magnitude, 10f, 25f, 0f, 1f)));
+        highlight.transform.localPosition = -Vector2.ClampMagnitude(position / 1.5f, 8f);
+        highlight.transform.localScale = new Vector3(Mathf.Lerp(1f, 2f, Map(position.magnitude, 15f, 18f, 0f, 1f))
+            , Mathf.Lerp(1f, 2f, Map(position.magnitude, 15f, 18f, 0f, 1f)));
     }
 
     private static float Map(float value, float fromSource, float toSource, float fromTarget, float toTarget)
