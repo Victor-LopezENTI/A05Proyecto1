@@ -6,9 +6,8 @@ public class Walking : IPlayerState
     // Movement constants
     private const float WalkSpeed = 9f;
     private const float Acceleration = 13f;
-    private const float Deceleration = 25f;
     private const float VelocityPower = 0.96f;
-    
+
     private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
 
     public void OnEnter()
@@ -16,7 +15,6 @@ public class Walking : IPlayerState
         PlayerStateMachine.instance.groundCheckDistance = 0.45f;
 
         PlayerInput.instance.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInputCanceled;
-        PlayerInput.instance.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
     }
 
     public void Update()
@@ -29,13 +27,13 @@ public class Walking : IPlayerState
         // Movement
         var targetSpeed = PlayerInput.instance.horizontalInput * WalkSpeed;
         var speedDifference = targetSpeed - playerRb.velocity.x;
-        var accelerationRate = targetSpeed != 0 ? Acceleration : Deceleration;
-        var movement = Mathf.Pow(Mathf.Abs(speedDifference) * accelerationRate, VelocityPower) *
+        var movement = Mathf.Pow(Mathf.Abs(speedDifference) * Acceleration, VelocityPower) *
                        Mathf.Sign(speedDifference) * Vector2.right;
 
+        // Ramp vertical compensation force
         if (playerRb.velocity.y >= 0.8f)
         {
-            movement.y += 97f;
+            movement.y += 85f;
         }
 
         PlayerStateMachine.instance.playerRb.AddForce(movement);
@@ -44,6 +42,11 @@ public class Walking : IPlayerState
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
         }
+
+        if (PlayerInput.instance.jumpInput > 0)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
+        }
     }
 
     private void OnMovementInputCanceled(InputAction.CallbackContext context)
@@ -51,16 +54,10 @@ public class Walking : IPlayerState
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
     }
 
-    private void OnJumpInputPerformed(InputAction.CallbackContext context)
-    {
-        PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
-    }
-
     public void OnExit()
     {
         PlayerStateMachine.instance.groundCheckDistance = 0.1f;
 
         PlayerInput.instance.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInputCanceled;
-        PlayerInput.instance.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
     }
 }

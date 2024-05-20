@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Screen = UnityEngine.Device.Screen;
 using Vector2 = UnityEngine.Vector2;
 
 public class Idle : IPlayerState

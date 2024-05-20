@@ -61,13 +61,17 @@ public class RopeManager : MonoBehaviour
     public void DeselectHook()
     {
         if (ropeLineRenderer)
-        { 
+        {
             DestroyRope();
         }
-        
-        selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
-        Instance.selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0f;
-        Instance.selectedHook.GetComponent<Rigidbody2D>().rotation = 0f;
+
+        if (selectedHook)
+        {
+            selectedHook.GetComponent<TopHooksBehaviour>().SetHilight(false);
+            selectedHook.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+            selectedHook.GetComponent<Rigidbody2D>().rotation = 0f;
+        }
+
         selectedHook = null;
     }
 
@@ -112,8 +116,10 @@ public class RopeManager : MonoBehaviour
 
     public void ClimbRope(float v)
     {
-        Vector2 tempPos = Vector2.MoveTowards(_playerRb.position, selectedHook.transform.position, v * ClimbSpeed);
-        float tempDist = Vector2.Distance(tempPos, selectedHook.transform.position);
+        if (!selectedHook) return;
+        
+        var tempPos = Vector2.MoveTowards(_playerRb.position, selectedHook.transform.position, v * ClimbSpeed);
+        var tempDist = Vector2.Distance(tempPos, selectedHook.transform.position);
         if (!((v > 0 && tempDist < 4) || (v < 0 && tempDist >
                 selectedHook.GetComponent<CircleCollider2D>().radius * selectedHook.transform.lossyScale.x)))
         {

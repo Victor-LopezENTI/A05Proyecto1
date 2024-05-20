@@ -16,7 +16,7 @@ public class Jumping : IPlayerState
     public void OnEnter()
     {
         PlayerStateMachine.instance.canMoveInAir = true;
-        
+
         PlayerInput.instance.PlayerInputActions.Player.Click.performed += OnClickInputPerformed;
     }
 
@@ -61,18 +61,6 @@ public class Jumping : IPlayerState
                 }
             }
         }
-
-        // Charge jump before ground
-        if (PlayerInput.instance.jumpInput > 0f && playerRb.velocity.y <= 0f)
-        {
-            bool canJumpBeforeGround =
-                Physics2D.Raycast(playerRb.position, Vector2.down, PlayerStateMachine.DistanceFromGround * 6f,
-                    PlayerStateMachine.instance.groundLayer);
-            if (canJumpBeforeGround)
-            {
-                PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingJumpState);
-            }
-        }
     }
 
     private void OnClickInputPerformed(InputAction.CallbackContext context)
@@ -86,7 +74,7 @@ public class Jumping : IPlayerState
     public void OnExit()
     {
         _timeInAir = 0;
-        
+
         PlayerInput.instance.PlayerInputActions.Player.Click.performed -= OnClickInputPerformed;
     }
 }
