@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject soulSpheres;
     private bool paused;
     private bool settingsON;
     public static PauseMenu instance { get; private set; }
@@ -30,21 +31,30 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
+        if (SceneManager.GetActiveScene().name != "MainMenuScene")
         {
-            if (paused)
-                ResumeGame();
+            if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
+            {
+                if (paused)
+                    ResumeGame();
 
-            else
-                PausedMenu();
+                else
+                    PausedMenu();
+            }
         }
 
-        if (PlayerInput.instance.resetInput != 0f && !paused)
+        if (SceneManager.GetActiveScene().name == "PART 1 NEW")
+        {
+            soulSpheres.SetActive(true);
+        }
+
+        if (PlayerInput.instance && PlayerInput.instance.resetInput != 0f && !paused)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             SoulSpheresCollector.instance.soulSphereCounter -= SoulSpheresCollector.instance.sceneSphereCounter;
             SoulSpheresCollector.instance.sceneSphereCounter = 0;
         }
+
     }
 
 
