@@ -31,7 +31,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name != "MainMenuScene")
+        if (SceneManager.GetActiveScene().name != "MainMenuScene" && SceneManager.GetActiveScene().name != "ENDING CUTSCENE")
         {
             if (Input.GetKeyDown(KeyCode.Escape) && settingsON == false)
             {
