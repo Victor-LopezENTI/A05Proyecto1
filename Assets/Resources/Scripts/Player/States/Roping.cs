@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Roping : IPlayerState
 {
-    private const float RopeSpeed = 40f;
+    private const float RopeSpeed = 22f;
 
     private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
 

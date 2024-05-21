@@ -19,10 +19,6 @@ public class ChargingJump : IPlayerState
     public void OnEnter()
     {
         PlayerStateMachine.instance.chargeBar.fillAmount = 0f;
-        PlayerStateMachine.instance.playerUi.transform.localScale = playerRb.transform.lossyScale.x < 0
-            ? new Vector3(-0.1f, 0.1f, 0.1f)
-            : new Vector3(0.1f, 0.1f, 0.1f);
-
         PlayerStateMachine.instance.playerUi.enabled = true;
 
         PlayerInput.instance.PlayerInputActions.Player.Jump.canceled += OnJumpInputCanceled;
@@ -58,19 +54,16 @@ public class ChargingJump : IPlayerState
         }
 
         AudioManager.Instance.PlaySFX("Jump");
-        if (playerRb.velocity.y >= 0f)
-        {
-            playerRb.AddForce(_jumpForceVector);
-        }
-
-        _jumpForceVector = Vector2.zero;
-        _holdTimer = 0;
 
         PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
     }
 
     public void OnExit()
     {
+        playerRb.AddForce(_jumpForceVector);
+        _jumpForceVector = Vector2.zero;
+        _holdTimer = 0;
+
         PlayerStateMachine.instance.playerUi.enabled = false;
 
         PlayerInput.instance.PlayerInputActions.Player.Jump.canceled -= OnJumpInputCanceled;

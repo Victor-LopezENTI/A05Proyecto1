@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Vector2 = UnityEngine.Vector2;
@@ -8,8 +9,9 @@ public class ChargingSlingshot : IPlayerState
     private const float SlingshotForce = 4.4f;
     private const float MinDragPos = 1000;
     private const int MaxSteps = 400;
-    private static readonly Vector2 EscapeForceMax = new(1400f, 2400f);
+    private static readonly Vector2 EscapeForceMax = new(1550f, 2400f);
 
+    private BottomHooksBehaviour _bottomHooksBehaviour;
     private bool _isDragging;
     private Vector2 _vectorToCenter;
     private static readonly Vector2 DragStartPos = new(Screen.width / 2, Screen.height / 2);
@@ -21,6 +23,7 @@ public class ChargingSlingshot : IPlayerState
 
     public void OnEnter()
     {
+        _bottomHooksBehaviour = PlayerStateMachine.instance.slingshot.GetComponent<BottomHooksBehaviour>();
         Mouse.current.WarpCursorPosition(DragStartPos);
         PlayerStateMachine.instance.playerRb.velocity =
             new Vector2(0f, PlayerStateMachine.instance.playerRb.velocity.y);
@@ -49,9 +52,13 @@ public class ChargingSlingshot : IPlayerState
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         }
 
+        // BottomHooksBehaviour animation
+
         var angle = Mathf.Atan2(DragStartPos.y - dragEndPos.y, DragStartPos.x - dragEndPos.x);
-        if (angle is >= 0.5f and <= 2.5f)
+        if (angle is >= 0.2f and <= Mathf.PI - 0.2f)
         {
+            PlayerStateMachine.instance.slingshot.GetComponent<BottomHooksBehaviour>()
+                .ChargeJumpAnimation(_vectorToCenter);
             var vectorToCenter = _vectorToCenter;
             var plotVelocity = vectorToCenter * SlingshotForce;
             plotVelocity = new Vector2(Mathf.Clamp(plotVelocity.x, -EscapeForceMax.x, EscapeForceMax.x),
@@ -117,8 +124,10 @@ public class ChargingSlingshot : IPlayerState
     {
         PlayerStateMachine.instance.playerRb.AddForce(_escapeForce);
         PlayerStateMachine.instance.playerLr.enabled = false;
-        PlayerStateMachine.instance.onSlingshot = false;
+        PlayerStateMachine.instance.slingshot = null;
 
+        _bottomHooksBehaviour.highlight.transform.DOMove(_bottomHooksBehaviour.transform.position, 0.2f);
+        _bottomHooksBehaviour = null;
         _vectorToCenter = Vector2.zero;
         _escapeForce = Vector2.zero;
 

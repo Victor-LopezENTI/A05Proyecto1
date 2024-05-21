@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Screen = UnityEngine.Device.Screen;
 using Vector2 = UnityEngine.Vector2;
 
 public class Idle : IPlayerState
@@ -52,7 +51,7 @@ public class Idle : IPlayerState
 
     private void OnClickInputPerformed(InputAction.CallbackContext context)
     {
-        if (context.performed && PlayerStateMachine.instance.onSlingshot)
+        if (context.performed && PlayerStateMachine.instance.slingshot)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.ChargingSlingshotState);
         }
