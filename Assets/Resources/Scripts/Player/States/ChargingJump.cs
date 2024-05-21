@@ -4,42 +4,28 @@ using Vector2 = UnityEngine.Vector2;
 
 public class ChargingJump : IPlayerState
 {
+    // Constants
     private const float HoldTimeMin = 0.33f;
     private const float HoldTimeMax = 0.5f;
     private const float JumpForceMin = 1200f;
     private const float JumpForceMax = 1800f;
 
+    // Properties
     private Rigidbody2D playerRb => PlayerStateMachine.instance.playerRb;
     private float _holdTimer;
     private float _holdTimerNormalized;
     private Vector2 _jumpForceVector;
-    
-    public ChargingJump()
-    {
-        OnEnter();
-    }
 
     public void OnEnter()
     {
-        PlayerStateMachine.instance.chargeBar.enabled = true;
+        PlayerStateMachine.instance.chargeBar.fillAmount = 0f;
+        PlayerStateMachine.instance.playerUi.enabled = true;
 
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed += OnMovementInput;
-        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled += OnMovementInput;
-        InputManager.PlayerInputActions.Player.Jump.canceled += OnJumpInputCanceled;
+        PlayerInput.instance.PlayerInputActions.Player.Jump.canceled += OnJumpInputCanceled;
     }
 
     public void Update()
     {
-        switch (PlayerStateMachine.instance.horizontalInput)
-        {
-            case > 0:
-                PlayerStateMachine.instance.transform.localScale = new Vector3(1, 1, 1);
-                break;
-            case < 0:
-                PlayerStateMachine.instance.transform.localScale = new Vector3(-1, 1, 1);
-                break;
-        }
-
         PlayerStateMachine.instance.playerAnimator.Play("charge_jump");
     }
 
@@ -55,22 +41,9 @@ public class ChargingJump : IPlayerState
 
         _holdTimerNormalized = _holdTimer / HoldTimeMax;
         PlayerStateMachine.instance.chargeBar.fillAmount = _holdTimerNormalized;
-        
+
         var movement = _holdTimerNormalized * JumpForceMax * Vector2.up;
         _jumpForceVector = movement;
-    }
-
-    private void OnMovementInput(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            PlayerStateMachine.instance.horizontalInput = context.ReadValue<float>();
-        }
-        else if (context.canceled)
-        {
-            PlayerStateMachine.instance.horizontalInput = 0f;
-            PlayerStateMachine.instance.horizontalInput = 0f;
-        }
     }
 
     private void OnJumpInputCanceled(InputAction.CallbackContext context)
@@ -81,21 +54,18 @@ public class ChargingJump : IPlayerState
         }
 
         AudioManager.Instance.PlaySFX("Jump");
-        playerRb.AddForce(_jumpForceVector);
-        _jumpForceVector = Vector2.zero;
-        _holdTimer = 0;
-
-        PlayerStateMachine.instance.jumpInput = context.ReadValue<float>();
 
         PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
     }
 
     public void OnExit()
     {
-        PlayerStateMachine.instance.chargeBar.enabled = false;
+        playerRb.AddForce(_jumpForceVector);
+        _jumpForceVector = Vector2.zero;
+        _holdTimer = 0;
 
-        InputManager.PlayerInputActions.Player.HorizontalMovement.performed -= OnMovementInput;
-        InputManager.PlayerInputActions.Player.HorizontalMovement.canceled -= OnMovementInput;
-        InputManager.PlayerInputActions.Player.Jump.canceled -= OnJumpInputCanceled;
+        PlayerStateMachine.instance.playerUi.enabled = false;
+
+        PlayerInput.instance.PlayerInputActions.Player.Jump.canceled -= OnJumpInputCanceled;
     }
 }

@@ -288,11 +288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.57
+      value: -4.41
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.86
+      value: -18.21
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.z
@@ -326,9 +326,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3624063736876710876, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: isSlingShot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218306582987883255, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218306582987883255, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: m_Color.g
+      value: 0.3726415
+      objectReference: {fileID: 0}
+    - target: {fileID: 4218306582987883255, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: m_Color.r
+      value: 0.61840105
+      objectReference: {fileID: 0}
     - target: {fileID: 4748083999513236387, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_Name
       value: Hook
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544794486798133683, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: m_Color.r
+      value: 0.39676094
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -377,11 +405,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.1632414
+      value: -2.78
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.519055
+      value: 6.05
       objectReference: {fileID: 0}
     - target: {fileID: 175963559462368401, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_LocalPosition.z
@@ -415,6 +443,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3624063736876710876, guid: f521147f5ba10a848b67ea1414485166, type: 3}
+      propertyPath: isSlingShot
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4748083999513236387, guid: f521147f5ba10a848b67ea1414485166, type: 3}
       propertyPath: m_Name
       value: Hook (3)
@@ -442,11 +474,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6532852219761283813, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.82
+      value: -18.81
       objectReference: {fileID: 0}
     - target: {fileID: 6532852219761283813, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.58
+      value: 4.85
       objectReference: {fileID: 0}
     - target: {fileID: 6532852219761283813, guid: d1431fd895d58f74a8cf2a8f3357e9eb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -615,11 +647,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5902681
+      value: 22.94
       objectReference: {fileID: 0}
     - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.717974
+      value: -10.11
       objectReference: {fileID: 0}
     - target: {fileID: 4059629612390761803, guid: 32107a489c2855544b80e75af4c7af6f, type: 3}
       propertyPath: m_LocalPosition.z
