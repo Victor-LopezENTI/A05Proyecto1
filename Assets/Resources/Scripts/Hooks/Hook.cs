@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -20,14 +19,17 @@ public class Hook : MonoBehaviour
 
         if (isSlingShot)
         {
-            _spriteRenderer.color = new Color(0.8f, 0.2f, 0.8f, 1f);
-            _light2D.color = new Color(0.5f, 0f, 0.2f, 1f);
+            _spriteRenderer.color = new Color(0.8f, 0.2f, 0.5f, 1f);
+            _light2D.color = new Color(0.5f, 0f, 0f, 1f);
             _light2D.intensity = 5f;
         }
         else
         {
             _spriteRenderer.color = new Color(1, 1, 1, 1);
+            _light2D.intensity = 5f;
         }
+
+        _bottomHook.GetComponent<BottomHooksBehaviour>().SetHilight(false);
     }
 
     private void FixedUpdate()
