@@ -20,6 +20,7 @@ public class ChargingJump : IPlayerState
     {
         PlayerStateMachine.instance.chargeBar.fillAmount = 0f;
         PlayerStateMachine.instance.playerUi.enabled = true;
+        playerRb.gravityScale = 0;
 
         PlayerInput.instance.PlayerInputActions.Player.Jump.canceled += OnJumpInputCanceled;
     }
@@ -31,7 +32,7 @@ public class ChargingJump : IPlayerState
 
     public void FixedUpdate()
     {
-        playerRb.velocity = new Vector2(0f, playerRb.velocity.y);
+        playerRb.velocity = Vector2.zero;
 
         _holdTimer += Time.deltaTime;
         if (_holdTimer > HoldTimeMax)
@@ -61,6 +62,7 @@ public class ChargingJump : IPlayerState
     public void OnExit()
     {
         playerRb.AddForce(_jumpForceVector);
+        playerRb.gravityScale = 9.81f;
         _jumpForceVector = Vector2.zero;
         _holdTimer = 0;
 
