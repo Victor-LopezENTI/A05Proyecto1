@@ -17,18 +17,19 @@ public class DialogueTrigger: MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerInRange && !DialogueManager.GetInstance().dialoguePlaying)
-        {
-            visualCue.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.I))
+            if (isPlayerInRange && !DialogueManager.GetInstance().dialoguePlaying)
             {
-                DialogueManager.GetInstance().EnterDialogue(inkJSON);
+                visualCue.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    DialogueManager.GetInstance().EnterDialogue(inkJSON);
+                }
             }
-        }
-        else
-        {
-            visualCue.SetActive(false);
-        }
+
+            else
+            {
+                visualCue.SetActive(false);
+            }
         
     }
     private void OnTriggerEnter2D(Collider2D Trigger)

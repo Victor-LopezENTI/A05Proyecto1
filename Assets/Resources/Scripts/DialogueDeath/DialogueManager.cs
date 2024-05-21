@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class DialogueManager : MonoBehaviour
     private Story currentStory;
 
     public bool dialoguePlaying { get; private set; }
+    private bool makingChoice;
+    public bool goodEnding;
+    private int spheres;
 
-    private static DialogueManager instance;
+    public static DialogueManager instance;
 
     private void Awake()
     {
@@ -31,6 +35,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialoguePlaying = false;
         dialoguePanel.SetActive(false);
+        makingChoice = false;
 
         choicesText = new Text[choices.Length];
         int index = 0;
@@ -39,6 +44,8 @@ public class DialogueManager : MonoBehaviour
             choicesText[index] = choice.GetComponentInChildren<Text>();
             index++;
         }
+
+        spheres = SoulSpheresCollector.instance.soulSphereCounter;
     }
 
     private void Update()
@@ -46,15 +53,24 @@ public class DialogueManager : MonoBehaviour
         if (!dialoguePlaying)
             return;
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && makingChoice == true)
         {
             ContinueStory();
         }
 
-        if(SoulSpheresCollector.instance.soulSphereCounter == 7)
+        if (spheres == 7)
         {
             currentStory.variablesState["allCollectiblesGathered"] = true;
+            goodEnding = true;
         }
+
+        if (spheres != 7)
+        {
+            currentStory.variablesState["allCollectiblesGathered"] = true;
+            goodEnding = true;
+        }
+
+        
     }
 
     public static DialogueManager GetInstance()
@@ -67,6 +83,7 @@ public class DialogueManager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         dialoguePlaying = true;
         dialoguePanel.SetActive(true);
+        makingChoice = true;
         PlayerStateMachine.instance.isPaused = true;
 
         ContinueStory();
@@ -78,8 +95,18 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePlaying = false;
         dialoguePanel.SetActive(false);
+        makingChoice = false;
         dialogueText.text = "";
         PlayerStateMachine.instance.isPaused = false;
+
+        if (goodEnding == false)
+        {
+            SceneManager.LoadScene("ENDING CUTSCENE");
+        }
+        else
+        {
+            SceneManager.LoadScene("FinalCredits");
+        }
     }
 
     private void ContinueStory()
@@ -112,6 +139,7 @@ public class DialogueManager : MonoBehaviour
             choices[index].gameObject.SetActive(true);
             choicesText[index].text = choice.text;
             index++;
+            makingChoice = false;
         }
 
         for (int i=index; i<choices.Length; i++)
@@ -119,29 +147,22 @@ public class DialogueManager : MonoBehaviour
             choices[i].gameObject.SetActive(false);
         }
 
-        SelectFirstChoice();
+        StartCoroutine(SelectFirstChoice());
     }
 
     private IEnumerator SelectFirstChoice()
     {
         EventSystem.current.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
     }
 
     public void MakeChoiceBasedOnBool()
     {
         bool choiceBool = (bool)currentStory.variablesState["allCollectiblesGathered"];
         int choiceIndex = choiceBool ? 0 : 1;
-
-        if (choiceIndex < currentStory.currentChoices.Count)
-        {
-            currentStory.ChooseChoiceIndex(choiceIndex);
-            ContinueStory();
-        }
-        else
-        {
-            Debug.LogError("Choice index out of bounds");
-        }
+        
+        currentStory.ChooseChoiceIndex(choiceIndex);
+        makingChoice = true;
+        ContinueStory();
     }
 }
