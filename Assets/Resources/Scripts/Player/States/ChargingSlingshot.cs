@@ -28,6 +28,7 @@ public class ChargingSlingshot : IPlayerState
         PlayerStateMachine.instance.playerRb.velocity =
             new Vector2(0f, PlayerStateMachine.instance.playerRb.velocity.y);
         PlayerStateMachine.instance.playerLr.enabled = true;
+        PlayerStateMachine.instance.canMoveInAir = false;
 
         _isDragging = false;
         PlayerStateMachine.instance.playerLr.positionCount = 0;
