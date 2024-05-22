@@ -66,8 +66,8 @@ public class DialogueManager : MonoBehaviour
 
         if (spheres != 7)
         {
-            currentStory.variablesState["allCollectiblesGathered"] = true;
-            goodEnding = true;
+            currentStory.variablesState["allCollectiblesGathered"] = false;
+            goodEnding = false;
         }
 
         
@@ -106,6 +106,8 @@ public class DialogueManager : MonoBehaviour
         else
         {
             SceneManager.LoadScene("FinalCredits");
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlayMusic("FinalCredits");
         }
     }
 
@@ -114,7 +116,6 @@ public class DialogueManager : MonoBehaviour
         if (currentStory.canContinue)
         {
             dialogueText.text = currentStory.Continue();
-
             DisplayChoices();
         }
 
@@ -162,6 +163,7 @@ public class DialogueManager : MonoBehaviour
         int choiceIndex = choiceBool ? 0 : 1;
         
         currentStory.ChooseChoiceIndex(choiceIndex);
+        AudioManager.Instance.PlaySFX("ButtonClick");
         makingChoice = true;
         ContinueStory();
     }
