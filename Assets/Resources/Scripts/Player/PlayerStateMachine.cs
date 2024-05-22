@@ -130,7 +130,8 @@ public class PlayerStateMachine : MonoBehaviour
 			SoulSpheresCollector.instance.soulSphereCounter++;
 			SoulSpheresCollector.instance.sceneSphereCounter++;
 			Destroy(other.gameObject);
-		}
+			AudioManager.Instance.PlaySFX("sphere");
+        }
 	}
 
 	private void OnTriggerStay2D(Collider2D other)
