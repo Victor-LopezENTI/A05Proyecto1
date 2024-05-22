@@ -1,6 +1,5 @@
 using System.Numerics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -70,6 +69,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 	private void OnEnable()
 	{
+		//Cursor.visible = false;
 		canMoveInAir = true;
 		slingshot = null;
 		groundCheckDistance = 0.1f;

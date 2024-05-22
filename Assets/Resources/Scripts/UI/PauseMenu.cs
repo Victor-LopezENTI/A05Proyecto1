@@ -73,7 +73,6 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         paused = false;
-        Cursor.visible = false;
         PlayerStateMachine.instance.isPaused = false;
     }
 
