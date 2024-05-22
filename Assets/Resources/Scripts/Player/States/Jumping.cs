@@ -12,7 +12,6 @@ public class Jumping : IPlayerState
 
     public void OnEnter()
     {
-        PlayerInput.instance.PlayerInputActions.Player.Click.performed += OnClickInputPerformed;
     }
 
     public void Update()
@@ -52,11 +51,8 @@ public class Jumping : IPlayerState
                 }
             }
         }
-    }
 
-    private void OnClickInputPerformed(InputAction.CallbackContext context)
-    {
-        if (RopeManager.Instance.selectedHook)
+        if (PlayerInput.instance.clickInput > 0)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.RopingState);
         }
@@ -67,7 +63,5 @@ public class Jumping : IPlayerState
         _timeInAir = 0;
 
         PlayerStateMachine.instance.canMoveInAir = true;
-
-        PlayerInput.instance.PlayerInputActions.Player.Click.performed -= OnClickInputPerformed;
     }
 }
