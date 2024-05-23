@@ -4967,9 +4967,9 @@ MonoBehaviour:
     m_Bits: 128
   chargeBar: {fileID: 1443061658998541084}
   playerUi: {fileID: 3764074794962439830}
+  slingshot: {fileID: 0}
   isPaused: 0
-  onSlingshot: 0
-  onTopHook: 0
+  groundCheckDistance: 0
   canMoveInAir: 1
 --- !u!114 &1400350846760594606
 MonoBehaviour:
@@ -5004,6 +5004,7 @@ MonoBehaviour:
   _verticalInput: 0
   _jumpInput: 0
   _clickInput: 0
+  _resetInput: 0
 --- !u!120 &4951220181675927794
 LineRenderer:
   serializedVersion: 2
