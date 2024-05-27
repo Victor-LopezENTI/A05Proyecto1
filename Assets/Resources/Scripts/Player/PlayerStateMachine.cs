@@ -21,6 +21,7 @@ public class PlayerStateMachine : MonoBehaviour
 	public static IPlayerState RopingState;
 
 	public Rigidbody2D playerRb;
+	public Collider2D playerCollider;
 	public LineRenderer playerLr;
 	public Animator playerAnimator;
 	public LayerMask groundLayer;
@@ -55,6 +56,8 @@ public class PlayerStateMachine : MonoBehaviour
 		#endregion
 
 		playerRb = GetComponent<Rigidbody2D>();
+		playerCollider = GetComponent<Collider2D>();
+		playerCollider.excludeLayers = LayerMask.GetMask("IgnorePlayer");
 		playerLr = GetComponent<LineRenderer>();
 		playerAnimator = GetComponent<Animator>();
 		groundLayer = LayerMask.GetMask("Platforms");
