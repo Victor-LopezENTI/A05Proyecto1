@@ -1,50 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueTrigger: MonoBehaviour
+public class DialogueTrigger : MonoBehaviour
 {
-    [SerializeField]public GameObject visualCue;
-    private bool isPlayerInRange;
-
-    [SerializeField] public TextAsset inkJSON;
+    [SerializeField] public GameObject visualCue;
+    [SerializeField] public TextAsset inkJson;
+    private bool _isPlayerInRange;
+    private Animator _thanatosAnimator;
 
     private void Awake()
     {
-        isPlayerInRange = false;
         visualCue.SetActive(false);
+        _isPlayerInRange = false;
+        _thanatosAnimator = GetComponentInParent<Animator>();
+        _thanatosAnimator.Play("blank");
+        _thanatosAnimator.SetBool("interacted", false);
     }
 
     private void Update()
     {
-            if (isPlayerInRange && !DialogueManager.GetInstance().dialoguePlaying)
-            {
-                visualCue.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.I))
-                {
-                    DialogueManager.GetInstance().EnterDialogue(inkJSON);
-                }
-            }
-
-            else
-            {
-                visualCue.SetActive(false);
-            }
-        
-    }
-    private void OnTriggerEnter2D(Collider2D Trigger)
-    {
-        if (Trigger.CompareTag("Player"))
+        if (_isPlayerInRange && !DialogueManager.GetInstance().dialoguePlaying)
         {
-            isPlayerInRange = true;
+            visualCue.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                _thanatosAnimator.SetBool("interacted", true);
+                DialogueManager.GetInstance().EnterDialogue(inkJson);
+            }
+        }
+        else
+        {
+            visualCue.SetActive(false);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D Trigger)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (Trigger.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            isPlayerInRange = false;
+            _isPlayerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _isPlayerInRange = false;
         }
     }
 }
