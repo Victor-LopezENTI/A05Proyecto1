@@ -13,17 +13,16 @@ public class DialogueTrigger : MonoBehaviour
         _isPlayerInRange = false;
         _thanatosAnimator = GetComponentInParent<Animator>();
         _thanatosAnimator.Play("blank");
-        _thanatosAnimator.SetBool("interacted", false);
     }
 
     private void Update()
     {
         if (_isPlayerInRange && !DialogueManager.GetInstance().dialoguePlaying)
         {
+            _thanatosAnimator.Play("idle");
             visualCue.SetActive(true);
             if (Input.GetKeyDown(KeyCode.I))
             {
-                _thanatosAnimator.SetBool("interacted", true);
                 DialogueManager.GetInstance().EnterDialogue(inkJson);
             }
         }
