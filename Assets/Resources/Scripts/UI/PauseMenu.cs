@@ -50,6 +50,7 @@ public class PauseMenu : MonoBehaviour
 
         if (PlayerInput.instance && PlayerInput.instance.resetInput != 0f && !paused)
         {
+            PlayerStateMachine.instance.isPaused = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             SoulSpheresCollector.instance.soulSphereCounter -= SoulSpheresCollector.instance.sceneSphereCounter;
             SoulSpheresCollector.instance.sceneSphereCounter = 0;
@@ -72,7 +73,6 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         paused = false;
-        Cursor.visible = false;
         PlayerStateMachine.instance.isPaused = false;
     }
 

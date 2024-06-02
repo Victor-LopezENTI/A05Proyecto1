@@ -33,6 +33,7 @@ public class Dialogue : MonoBehaviour
         index = 0;
         StartCoroutine(TypeLine());
         AudioManager.Instance.PlaySFX("TextTyping1");
+        PlayerStateMachine.instance.isPaused = true;
     }
 
     void EraseDialogue()
@@ -86,7 +87,7 @@ public class Dialogue : MonoBehaviour
         else
         {
             dialoguePanel.SetActive(false);
-            //PlayerStateMachine.instance.isPaused = false;
+            PlayerStateMachine.instance.isPaused = false;
         }
     }
 

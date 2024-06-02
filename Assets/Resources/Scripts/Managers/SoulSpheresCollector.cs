@@ -10,7 +10,7 @@ public class SoulSpheresCollector : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
         {
             Debug.Log("There is already an instance of " + instance);
             Destroy(gameObject);

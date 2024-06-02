@@ -1,6 +1,8 @@
+using System.Numerics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class PlayerStateMachine : MonoBehaviour
 	public static IPlayerState RopingState;
 
 	public Rigidbody2D playerRb;
+	public Collider2D playerCollider;
 	public LineRenderer playerLr;
 	public Animator playerAnimator;
 	public LayerMask groundLayer;
@@ -26,6 +29,9 @@ public class PlayerStateMachine : MonoBehaviour
 	[SerializeField] public Image chargeBar;
 	[SerializeField] public Canvas playerUi;
 
+	private bool _prePaused = false;
+	private Vector2 _tempVelocity;
+	
 	public GameObject slingshot;
 	public bool isPaused;
 	public float groundCheckDistance;
@@ -50,6 +56,8 @@ public class PlayerStateMachine : MonoBehaviour
 		#endregion
 
 		playerRb = GetComponent<Rigidbody2D>();
+		playerCollider = GetComponent<Collider2D>();
+		playerCollider.excludeLayers = LayerMask.GetMask("IgnorePlayer");
 		playerLr = GetComponent<LineRenderer>();
 		playerAnimator = GetComponent<Animator>();
 		groundLayer = LayerMask.GetMask("Platforms");
@@ -64,6 +72,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 	private void OnEnable()
 	{
+		//Cursor.visible = false;
 		canMoveInAir = true;
 		slingshot = null;
 		groundCheckDistance = 0.1f;
@@ -87,11 +96,23 @@ public class PlayerStateMachine : MonoBehaviour
 	{
 		if (isPaused)
 		{
-			playerRb.bodyType = RigidbodyType2D.Static;
+			if (!_prePaused)
+			{
+				_tempVelocity = playerRb.velocity;
+				playerRb.bodyType = RigidbodyType2D.Kinematic;
+				playerRb.velocity = Vector2.zero;
+				_prePaused = true;
+			}
 			return;
 		}
 
-		playerRb.bodyType = RigidbodyType2D.Dynamic;
+		if (_prePaused)
+		{
+			playerRb.bodyType = RigidbodyType2D.Dynamic;
+			playerRb.velocity = _tempVelocity;
+			_prePaused = false;
+		}
+
 
 		switch (PlayerInput.instance.horizontalInput)
 		{
@@ -130,7 +151,8 @@ public class PlayerStateMachine : MonoBehaviour
 			SoulSpheresCollector.instance.soulSphereCounter++;
 			SoulSpheresCollector.instance.sceneSphereCounter++;
 			Destroy(other.gameObject);
-		}
+			AudioManager.Instance.PlaySFX("sphere");
+        }
 	}
 
 	private void OnTriggerStay2D(Collider2D other)
@@ -150,7 +172,6 @@ public class PlayerStateMachine : MonoBehaviour
 			slingshot = null;
 		}
 	}
-
 	private void OnDisable()
 	{
 		_currentState?.OnExit();

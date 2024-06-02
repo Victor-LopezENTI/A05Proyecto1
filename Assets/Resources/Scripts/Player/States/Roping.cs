@@ -12,7 +12,6 @@ public class Roping : IPlayerState
     {
         RopeManager.Instance.LaunchRope(RopeManager.Instance.selectedHook.transform);
 
-        PlayerInput.instance.PlayerInputActions.Player.Jump.performed += OnJumpInputPerformed;
         PlayerInput.instance.PlayerInputActions.Player.Click.canceled += OnClickInputCanceled;
     }
 
@@ -49,11 +48,6 @@ public class Roping : IPlayerState
         playerRb.AddForce(PlayerInput.instance.horizontalInput * RopeSpeed * Vector2.right);
     }
 
-    private void OnJumpInputPerformed(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
-
     private void OnClickInputCanceled(InputAction.CallbackContext context)
     {
         PlayerStateMachine.ChangeState(PlayerStateMachine.JumpingState);
@@ -64,7 +58,6 @@ public class Roping : IPlayerState
         RopeManager.Instance.DeselectHook();
         RopeManager.Instance.sparks.gameObject.SetActive(false);
 
-        PlayerInput.instance.PlayerInputActions.Player.Jump.performed -= OnJumpInputPerformed;
         PlayerInput.instance.PlayerInputActions.Player.Click.canceled -= OnClickInputCanceled;
     }
 }

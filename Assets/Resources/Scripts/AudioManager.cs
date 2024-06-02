@@ -48,13 +48,13 @@ public class AudioManager : MonoBehaviour
     public void MusicVolume(float volume)
     {
         MainMusic.volume = volume * 0.02f;
-        PlayerPrefs.SetFloat("Music Volume", MainMusic.volume);
+        PlayerPrefs.SetFloat("Music Volume", volume);
     }
 
     public void SFXVolume(float volume)
     {
         SFXMusic.volume = volume * 0.5f;
-        PlayerPrefs.SetFloat("SFX Volume", SFXMusic.volume);
+        PlayerPrefs.SetFloat("SFX Volume", volume);
     }
 
     public void StopMusic()
